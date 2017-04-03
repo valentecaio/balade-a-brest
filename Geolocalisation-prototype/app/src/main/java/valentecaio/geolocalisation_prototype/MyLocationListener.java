@@ -33,8 +33,7 @@ public class MyLocationListener implements LocationListener {
 
     /*----------to get City-Name from coordinates ------------- */
         String cityName=null;
-        Geocoder gcd = new Geocoder(context,
-                Locale.getDefault());
+        Geocoder gcd = new Geocoder(context, Locale.getDefault());
         List<Address> addresses;
         try {
             addresses = gcd.getFromLocation(loc.getLatitude(), loc
@@ -42,6 +41,7 @@ public class MyLocationListener implements LocationListener {
             if (addresses.size() > 0)
                 cityName=addresses.get(0).getLocality();
                 Log.v("Debug", "My Currrent City is: " + cityName);
+                Place p = new Place(loc.getLongitude(), loc.getLatitude(), cityName);
         } catch (IOException e) {
             e.printStackTrace();
         }
