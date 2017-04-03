@@ -3,129 +3,165 @@
 
     <item
         is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.1"
-        sha1="867dad63c33388ff8c7644b236579355036d075f">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_c031f746f38920504bcc220820227682df8004b7\classes.dex" />
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-24.2.1_f90aa4952e112b38b521a9daa176163e992e1693\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_a8a78f7bbd3b001a0008ba5d50fcf59f891aa035\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-24.2.1_9b54598cf1fe472a3059df82cc64a8a7466b0b25\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_3c21596cc3d3d39a45a5e8442de0b3ce34c20b54\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\design\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="e03f47f3d1017a093bb3239d4ec47c3447f40744">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-24.2.1_e1b73f23dc34879705a6e856c865998f1e6dec23\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.2.1_d62f9ca1ffbcc20ca136020a50a77ec42b4422db\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.2.1_95f62dcedd9b20bde22850101f8e8543ac6a9bb6\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_b6748f540542b4952cb504ef72a1575c72947df5\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="3a503b735bd52845fe06df8218f61e30b41a4de9">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_e29c07b6a3b187cbf84258753fa4b7eaeb39e28a\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-24.2.1_ad9a916c4b089183c48765453d6a204f0332d32f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_e46a067d1dd8b8e7e46459f03962430c94529673\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-24.2.1_55efaa4e877ec05cdc86c302f22c152094d4f068\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="82ac44f04234402b0477e2301a60e058c63b93f2">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_983681ef3c83fa01dd8e01fa87229f8815ee0de2\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\classes.jar"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.1"
         sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-24.2.1_c166d38334446379817b300b62ba4c531db00418\classes.dex" />
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-fragment-24.2.1_d7d290ccaeb2c511234ea5df130be2f52db7760f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-media-compat-24.2.1_2c3296344585a5ab3ac114609fa33da1f712baf8\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-24.2.1_e14a254a93e19d6e65be041a16b0c31a20454e9c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_ef56e49743c90afd832f62bb2579b481b8a952eb\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\design\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="e03f47f3d1017a093bb3239d4ec47c3447f40744">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-24.2.1_350a750415bd2b079e97525a54cef40c63e4f80a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.2.1_e7f016b5992d9972620e02c4db652cb79c3c58f0\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_58025035de4b88f8b398a630809cf61e77b588d7\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="e3c688ee220482043a3620c8aff62983e307ad6d">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_a9c51fe27b912c8c441382cb80e9134f42e002b9\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.2.1_696574e186f4016cd7ed946671ef73c3d50800e6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_bd6a2ece46b69ba316b8ee9c9aa60e0b985aafb6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-24.2.1_945ab27e19194502623750ca5f7dca7eac9ca355\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.2.1_b1e862f17cac02c774044dbfd142fb666e5f5fca\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_03328b0688d23088ffe3b2349f8ba60183f49258\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="afc489d6cc722c5b0feb08a94cbc5d7790b5fd6a">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_e21d860d746578c373b6f6c3ae55056277af67df\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-24.2.1_c5fa03210b420a2f1385eaf03a4f954652bbb26e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-24.2.1_4000a320b881551534144c5541488f245bf6f712\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.1"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_938860288bd3cfbed06c5b45b090342383af64d3\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -134,43 +170,7 @@
         optimize="true"
         revision="25.0.1"
         sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.2.1_d259c59e1795e9e1fcfbfcb6b39055e904fa82bb\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="7521486d9bfd2cd9e756e0cf75ed7d97f2ce2d3b">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-24.2.1_770c343ed4fc50ab8fb4284a194544856d2cb32a\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-utils-24.2.1_9571e8bebd67be04b9c6cf56ac811144a37f580a\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.2.1_e7ebd38a8e6c0e4d99c5a756a1940280f05d4aab\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.1"
-        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
-        <dex dex="V:\workspace\android\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-24.2.1_edeeb6d46e5f8913eee2c518c276fe412b21d5b1\classes.dex" />
+        <dex dex="V:\workspace\android\s4\Geolocalisation-prototype\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.2.1_d259c59e1795e9e1fcfbfcb6b39055e904fa82bb\classes.dex" />
     </item>
 
 </items>
