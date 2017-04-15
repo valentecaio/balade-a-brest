@@ -1,13 +1,18 @@
 package valentecaio.osm_example;
 
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -34,15 +39,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 android.Manifest.permission.ACCESS_WIFI_STATE};
         ActivityCompat.requestPermissions( this, permissions, 0);
 
-        // creating mapview
+        // get references
         mapView = (MapView) this.findViewById(R.id.mapView);
+        mapController = (MapController)this.mapView.getController();
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        // config mapview
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
 
-        // getting mapview controller
-        mapController = (MapController)this.mapView.getController();
-        mapController.setZoom(2);
+        // config mapview controller
+        mapController.setZoom(12);
 
         // moving map to a point
         GeoPoint imt = new GeoPoint(48.356356, -4.570593);
@@ -51,6 +59,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         // move with animation
         // mapController.animateTo(startPoint);
 
+        // start to listen to location changements
+        if (displayGpsStatus()) {
+            Context context = getApplicationContext();
+            // check permission
+            if ( Build.VERSION.SDK_INT >= 23 &&
+                    ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Log.v("Debug", "returning with SDK version " + Build.VERSION.SDK_INT);
+                return  ;
+            }
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        }
     }
 
     /*----Method to Check GPS is enable or disable ----- */
@@ -78,7 +98,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onLocationChanged(Location location) {
-
+        Log.v("Debug", "Location changed to " + location.toString());
+        GeoPoint center = new GeoPoint(location);
+        refreshMarker(center);
     }
 
     @Override
