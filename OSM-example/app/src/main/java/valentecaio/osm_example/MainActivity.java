@@ -50,12 +50,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         mapView.setMultiTouchControls(true);
 
         // config mapview controller
-        mapController.setZoom(12);
+        mapController.setZoom(16);
 
         // moving map to a point
-        GeoPoint imt = new GeoPoint(48.356356, -4.570593);
-        mapController.setCenter(imt);
-        refreshMarker(imt);
+        GeoPoint imt_i8 = new GeoPoint(48.356356, -4.570593);
+        setMapCenter(imt_i8);
+        refreshMarker(imt_i8);
         // move with animation
         // mapController.animateTo(startPoint);
 
@@ -94,6 +94,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         // refresh map
         mapView.invalidate();
+    }
+
+    // TODO: correct map center positioning
+    public void setMapCenter(GeoPoint center){
+        int width = mapView.getWidth();
+        int height = mapView.getHeight();
+        int zoom = mapView.getZoomLevel();
+
+        Log.v("Debug", "map: w " + width + " h " + height + " z " + zoom);
+
+        // this calculus must be changed and may use width, height and zoom
+        double x = center.getLatitude();
+        double y = center.getLongitude();
+
+        GeoPoint new_center = new GeoPoint(x, y);
+        mapController.setCenter(new_center);
     }
 
     @Override
