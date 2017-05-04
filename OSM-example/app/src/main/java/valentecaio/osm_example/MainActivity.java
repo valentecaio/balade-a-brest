@@ -50,14 +50,23 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         mapView.setMultiTouchControls(true);
 
         // config mapview controller
-        mapController.setZoom(12);
+        mapController.setZoom(19);
 
         // moving map to a point
-        GeoPoint imt = new GeoPoint(48.356356, -4.570593);
-        mapController.setCenter(imt);
-        refreshMarker(imt);
+        GeoPoint point_to_center = new GeoPoint(48.385648, -4.501484);
+        setMapCenter(point_to_center);
+
         // move with animation
         // mapController.animateTo(startPoint);
+
+        // add point markers
+        GeoPoint imt_i8 = new GeoPoint(48.356356, -4.570593);
+        GeoPoint tour = new GeoPoint(48.383421, -4.497139);
+        GeoPoint jardin = new GeoPoint(48.381615, -4.499135);
+        GeoPoint tram = new GeoPoint(48.384105, -4.499425);
+        addMarker(tour);
+        addMarker(jardin);
+        addMarker(tram);
 
         // start to listen to location changements
         if (displayGpsStatus()) {
@@ -83,24 +92,39 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         return gpsStatus;
     }
 
-    public void refreshMarker(GeoPoint center){
+    public void addMarker(GeoPoint center){
         Marker marker = new Marker(this.mapView);
         marker.setPosition(center);
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 
         // refresh marker in map
-        mapView.getOverlays().clear();
         mapView.getOverlays().add(marker);
 
         // refresh map
         mapView.invalidate();
     }
 
+    // TODO: correct map center positioning
+    public void setMapCenter(GeoPoint center){
+        int width = mapView.getWidth();
+        int height = mapView.getHeight();
+        int zoom = mapView.getZoomLevel();
+
+        Log.v("Debug", "map: w " + width + " h " + height + " z " + zoom);
+
+        // this calculus must be changed and may use width, height and zoom
+        double x = center.getLatitude();
+        double y = center.getLongitude();
+
+        GeoPoint new_center = new GeoPoint(x, y);
+        mapController.setCenter(new_center);
+    }
+
     @Override
     public void onLocationChanged(Location location) {
         Log.v("Debug", "Location changed to " + location.toString());
         GeoPoint center = new GeoPoint(location);
-        refreshMarker(center);
+        addMarker(center);
     }
 
     @Override
