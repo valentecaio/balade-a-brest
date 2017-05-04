@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     // check if there is an active network connected to internet
     // return true ONLY if this network has internet connection
+	// found it on http://stackoverflow.com/questions/6493517/detect-if-android-device-has-internet-connection
     public boolean hasInternetAccess(Context context) {
         if (isNetworkAvailable()) {
             try {
