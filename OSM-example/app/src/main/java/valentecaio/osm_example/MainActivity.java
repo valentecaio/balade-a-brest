@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -15,14 +17,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.osmdroid.bonuspack.overlays.Marker;
-import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 
-import static org.osmdroid.ResourceProxy.string.cyclemap;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 import static org.osmdroid.ResourceProxy.string.offline_mode;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private MapController mapController;
     private LocationManager lm;
     private boolean connection = false;
+    private String TAG = "Debug";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,30 +48,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         mapController = (MapController)this.mapView.getController();
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        // config mapview
-        mapView.setMultiTouchControls(true);
-        mapView.setBuiltInZoomControls(true);
-        mapController.setZoom(15);
-
-        if(connection){
-            // online map
-            mapView.setTileSource(TileSourceFactory.MAPNIK);
-        } else {
-            // offline map
-            // the file osmdroid/brestmap.zip must exist in the phone
-            XYTileSource tileSource = new XYTileSource("brest-map", offline_mode, 15, 17, 256, ".png", new String[]{});
-            mapView.setTileSource(tileSource);
-            mapView.setUseDataConnection(false); // prevent loading from the network
-        }
-
-        // config mapview controller
-
-        // moving map to a point
-        GeoPoint point_to_center = new GeoPoint(48.385648, -4.501484);
-        setMapCenter(point_to_center);
-
-        // move with animation
-        // mapController.animateTo(startPoint);
+        init_map();
 
         // add point markers
         GeoPoint imt_i8 = new GeoPoint(48.356356, -4.570593);
@@ -90,6 +72,32 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
     }
 
+    private void init_map(){
+        // config mapview
+        mapView.setMultiTouchControls(true);
+        mapView.setBuiltInZoomControls(true);
+        mapController.setZoom(15);
+
+        connection = hasInternetAccess(this.getApplicationContext());
+        if(connection){
+            // online map
+            mapView.setTileSource(TileSourceFactory.MAPNIK);
+        } else {
+            // offline map
+            // the file osmdroid/brest-map.zip must exist in the phone
+            XYTileSource tileSource = new XYTileSource("brest-map", offline_mode, 15, 17, 256, ".png", new String[]{});
+            mapView.setTileSource(tileSource);
+            mapView.setUseDataConnection(false); // prevent loading from the network
+        }
+
+        // moving map to a point
+        GeoPoint point_to_center = new GeoPoint(48.385648, -4.501484);
+        setMapCenter(point_to_center);
+
+        // move with animation
+        // mapController.animateTo(startPoint);
+    }
+
     private void ask_permissions(){
         String[] permissions = {android.Manifest.permission.ACCESS_COARSE_LOCATION,
                 android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -108,6 +116,38 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 .isLocationProviderEnabled(contentResolver,
                         LocationManager.GPS_PROVIDER);
         return gpsStatus;
+    }
+
+    // check if there is an active network
+    // return true even if this network hasn't internet connection
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
+    }
+
+    // check if there is an active network connected to internet
+    // return true ONLY if this network has internet connection
+    public boolean hasInternetAccess(Context context) {
+        if (isNetworkAvailable()) {
+            try {
+                HttpURLConnection urlc = (HttpURLConnection)
+                        (new URL("http://clients3.google.com/generate_204")
+                                .openConnection());
+                urlc.setRequestProperty("User-Agent", "Android");
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout(1500);
+                urlc.connect();
+                return (urlc.getResponseCode() == 204 &&
+                        urlc.getContentLength() == 0);
+            } catch (IOException e) {
+                Log.e(TAG, "Error checking internet connection", e);
+            }
+        } else {
+            Log.d(TAG, "No network available!");
+        }
+        return false;
     }
 
     public void addMarker(GeoPoint center){
