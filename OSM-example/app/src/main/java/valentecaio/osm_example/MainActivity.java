@@ -15,29 +15,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
+
+import static org.osmdroid.ResourceProxy.string.cyclemap;
+import static org.osmdroid.ResourceProxy.string.offline_mode;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
     private MapView mapView;
     private MapController mapController;
     private LocationManager lm;
+    private boolean connection = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // get permissions
-        String[] permissions = {android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.INTERNET,
-                android.Manifest.permission.ACCESS_NETWORK_STATE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.ACCESS_WIFI_STATE};
-        ActivityCompat.requestPermissions( this, permissions, 0);
+        ask_permissions();
 
         // get references
         mapView = (MapView) this.findViewById(R.id.mapView);
@@ -45,12 +44,22 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         // config mapview
-        mapView.setTileSource(TileSourceFactory.MAPNIK);
-        mapView.setBuiltInZoomControls(true);
         mapView.setMultiTouchControls(true);
+        mapView.setBuiltInZoomControls(true);
+        mapController.setZoom(15);
+
+        if(connection){
+            // online map
+            mapView.setTileSource(TileSourceFactory.MAPNIK);
+        } else {
+            // offline map
+            // the file osmdroid/brestmap.zip must exist in the phone
+            XYTileSource tileSource = new XYTileSource("brest-map", offline_mode, 15, 17, 256, ".png", new String[]{});
+            mapView.setTileSource(tileSource);
+            mapView.setUseDataConnection(false); // prevent loading from the network
+        }
 
         // config mapview controller
-        mapController.setZoom(19);
 
         // moving map to a point
         GeoPoint point_to_center = new GeoPoint(48.385648, -4.501484);
@@ -75,11 +84,20 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             if ( Build.VERSION.SDK_INT >= 23 &&
                     ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Log.v("Debug", "returning with SDK version " + Build.VERSION.SDK_INT);
                 return  ;
             }
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         }
+    }
+
+    private void ask_permissions(){
+        String[] permissions = {android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.INTERNET,
+                android.Manifest.permission.ACCESS_NETWORK_STATE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.ACCESS_WIFI_STATE};
+        ActivityCompat.requestPermissions( this, permissions, 0);
     }
 
     /*----Method to Check GPS is enable or disable ----- */
