@@ -26,6 +26,7 @@ import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MyLocationOverlay;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -64,13 +65,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         addMarker(jardin);
         addMarker(tram);
 
-        /*
+
         // create route from tour to jardin
         ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
         waypoints.add(tour);
         waypoints.add(jardin);
-        create_route(tour, jardin);
-        */
+        waypoints.add(tram);
+        create_route(waypoints);
 
         // start to listen to location changes
         if (displayGpsStatus()) {
