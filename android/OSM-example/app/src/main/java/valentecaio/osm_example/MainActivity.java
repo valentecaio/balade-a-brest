@@ -17,6 +17,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.overlays.Polyline;
+import org.osmdroid.bonuspack.routing.OSRMRoadManager;
+import org.osmdroid.bonuspack.routing.Road;
+import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
@@ -26,6 +30,7 @@ import org.osmdroid.views.MapView;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import static org.osmdroid.ResourceProxy.string.offline_mode;
 
@@ -33,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private MapView mapView;
     private MapController mapController;
     private LocationManager lm;
-    private boolean connection = false;
+    private boolean connection = true;
     private String TAG = "Debug";
 
     @Override
@@ -59,7 +64,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         addMarker(jardin);
         addMarker(tram);
 
-        // start to listen to location changements
+        /*
+        // create route from tour to jardin
+        ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
+        waypoints.add(tour);
+        waypoints.add(jardin);
+        create_route(tour, jardin);
+        */
+
+        // start to listen to location changes
         if (displayGpsStatus()) {
             Context context = getApplicationContext();
             // check permission
@@ -72,13 +85,28 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
     }
 
+    // create a route
+    // extracted from tutorial https://github.com/MKergall/osmbonuspack/wiki/Tutorial_1
+    private void create_route(ArrayList<GeoPoint> waypoints){
+        // create route
+        RoadManager roadManager = new OSRMRoadManager();
+        Road road = roadManager.getRoad(waypoints);
+
+        // draw route in the map
+        Polyline roadOverlay = RoadManager.buildRoadOverlay(road, this.getApplicationContext());
+        mapView.getOverlays().add(roadOverlay);
+
+        // refresh map
+        mapView.invalidate();
+    }
+
     private void init_map(){
         // config mapview
         mapView.setMultiTouchControls(true);
         mapView.setBuiltInZoomControls(true);
         mapController.setZoom(15);
 
-        connection = hasInternetAccess(this.getApplicationContext());
+        //connection = hasInternetAccess(this.getApplicationContext());
         if(connection){
             // online map
             mapView.setTileSource(TileSourceFactory.MAPNIK);
