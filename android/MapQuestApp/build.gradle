@@ -15,6 +15,8 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        // mq maven repo
+        maven { url 'http://artifactory.cloud.mapquest.com/artifactory/et-android-binaries' }
     }
 }
 
