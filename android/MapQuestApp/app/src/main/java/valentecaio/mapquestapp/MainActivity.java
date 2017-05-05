@@ -3,6 +3,9 @@ package valentecaio.mapquestapp;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapquest.mapping.MapQuestAccountManager;
 import com.mapquest.mapping.maps.OnMapReadyCallback;
 import com.mapquest.mapping.maps.MapboxMap;
@@ -26,8 +29,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
                 mMapboxMap = mapboxMap;
+
+                // create points
+				LatLng imt_i8 = new LatLng(48.356356, -4.570593);
+				LatLng tour = new LatLng(48.383421, -4.497139);
+				LatLng jardin = new LatLng(48.381615, -4.499135);
+				LatLng tram = new LatLng(48.384105, -4.499425);
+
+                // center map
+                mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tour, 17));
+
+                // put points in map
+                addMarker(mMapboxMap, tour, "tour", "tour HU3");
+                addMarker(mMapboxMap, jardin, "jardin", "jardin HU3");
+                addMarker(mMapboxMap, tram, "tram", "tram HU3");
             }
         });
+    }
+
+    private void addMarker(MapboxMap mapboxMap, LatLng position, String title, String snippet) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(position);
+        markerOptions.title(title);
+        markerOptions.snippet(snippet);
+        mapboxMap.addMarker(markerOptions);
     }
 
     @Override
