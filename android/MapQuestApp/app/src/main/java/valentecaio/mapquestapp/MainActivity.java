@@ -1,15 +1,21 @@
 package valentecaio.mapquestapp;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.constants.MyLocationTracking;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapquest.mapping.MapQuestAccountManager;
 import com.mapquest.mapping.maps.OnMapReadyCallback;
 import com.mapquest.mapping.maps.MapboxMap;
 import com.mapquest.mapping.maps.MapView;
+
+import static com.mapquest.mapping.R.styleable.MapView;
 
 public class MainActivity extends AppCompatActivity {
     private MapboxMap mMapboxMap;
@@ -22,7 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        //ask_permissions();
+
         mMapView = (MapView) findViewById(R.id.mapquestMapView);
+
         mMapView.onCreate(savedInstanceState);
 
         mMapView.getMapAsync(new OnMapReadyCallback() {
@@ -30,21 +39,48 @@ public class MainActivity extends AppCompatActivity {
             public void onMapReady(MapboxMap mapboxMap) {
                 mMapboxMap = mapboxMap;
 
+                enableUserTracking(mMapboxMap);
+
                 // create points
-				LatLng imt_i8 = new LatLng(48.356356, -4.570593);
 				LatLng tour = new LatLng(48.383421, -4.497139);
-				LatLng jardin = new LatLng(48.381615, -4.499135);
-				LatLng tram = new LatLng(48.384105, -4.499425);
+                LatLng jardin = new LatLng(48.381615, -4.499135);
+                LatLng tram = new LatLng(48.384105, -4.499425);
+
+                LatLng quarto_yan = new LatLng(48.356609, -4.570390);
+                LatLng laverie = new LatLng(48.357061, -4.570031);
+                LatLng d1_128b = new LatLng(48.359158, -4.570728);
 
                 // center map
-                mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(tour, 17));
+                mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(d1_128b, 17));
 
                 // put points in map
                 addMarker(mMapboxMap, tour, "tour", "tour HU3");
                 addMarker(mMapboxMap, jardin, "jardin", "jardin HU3");
                 addMarker(mMapboxMap, tram, "tram", "tram HU3");
+                addMarker(mMapboxMap, quarto_yan, "quarto yan", "partiu soiree");
+                addMarker(mMapboxMap, laverie, "laverie", "bora roubar meia");
+                addMarker(mMapboxMap, d1_128b, "d1_128b", "d1_128b");
             }
         });
+    }
+
+    private void enableUserTracking(MapboxMap mMapboxMap) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mMapboxMap.setMyLocationEnabled(true);
+    }
+
+    private void ask_permissions(){
+        String[] permissions = {
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.INTERNET,
+                android.Manifest.permission.ACCESS_NETWORK_STATE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.ACCESS_WIFI_STATE};
+        ActivityCompat.requestPermissions(this, permissions, 0);
     }
 
     private void addMarker(MapboxMap mapboxMap, LatLng position, String title, String snippet) {
