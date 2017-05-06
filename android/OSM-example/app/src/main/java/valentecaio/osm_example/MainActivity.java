@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         addMarker(jardin);
         addMarker(tram);
 
-
         // create route from tour to jardin
         ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
         waypoints.add(tour);
@@ -111,10 +110,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         if(connection){
             // online map
             mapView.setTileSource(TileSourceFactory.MAPNIK);
+            mapView.setMaxZoomLevel(20);
         } else {
             // offline map
             // the file osmdroid/brest-map.zip must exist in the phone
-            XYTileSource tileSource = new XYTileSource("brest-map", offline_mode, 15, 17, 256, ".png", new String[]{});
+            XYTileSource tileSource = new XYTileSource("brest-map", offline_mode, 15, 19, 256, ".png", new String[]{});
             mapView.setTileSource(tileSource);
             mapView.setUseDataConnection(false); // prevent loading from the network
         }
