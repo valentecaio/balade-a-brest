@@ -3,24 +3,20 @@ package valentecaio.mapquestapp;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.provider.MediaStore;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
-import com.mapbox.mapboxsdk.constants.MyLocationTracking;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapquest.mapping.MapQuestAccountManager;
-import com.mapquest.mapping.maps.OnMapReadyCallback;
-import com.mapquest.mapping.maps.MapboxMap;
 import com.mapquest.mapping.maps.MapView;
-
-import static com.mapquest.mapping.R.styleable.MapView;
+import com.mapquest.mapping.maps.MapboxMap;
+import com.mapquest.mapping.maps.OnMapReadyCallback;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private MapboxMap mMapboxMap;
@@ -33,8 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         MapQuestAccountManager.start(getApplicationContext());
 
         setContentView(R.layout.activity_main);
+        verify_permissions();
 
-        //ask_permissions();
+        //verify_permissions();
         camera = (Button) findViewById(R.id.camera_button);
         camera.setOnClickListener(this);
 
@@ -80,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mMapboxMap.setMyLocationEnabled(true);
     }
 
-    private void ask_permissions(){
+    private void verify_permissions(){
         String[] permissions = {
                 android.Manifest.permission.ACCESS_COARSE_LOCATION,
                 android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -88,7 +85,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 android.Manifest.permission.ACCESS_NETWORK_STATE,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 android.Manifest.permission.ACCESS_WIFI_STATE};
-        ActivityCompat.requestPermissions(this, permissions, 0);
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(this, permissions, 1);
+        }
     }
 
     private void addMarker(MapboxMap mapboxMap, LatLng position, String title, String snippet) {
