@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,7 +22,7 @@ import com.mapquest.mapping.maps.MapView;
 
 import static com.mapquest.mapping.R.styleable.MapView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private MapboxMap mMapboxMap;
     private MapView mMapView;
     private Button camera;
@@ -35,14 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         //ask_permissions();
         camera = (Button) findViewById(R.id.camera_button);
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Intent Intent3=new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
-                startActivity(Intent3);
-            }
-        });
+        camera.setOnClickListener(this);
 
         mMapView = (MapView) findViewById(R.id.mapquestMapView);
 
@@ -120,5 +114,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState)
     { super.onSaveInstanceState(outState); mMapView.onSaveInstanceState(outState); }
+
+    @Override
+    public void onClick(View view) {
+        Log.i("clicks","You Clicked B1");
+        Intent i=new Intent(this, CameraActivity.class);
+        startActivity(i);
+    }
 }
 
