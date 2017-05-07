@@ -13,12 +13,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static valentecaio.mapquestapp.R.id.camera_view;
 
 public class CameraActivity extends AppCompatActivity implements SurfaceHolder.Callback, SensorEventListener {
+
+    TextView descriptionTextView;
 
     private Camera mCamera;
     private SurfaceHolder mSurfaceHolder;
@@ -26,11 +31,18 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
     float[] mGravity;
     float[] mGeomagnetic;
-    float azimut;
     float degree;
     Sensor magnetometer;
     Sensor accelerometer;
     SensorManager sensorManager;
+    Point target;
+    Point myLocation;
+
+    private static final double DISTANCE_SAFETY_MARGIN = 20 ;
+    private static final double AZIMUTH_SAFETY_MARGIN = 10 ;
+
+    private double currentAzimuth = 0;
+    private double targetAzimuth = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +51,17 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
         verifyCameraPermissions();
 
+        target = new Point("yan", 48.356609, -4.570390);
+        myLocation = new Point("elnatan", 48.356647, -4.570205);
+        descriptionTextView = (TextView) findViewById(R.id.cameraTextView);
+
+        // TODO: do this when changing location
+        recalculateTargetAzimuth();
+
         // config camera
         SurfaceView surfaceView = (SurfaceView) findViewById(camera_view);
         mSurfaceHolder = surfaceView.getHolder();
-        mSurfaceHolder.addCallback( this );
+        mSurfaceHolder.addCallback(this);
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         // config compass
@@ -51,6 +70,47 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+    }
+
+    private void updateDescription() {
+        long distance = (long) calculateDistance();
+        int tAzimut = (int) targetAzimuth;
+        int rAzimut = (int) degree;
+
+        String text = target.getName() + " location:"
+                + "\n latitude: " + target.getLatitude() + "  longitude: " + target.getLongitude()
+                + "\n Current location:"
+                + "\n Latitude: " + myLocation.getLatitude() + "  Longitude: " + myLocation.getLongitude()
+                + "\n "
+                + "\n Target currentAzimuth: " + tAzimut
+                + "\n Current currentAzimuth: " + rAzimut
+                + "\n Distance: " + distance;
+
+        descriptionTextView.setText(text);
+    }
+
+    public void recalculateTargetAzimuth() {
+        double dX = target.getLatitude() - myLocation.getLatitude();
+        double dY = target.getLongitude() - myLocation.getLongitude();
+
+        double phiAngle;
+        double tanPhi;
+
+        tanPhi = Math.abs(dY / dX);
+        phiAngle = Math.atan(tanPhi);
+        phiAngle = Math.toDegrees(phiAngle);
+
+        if (dX > 0 && dY > 0) { // I quater
+            targetAzimuth = phiAngle;
+        } else if (dX < 0 && dY > 0) { // II
+            targetAzimuth = 180 - phiAngle;
+        } else if (dX < 0 && dY < 0) { // III
+            targetAzimuth = 180 + phiAngle;
+        } else if (dX > 0 && dY < 0) { // IV
+            targetAzimuth = 360 - phiAngle;
+        } else {
+            targetAzimuth = phiAngle;
+        }
     }
 
     @Override
@@ -113,15 +173,35 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
             float I[] = new float[9];
 
             if (SensorManager.getRotationMatrix(R, I, mGravity, mGeomagnetic)) {
-                // orientation contains azimut, pitch and roll
+                // orientation contains currentAzimuth, pitch and roll
                 float orientation[] = new float[3];
                 SensorManager.getOrientation(R, orientation);
 
-                azimut = orientation[0];
-                degree = (float)(Math.toDegrees(azimut)+360)%360;
-                Log.v("DEBUG", "azimut = " + azimut + " with degree = " + degree);
+                currentAzimuth = (double)orientation[0];
+                degree = (float)(Math.toDegrees(currentAzimuth)+360)%360;
+                Log.v("DEBUG", "currentAzimuth = " + currentAzimuth + " with degree = " + degree);
+
+                updateDescription();
             }
         }
+    }
+
+    private List<Double> calculateAzimuthRange(double azimuth) {
+        double minAngle = azimuth - AZIMUTH_SAFETY_MARGIN;
+        double maxAngle = azimuth + AZIMUTH_SAFETY_MARGIN;
+        List<Double> minMax = new ArrayList<Double>();
+
+        if (minAngle < 0)
+            minAngle += 360;
+
+        if (maxAngle >= 360)
+            maxAngle -= 360;
+
+        minMax.clear();
+        minMax.add(minAngle);
+        minMax.add(maxAngle);
+
+        return minMax;
     }
 
     @Override
@@ -138,6 +218,15 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     protected void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
+    }
+
+    public double calculateDistance() {
+        double dX = target.getLatitude() - myLocation.getLatitude();
+        double dY = target.getLongitude() - myLocation.getLongitude();
+
+        double distance = (Math. sqrt(Math.pow (dX, 2 ) + Math.pow(dY, 2 )) * 100000 );
+
+        return distance;
     }
 }
 
