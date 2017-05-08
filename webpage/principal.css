@@ -1,0 +1,8 @@
+body{
+	background-color: #a7a7a7;
+}
+.plus-icon > .glyphicon:last-child {
+    position: absolute;
+    bottom: : 2px;
+    right: 2px;
+}

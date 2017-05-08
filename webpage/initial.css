@@ -1,0 +1,20 @@
+.wb {
+  text-align: center;
+  margin-top: 20px;
+  padding: 10px;
+  color: black;
+}
+
+.wb .btn {
+	margin-top: 50px;
+	padding: 15px 24px;
+	font-size: 21px;
+	color: black;
+}
+body{
+	background-color: #a7a7a7;
+}
+<style> 
+	p {margin-top:1em;} 
+	h1{margin-bottom:1em;margin-top:1em;} 
+</style>
