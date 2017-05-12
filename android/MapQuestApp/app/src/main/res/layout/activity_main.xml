@@ -18,11 +18,6 @@
         app:mapquest_app_key="RJ5PK6CuR3FUcmDg6MVEfcDzwY02t19T"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-
     <Button
         android:id="@+id/camera_button"
         android:layout_width="wrap_content"
