@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         Log.i("clicks","You Clicked B1");
-        Intent i=new Intent(this, CameraActivity.class);
+        Intent i = new Intent(this, CameraActivity.class);
         startActivity(i);
     }
 }

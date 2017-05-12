@@ -1,6 +1,7 @@
 package valentecaio.mapquestapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Sensor;
@@ -76,6 +77,8 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
                 //textView.setText("Touch coordinates : "
                 // + String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
                 Log.i("debug", "Touched on the icon");
+                Intent i = new Intent(CameraActivity.this, InfoActivity.class);
+                startActivity(i);
                 return true;
             }
         });
@@ -103,7 +106,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
 
         if(DEBUG){
-            AZIMUTH_SAFETY_MARGIN *= 3;
+            AZIMUTH_SAFETY_MARGIN = 90;
         }
     }
 
