@@ -37,8 +37,8 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
 
     private Camera mCamera;
     private SurfaceHolder mSurfaceHolder;
-
     private boolean isCameraviewOn = false;
+
     private float[] mGravity;
     private float[] mGeomagnetic;
     private float degree;
@@ -48,7 +48,6 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
     private SensorManager sensorManager;
     private Point target;
     private Location myLocation;
-
     private LocationManager locationManager;
 
     private static final double DISTANCE_SAFETY_MARGIN = 20;
@@ -67,7 +66,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        verifyCameraPermissions();
+        verify_permissions();
 
         target = new Point("yan", 48.3588, -4.5700);
         myLocation = new Location("hi");
@@ -85,18 +84,11 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         // config GPS
         // Getting LocationManager object
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        try {
+            locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 2000, 1, this);
+        } catch (SecurityException ex){
+            ex.printStackTrace();
         }
-        locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 2000, 1,this);
 
         // config compass
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -180,14 +172,28 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         isCameraviewOn = false ;
     }
 
-    public  void verifyCameraPermissions() {
-        String[] PERMISSIONS_STORAGE = {Manifest.permission.CAMERA};
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+    private void verify_permissions(){
+        String[] permissions = {
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.INTERNET,
+                android.Manifest.permission.ACCESS_NETWORK_STATE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.ACCESS_WIFI_STATE,
+                android.Manifest.permission.CAMERA};
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(this,PERMISSIONS_STORAGE,1);
+        ArrayList<String> permissionsToAsk = new ArrayList<String>();
+        for(String permission: permissions){
+            if(ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+                permissionsToAsk.add(permission);
+            }
+        }
+
+        // ask permission
+        if (permissionsToAsk.size() > 0) {
+            String[] request = new String[permissionsToAsk.size()];
+            request = permissionsToAsk.toArray(request);
+            ActivityCompat.requestPermissions(this, request, 1);
         }
     }
 

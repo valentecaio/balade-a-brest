@@ -18,6 +18,8 @@ import com.mapquest.mapping.maps.MapView;
 import com.mapquest.mapping.maps.MapboxMap;
 import com.mapquest.mapping.maps.OnMapReadyCallback;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private MapboxMap mMapboxMap;
     private MapView mMapView;
@@ -84,14 +86,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 android.Manifest.permission.INTERNET,
                 android.Manifest.permission.ACCESS_NETWORK_STATE,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.ACCESS_WIFI_STATE};
+                android.Manifest.permission.ACCESS_WIFI_STATE,
+                android.Manifest.permission.CAMERA};
 
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        ArrayList<String> permissionsToAsk = new ArrayList<String>();
+        for(String permission: permissions){
+            if(ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+                permissionsToAsk.add(permission);
+            }
+        }
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(this, permissions, 1);
+        // ask permission
+        if (permissionsToAsk.size() > 0) {
+            String[] request = new String[permissionsToAsk.size()];
+            request = permissionsToAsk.toArray(request);
+            ActivityCompat.requestPermissions(this, request, 1);
         }
     }
 
