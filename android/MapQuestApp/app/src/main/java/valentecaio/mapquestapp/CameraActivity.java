@@ -1,19 +1,26 @@
 package valentecaio.mapquestapp;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,13 +28,14 @@ import java.util.List;
 
 import static valentecaio.mapquestapp.R.id.camera_view;
 
-public class CameraActivity extends AppCompatActivity implements SurfaceHolder.Callback, SensorEventListener {
+public class CameraActivity extends AppCompatActivity implements LocationListener, SurfaceHolder.Callback, SensorEventListener, OnAzimuthChangeListener {
 
     TextView descriptionTextView;
+    ImageView pointerIcon;
 
     private Camera mCamera;
     private SurfaceHolder mSurfaceHolder;
-    private boolean isCameraviewOn = false ;
+    private boolean isCameraviewOn = false;
 
     float[] mGravity;
     float[] mGeomagnetic;
@@ -38,22 +46,34 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     Point target;
     Point myLocation;
 
-    private static final double DISTANCE_SAFETY_MARGIN = 20 ;
-    private static final double AZIMUTH_SAFETY_MARGIN = 10 ;
+    Location global;
+
+    LocationManager locationManager;
+
+
+    private static final double DISTANCE_SAFETY_MARGIN = 20;
+    private static final double AZIMUTH_SAFETY_MARGIN = 4;
+
+    private double mAzimuthReal = 0 ;
+    private double mAzimuthTeoretical = 0 ;
 
     private double currentAzimuth = 0;
     private double targetAzimuth = 0;
 
+    private float azimuthFrom = 0 ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        global= new Location("hi");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
         verifyCameraPermissions();
 
-        target = new Point("yan", 48.356609, -4.570390);
-        myLocation = new Point("elnatan", 48.356647, -4.570205);
+        target = new Point("yan", 48.3588, -4.5700);
+        myLocation = new Point("elnatan", 0, 0);
         descriptionTextView = (TextView) findViewById(R.id.cameraTextView);
+
 
         // TODO: do this when changing location
         recalculateTargetAzimuth();
@@ -64,6 +84,23 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         mSurfaceHolder.addCallback(this);
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
+        //config GPS
+        // Getting LocationManager object
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 2000, 1,this);
+
+
+
         // config compass
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -72,7 +109,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
 
-    private void updateDescription() {
+    private void updateDescription(Location location) {
         long distance = (long) calculateDistance();
         int tAzimut = (int) targetAzimuth;
         int rAzimut = (int) degree;
@@ -80,16 +117,19 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         String text = target.getName() + " location:"
                 + "\n latitude: " + target.getLatitude() + "  longitude: " + target.getLongitude()
                 + "\n Current location:"
-                + "\n Latitude: " + myLocation.getLatitude() + "  Longitude: " + myLocation.getLongitude()
+                + "\n Latitude: " + location.getLatitude() + "  Longitude: " + location.getLongitude()
                 + "\n "
                 + "\n Target currentAzimuth: " + tAzimut
                 + "\n Current currentAzimuth: " + rAzimut
                 + "\n Distance: " + distance;
 
         descriptionTextView.setText(text);
+
     }
 
-    public void recalculateTargetAzimuth() {
+
+
+    public double recalculateTargetAzimuth() {
         double dX = target.getLatitude() - myLocation.getLatitude();
         double dY = target.getLongitude() - myLocation.getLongitude();
 
@@ -111,6 +151,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         } else {
             targetAzimuth = phiAngle;
         }
+        return phiAngle;
     }
 
     @Override
@@ -158,6 +199,7 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        azimuthFrom = degree;
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             //Log.v("DEBUG", "EVENT FROM ACCELEROMETER: " + event.values.toString());
             mGravity = event.values;
@@ -180,8 +222,8 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
                 currentAzimuth = (double)orientation[0];
                 degree = (float)(Math.toDegrees(currentAzimuth)+360)%360;
                 Log.v("DEBUG", "currentAzimuth = " + currentAzimuth + " with degree = " + degree);
-
-                updateDescription();
+                this.onAzimuthChanged( azimuthFrom , degree );
+                updateDescription(global);
             }
         }
     }
@@ -204,6 +246,18 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
         return minMax;
     }
 
+
+    private boolean isBetween( double minAngle, double maxAngle, double azimuth) {
+        if (minAngle > maxAngle) {
+            if (isBetween( 0, maxAngle, azimuth) && isBetween(minAngle, 360 , azimuth))
+                return true ;
+        } else {
+            if (azimuth > minAngle && azimuth < maxAngle)
+                return true ;
+        }
+        return false;
+    }
+
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {    }
 
@@ -221,12 +275,54 @@ public class CameraActivity extends AppCompatActivity implements SurfaceHolder.C
     }
 
     public double calculateDistance() {
-        double dX = target.getLatitude() - myLocation.getLatitude();
-        double dY = target.getLongitude() - myLocation.getLongitude();
+        double dX = target.getLatitude() - global.getLatitude();
+        double dY = target.getLongitude() - global.getLongitude();
 
         double distance = (Math. sqrt(Math.pow (dX, 2 ) + Math.pow(dY, 2 )) * 100000 );
 
         return distance;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        updateDescription(location);
+        global=location;
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    @Override
+    public void onAzimuthChanged(float azimutChangedFrom, float azimuthChangedTo) {
+        mAzimuthReal = azimuthChangedTo;
+        mAzimuthTeoretical = recalculateTargetAzimuth();
+        int distance = ( int ) calculateDistance();
+
+        //pointerIcon = (ImageView) findViewById(R.id. icon );
+
+        double minAngle = calculateAzimuthRange(mAzimuthTeoretical ).get( 0);
+        double maxAngle = calculateAzimuthRange(mAzimuthTeoretical ).get( 1);
+
+        /*
+        if ((isBetween(minAngle, maxAngle, mAzimuthReal )) && distance <= DISTANCE_SAFETY_MARGIN ) {
+            pointerIcon.setVisibility(View. VISIBLE );
+        } else {
+            pointerIcon.setVisibility(View. INVISIBLE );
+        }
+        */
+
     }
 }
 
