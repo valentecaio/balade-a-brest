@@ -30,23 +30,26 @@ import static valentecaio.mapquestapp.R.id.camera_view;
 
 public class CameraActivity extends AppCompatActivity implements LocationListener, SurfaceHolder.Callback, SensorEventListener {
 
+    boolean debug = false;
+
     TextView descriptionTextView;
     ImageView pointerIcon;
 
     private Camera mCamera;
     private SurfaceHolder mSurfaceHolder;
+
     private boolean isCameraviewOn = false;
+    private float[] mGravity;
+    private float[] mGeomagnetic;
+    private float degree;
+    private Sensor magnetometer;
+    private Sensor accelerometer;
 
-    float[] mGravity;
-    float[] mGeomagnetic;
-    float degree;
-    Sensor magnetometer;
-    Sensor accelerometer;
-    SensorManager sensorManager;
-    Point target;
-    Location myLocation;
+    private SensorManager sensorManager;
+    private Point target;
+    private Location myLocation;
 
-    LocationManager locationManager;
+    private LocationManager locationManager;
 
     private static final double DISTANCE_SAFETY_MARGIN = 20;
     private static final double AZIMUTH_SAFETY_MARGIN = 4;
@@ -72,8 +75,6 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         myLocation.setLongitude(-4.570205);
 
         descriptionTextView = (TextView) findViewById(R.id.cameraTextView);
-
-        // TODO: do this when changing location
 
         // config camera
         SurfaceView surfaceView = (SurfaceView) findViewById(camera_view);
@@ -277,8 +278,11 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
 
     @Override
     public void onLocationChanged(Location location) {
-        myLocation = location;
-        updateDescription();
+        if(!debug) {
+            myLocation = location;
+            updateDescription();
+            recalculateTargetAzimuth();
+        }
     }
 
     @Override
