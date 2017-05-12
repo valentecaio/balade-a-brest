@@ -30,6 +30,8 @@ import static valentecaio.mapquestapp.R.id.camera_view;
 public class CameraActivity extends AppCompatActivity implements LocationListener, SurfaceHolder.Callback, SensorEventListener {
 
     boolean DEBUG = true;
+    private static final double DISTANCE_SAFETY_MARGIN = 300;
+    private static final double AZIMUTH_SAFETY_MARGIN = 30;
 
     TextView descriptionTextView;
     ImageView pointerIcon;
@@ -42,14 +44,11 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
     private float[] mGeomagnetic;
     private Sensor magnetometer;
     private Sensor accelerometer;
-
     private SensorManager sensorManager;
+
     private Point target;
     private Location myLocation;
     private LocationManager locationManager;
-
-    private static final double DISTANCE_SAFETY_MARGIN = 300;
-    private static final double AZIMUTH_SAFETY_MARGIN = 30;
 
     private double currentAzimuth = 0;
     private double targetAzimuth = 0;
@@ -133,7 +132,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         mCamera = Camera.open();
-        mCamera.setDisplayOrientation( 90);
+        mCamera.setDisplayOrientation(90);
     }
 
     @Override
@@ -160,31 +159,6 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         mCamera.release();
         mCamera = null ;
         isCameraviewOn = false ;
-    }
-
-    private void verify_permissions(){
-        String[] permissions = {
-                android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.INTERNET,
-                android.Manifest.permission.ACCESS_NETWORK_STATE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.ACCESS_WIFI_STATE,
-                android.Manifest.permission.CAMERA};
-
-        ArrayList<String> permissionsToAsk = new ArrayList<String>();
-        for(String permission: permissions){
-            if(ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
-                permissionsToAsk.add(permission);
-            }
-        }
-
-        // ask permission
-        if (permissionsToAsk.size() > 0) {
-            String[] request = new String[permissionsToAsk.size()];
-            request = permissionsToAsk.toArray(request);
-            ActivityCompat.requestPermissions(this, request, 1);
-        }
     }
 
     @Override
@@ -284,6 +258,31 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
             calculateDistance();
             calculateTargetAzimuth();
             updateDescription();
+        }
+    }
+
+    private void verify_permissions(){
+        String[] permissions = {
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.INTERNET,
+                android.Manifest.permission.ACCESS_NETWORK_STATE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.ACCESS_WIFI_STATE,
+                android.Manifest.permission.CAMERA};
+
+        ArrayList<String> permissionsToAsk = new ArrayList<String>();
+        for(String permission: permissions){
+            if(ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+                permissionsToAsk.add(permission);
+            }
+        }
+
+        // ask permission
+        if (permissionsToAsk.size() > 0) {
+            String[] request = new String[permissionsToAsk.size()];
+            request = permissionsToAsk.toArray(request);
+            ActivityCompat.requestPermissions(this, request, 1);
         }
     }
 
