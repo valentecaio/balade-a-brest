@@ -72,11 +72,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void enableUserTracking(MapboxMap mMapboxMap) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+        try {
+            mMapboxMap.setMyLocationEnabled(true);
+        } catch (SecurityException ex){
+            ex.printStackTrace();
         }
-        mMapboxMap.setMyLocationEnabled(true);
     }
 
     private void verify_permissions(){

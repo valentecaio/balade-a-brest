@@ -1,6 +1,5 @@
 package valentecaio.mapquestapp;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -30,7 +29,7 @@ import static valentecaio.mapquestapp.R.id.camera_view;
 
 public class CameraActivity extends AppCompatActivity implements LocationListener, SurfaceHolder.Callback, SensorEventListener {
 
-    boolean debug = false;
+    boolean DEBUG = true;
 
     TextView descriptionTextView;
     ImageView pointerIcon;
@@ -41,7 +40,6 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
 
     private float[] mGravity;
     private float[] mGeomagnetic;
-    private float degree;
     private Sensor magnetometer;
     private Sensor accelerometer;
 
@@ -50,16 +48,12 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
     private Location myLocation;
     private LocationManager locationManager;
 
-    private static final double DISTANCE_SAFETY_MARGIN = 20;
-    private static final double AZIMUTH_SAFETY_MARGIN = 4;
-
-    private double mAzimuthReal = 0 ;
-    private double mAzimuthTeoretical = 0 ;
+    private static final double DISTANCE_SAFETY_MARGIN = 300;
+    private static final double AZIMUTH_SAFETY_MARGIN = 30;
 
     private double currentAzimuth = 0;
     private double targetAzimuth = 0;
-
-    private float azimuthFrom = 0 ;
+    private double distance = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +68,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         myLocation.setLongitude(-4.570205);
 
         descriptionTextView = (TextView) findViewById(R.id.cameraTextView);
+        pointerIcon = (ImageView) findViewById(R.id.icon);
 
         // config camera
         SurfaceView surfaceView = (SurfaceView) findViewById(camera_view);
@@ -99,23 +94,19 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
     }
 
     private void updateDescription() {
-        long distance = (long) calculateDistance();
-        int tAzimut = (int) targetAzimuth;
-        int rAzimut = (int) degree;
-
         String text = target.getName() + " location:"
                 + "\n latitude: " + target.getLatitude() + "  longitude: " + target.getLongitude()
                 + "\n Current location:"
                 + "\n Latitude: " + myLocation.getLatitude() + "  Longitude: " + myLocation.getLongitude()
                 + "\n "
-                + "\n Target currentAzimuth: " + tAzimut
-                + "\n Current currentAzimuth: " + rAzimut
-                + "\n Distance: " + distance;
+                + "\n Target currentAzimuth: " + (int)targetAzimuth
+                + "\n Current currentAzimuth: " + (int)currentAzimuth
+                + "\n Distance: " + (int)distance;
 
         descriptionTextView.setText(text);
     }
 
-    public double recalculateTargetAzimuth() {
+    public void calculateTargetAzimuth() {
         double dX = target.getLatitude() - myLocation.getLatitude();
         double dY = target.getLongitude() - myLocation.getLongitude();
 
@@ -137,12 +128,11 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         } else {
             targetAzimuth = phiAngle;
         }
-        return phiAngle;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        mCamera = Camera. open();
+        mCamera = Camera.open();
         mCamera.setDisplayOrientation( 90);
     }
 
@@ -199,14 +189,11 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        azimuthFrom = degree;
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-            //Log.v("DEBUG", "EVENT FROM ACCELEROMETER: " + event.values.toString());
             mGravity = event.values;
         }
 
         if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
-            //Log.v("DEBUG", "EVENT FROM MAGNETIC_FIELD: " + event.values.toString());
             mGeomagnetic = event.values;
         }
 
@@ -219,13 +206,28 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
                 float orientation[] = new float[3];
                 SensorManager.getOrientation(R, orientation);
 
-                currentAzimuth = (double)orientation[0];
-                degree = (float)(Math.toDegrees(currentAzimuth)+360)%360;
-                Log.v("DEBUG", "currentAzimuth = " + currentAzimuth + " with degree = " + degree);
-                this.onAzimuthChanged( azimuthFrom , degree );
-                updateDescription();
+                double receivedAzimuth = (double)orientation[0];
+                receivedAzimuth = (Math.toDegrees(receivedAzimuth)+360)%360;
+                this.onAzimuthChanged(receivedAzimuth);
             }
         }
+    }
+
+    public void onAzimuthChanged(double newAzimuth) {
+        this.currentAzimuth = newAzimuth;
+        calculateTargetAzimuth();
+        calculateDistance();
+
+        List<Double> angles = calculateAzimuthRange(targetAzimuth);
+        Log.e("debug", "angles: " + angles.toString() + " | distance: " + distance);
+
+        if ((isBetween(angles.get(0), angles.get(1), currentAzimuth)) && distance <= DISTANCE_SAFETY_MARGIN) {
+            pointerIcon.setVisibility(View.VISIBLE);
+        } else {
+            pointerIcon.setVisibility(View.INVISIBLE);
+        }
+
+        updateDescription();
     }
 
     private List<Double> calculateAzimuthRange(double azimuth) {
@@ -246,19 +248,14 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         return minMax;
     }
 
-    private boolean isBetween( double minAngle, double maxAngle, double azimuth) {
+    private boolean isBetween(double minAngle, double maxAngle, double azimuth) {
         if (minAngle > maxAngle) {
-            if (isBetween( 0, maxAngle, azimuth) && isBetween(minAngle, 360 , azimuth))
-                return true ;
+            // this MUST be and OR (and must NOT be an AND)
+            return (isBetween(0, maxAngle, azimuth) || isBetween(minAngle, 360, azimuth));
         } else {
-            if (azimuth > minAngle && azimuth < maxAngle)
-                return true ;
+            return ((azimuth > minAngle) && (azimuth < maxAngle));
         }
-        return false;
     }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {    }
 
     @Override
     protected void onResume() {
@@ -273,23 +270,25 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         sensorManager.unregisterListener(this);
     }
 
-    public double calculateDistance() {
+    public void calculateDistance() {
         double dX = target.getLatitude() - myLocation.getLatitude();
         double dY = target.getLongitude() - myLocation.getLongitude();
 
-        double distance = (Math. sqrt(Math.pow (dX, 2 ) + Math.pow(dY, 2 )) * 100000 );
-
-        return distance;
+        this.distance = (Math. sqrt(Math.pow (dX, 2 ) + Math.pow(dY, 2 )) * 100000 );
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        if(!debug) {
+        if(!DEBUG) {
             myLocation = location;
+            calculateDistance();
+            calculateTargetAzimuth();
             updateDescription();
-            recalculateTargetAzimuth();
         }
     }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {    }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {    }
@@ -299,24 +298,5 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
 
     @Override
     public void onProviderDisabled(String provider) {    }
-
-    public void onAzimuthChanged(float azimutChangedFrom, float azimuthChangedTo) {
-        mAzimuthReal = azimuthChangedTo;
-        mAzimuthTeoretical = recalculateTargetAzimuth();
-        int distance = ( int ) calculateDistance();
-
-        //pointerIcon = (ImageView) findViewById(R.id.icon);
-
-        double minAngle = calculateAzimuthRange(mAzimuthTeoretical).get(0);
-        double maxAngle = calculateAzimuthRange(mAzimuthTeoretical).get(1);
-
-        /*
-        if ((isBetween(minAngle, maxAngle, mAzimuthReal )) && distance <= DISTANCE_SAFETY_MARGIN ) {
-            pointerIcon.setVisibility(View. VISIBLE );
-        } else {
-            pointerIcon.setVisibility(View. INVISIBLE );
-        }
-        */
-    }
 }
 
