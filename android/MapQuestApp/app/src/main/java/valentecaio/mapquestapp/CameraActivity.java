@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -30,8 +31,8 @@ import static valentecaio.mapquestapp.R.id.camera_view;
 public class CameraActivity extends AppCompatActivity implements LocationListener, SurfaceHolder.Callback, SensorEventListener {
 
     boolean DEBUG = true;
-    private static final double DISTANCE_SAFETY_MARGIN = 300;
-    private static final double AZIMUTH_SAFETY_MARGIN = 30;
+    private static double DISTANCE_SAFETY_MARGIN = 300;
+    private static double AZIMUTH_SAFETY_MARGIN = 90;
 
     TextView descriptionTextView;
     ImageView pointerIcon;
@@ -69,6 +70,16 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         descriptionTextView = (TextView) findViewById(R.id.cameraTextView);
         pointerIcon = (ImageView) findViewById(R.id.icon);
 
+        pointerIcon.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //textView.setText("Touch coordinates : "
+                // + String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
+                Log.i("debug", "Touched on the icon");
+                return true;
+            }
+        });
+
         // config camera
         SurfaceView surfaceView = (SurfaceView) findViewById(camera_view);
         mSurfaceHolder = surfaceView.getHolder();
@@ -90,6 +101,10 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+
+        if(DEBUG){
+            AZIMUTH_SAFETY_MARGIN *= 3;
+        }
     }
 
     private void updateDescription() {
@@ -193,7 +208,6 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         calculateDistance();
 
         List<Double> angles = calculateAzimuthRange(targetAzimuth);
-        Log.e("debug", "angles: " + angles.toString() + " | distance: " + distance);
 
         if ((isBetween(angles.get(0), angles.get(1), currentAzimuth)) && distance <= DISTANCE_SAFETY_MARGIN) {
             pointerIcon.setVisibility(View.VISIBLE);
