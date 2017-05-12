@@ -1,6 +1,5 @@
 package valentecaio.mapquestapp;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -20,7 +19,7 @@ import com.mapquest.mapping.maps.OnMapReadyCallback;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MapActivity extends AppCompatActivity implements View.OnClickListener {
     private MapboxMap mMapboxMap;
     private MapView mMapView;
     private Button camera;
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         MapQuestAccountManager.start(getApplicationContext());
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_map);
         verify_permissions();
 
         //verify_permissions();
