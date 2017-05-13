@@ -36,9 +36,11 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
         camera.setOnClickListener(this);
 
         mMapView = (MapView) findViewById(R.id.mapquestMapView);
-
         mMapView.onCreate(savedInstanceState);
+        configureMap();
+    }
 
+    private void configureMap(){
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
@@ -47,7 +49,7 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
                 enableUserTracking(mMapboxMap);
 
                 // create points
-				LatLng tour = new LatLng(48.383421, -4.497139);
+                LatLng tour = new LatLng(48.383421, -4.497139);
                 LatLng jardin = new LatLng(48.381615, -4.499135);
                 LatLng tram = new LatLng(48.384105, -4.499425);
 
@@ -67,6 +69,7 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
                 addMarker(mMapboxMap, d1_128b, "d1_128b", "d1_128b");
             }
         });
+
     }
 
     private void enableUserTracking(MapboxMap mMapboxMap) {
