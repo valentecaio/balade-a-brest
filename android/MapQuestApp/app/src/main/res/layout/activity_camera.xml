@@ -15,6 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:id="@id/icon"
+        android:src="@drawable/icon_tower"
+        android:visibility="invisible"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:id="@+id/cameraTextView"
         android:layout_width="wrap_content"

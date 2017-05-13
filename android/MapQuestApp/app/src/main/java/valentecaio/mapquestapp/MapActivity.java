@@ -1,6 +1,5 @@
 package valentecaio.mapquestapp;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,7 +17,9 @@ import com.mapquest.mapping.maps.MapView;
 import com.mapquest.mapping.maps.MapboxMap;
 import com.mapquest.mapping.maps.OnMapReadyCallback;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.ArrayList;
+
+public class MapActivity extends AppCompatActivity implements View.OnClickListener {
     private MapboxMap mMapboxMap;
     private MapView mMapView;
     private Button camera;
@@ -28,17 +29,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         MapQuestAccountManager.start(getApplicationContext());
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_map);
         verify_permissions();
 
-        //verify_permissions();
         camera = (Button) findViewById(R.id.camera_button);
         camera.setOnClickListener(this);
 
         mMapView = (MapView) findViewById(R.id.mapquestMapView);
-
         mMapView.onCreate(savedInstanceState);
+        configureMap();
+    }
 
+    private void configureMap(){
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 enableUserTracking(mMapboxMap);
 
                 // create points
-				LatLng tour = new LatLng(48.383421, -4.497139);
+                LatLng tour = new LatLng(48.383421, -4.497139);
                 LatLng jardin = new LatLng(48.381615, -4.499135);
                 LatLng tram = new LatLng(48.384105, -4.499425);
 
@@ -67,14 +69,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 addMarker(mMapboxMap, d1_128b, "d1_128b", "d1_128b");
             }
         });
+
     }
 
     private void enableUserTracking(MapboxMap mMapboxMap) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+        try {
+            mMapboxMap.setMyLocationEnabled(true);
+        } catch (SecurityException ex){
+            ex.printStackTrace();
         }
-        mMapboxMap.setMyLocationEnabled(true);
     }
 
     private void verify_permissions(){
@@ -84,14 +87,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 android.Manifest.permission.INTERNET,
                 android.Manifest.permission.ACCESS_NETWORK_STATE,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.ACCESS_WIFI_STATE};
+                android.Manifest.permission.ACCESS_WIFI_STATE,
+                android.Manifest.permission.CAMERA};
 
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        ArrayList<String> permissionsToAsk = new ArrayList<String>();
+        for(String permission: permissions){
+            if(ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+                permissionsToAsk.add(permission);
+            }
+        }
 
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(this, permissions, 1);
+        // ask permission
+        if (permissionsToAsk.size() > 0) {
+            String[] request = new String[permissionsToAsk.size()];
+            request = permissionsToAsk.toArray(request);
+            ActivityCompat.requestPermissions(this, request, 1);
         }
     }
 
@@ -122,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         Log.i("clicks","You Clicked B1");
-        Intent i=new Intent(this, CameraActivity.class);
+        Intent i = new Intent(this, CameraActivity.class);
         startActivity(i);
     }
 }
