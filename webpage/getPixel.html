@@ -6,27 +6,25 @@
     <title>CLICK HANDLER</title>
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
     <script>
-        var map,vectorLayer,selectMarkerControl,selectedFeature;
-        var lat = 48.3879;
-        var lon = -4.5118;
+        var map,markers,vectorLayer,selectMarkerControl,selectedFeature;
         var zoom = 14;
         var curpos = new Array();
-        var position;
+		
+		var tanguy_tower = [48.383410, -4.496798]
 
         var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
         var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
 
-        var cntrposition = new OpenLayers.LonLat(lon, lat).transform( fromProjection, toProjection);
+        var cntrposition = new OpenLayers.LonLat(tanguy_tower[1], tanguy_tower[0]).transform( fromProjection, toProjection);
         
         function init()
         {
             map = new OpenLayers.Map("Map");
+            markers = new OpenLayers.Layer.Markers( "Markers" );
 
             var mapnik = new OpenLayers.Layer.OSM("MAP"); 
-            var markers = new OpenLayers.Layer.Markers( "Markers" );
 
             map.addLayers([mapnik,markers]);
-            map.addLayer(mapnik);
             map.setCenter(cntrposition, zoom);
 
             markers.addMarker(new OpenLayers.Marker(cntrposition));
@@ -35,6 +33,7 @@
             map.addControl(click);
             click.activate();
 		};
+		
 
 OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {               
  defaultHandlerOptions: {
@@ -60,14 +59,11 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
  },
 
  trigger: function(e) {
-  var lonlat = map.getLonLatFromPixel(e.xy);
-  lonlat1= new OpenLayers.LonLat(lonlat.lon,lonlat.lat).transform(toProjection,fromProjection);
-  alert("Hello..."+lonlat1.lon + "  " +lonlat1.lat);
+	var lonlat = map.getLonLatFromPixel(e.xy);
+	lonlat1= new OpenLayers.LonLat(lonlat.lon,lonlat.lat).transform(toProjection,fromProjection);
 
-  var markers = new OpenLayers.Layer.Markers( "Markers" );
-  var cntrposition2 = new OpenLayers.LonLat(-4.52,48.38).transform( fromProjection, toProjection);
-  markers.addMarker(new OpenLayers.Marker(cntrposition2));
-
+	var new_position = new OpenLayers.LonLat(lonlat1.lon, lonlat1.lat).transform(fromProjection, toProjection);
+	markers.addMarker(new OpenLayers.Marker(new_position));
  }
 
 });
