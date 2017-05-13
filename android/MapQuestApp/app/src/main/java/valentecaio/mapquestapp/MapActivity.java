@@ -32,7 +32,6 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_map);
         verify_permissions();
 
-        //verify_permissions();
         camera = (Button) findViewById(R.id.camera_button);
         camera.setOnClickListener(this);
 
