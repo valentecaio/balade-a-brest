@@ -30,7 +30,6 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
         MapQuestAccountManager.start(getApplicationContext());
 
         setContentView(R.layout.activity_map);
-        verify_permissions();
 
         camera = (Button) findViewById(R.id.camera_button);
         camera.setOnClickListener(this);
@@ -77,31 +76,6 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
             mMapboxMap.setMyLocationEnabled(true);
         } catch (SecurityException ex){
             ex.printStackTrace();
-        }
-    }
-
-    private void verify_permissions(){
-        String[] permissions = {
-                android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.INTERNET,
-                android.Manifest.permission.ACCESS_NETWORK_STATE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.ACCESS_WIFI_STATE,
-                android.Manifest.permission.CAMERA};
-
-        ArrayList<String> permissionsToAsk = new ArrayList<String>();
-        for(String permission: permissions){
-            if(ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
-                permissionsToAsk.add(permission);
-            }
-        }
-
-        // ask permission
-        if (permissionsToAsk.size() > 0) {
-            String[] request = new String[permissionsToAsk.size()];
-            request = permissionsToAsk.toArray(request);
-            ActivityCompat.requestPermissions(this, request, 1);
         }
     }
 

@@ -60,8 +60,6 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        verify_permissions();
-
         target = new Point("yan", 48.3588, -4.5700);
         myLocation = new Location("hi");
         myLocation.setLatitude(48.356647);
@@ -274,31 +272,6 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
             calculateDistance();
             calculateTargetAzimuth();
             updateDescription();
-        }
-    }
-
-    private void verify_permissions(){
-        String[] permissions = {
-                android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.INTERNET,
-                android.Manifest.permission.ACCESS_NETWORK_STATE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.ACCESS_WIFI_STATE,
-                android.Manifest.permission.CAMERA};
-
-        ArrayList<String> permissionsToAsk = new ArrayList<String>();
-        for(String permission: permissions){
-            if(ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
-                permissionsToAsk.add(permission);
-            }
-        }
-
-        // ask permission
-        if (permissionsToAsk.size() > 0) {
-            String[] request = new String[permissionsToAsk.size()];
-            request = permissionsToAsk.toArray(request);
-            ActivityCompat.requestPermissions(this, request, 1);
         }
     }
 
