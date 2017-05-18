@@ -29,10 +29,28 @@
         android:layout_centerHorizontal="true" />
 
     <ImageView
-        android:id="@+id/imt3"
+        android:id="@+id/imt4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/imt3"
+        android:src="@drawable/imt4"
+        android:visibility="invisible"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/imt5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/imt5"
+        android:visibility="invisible"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/imt6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/imt6"
         android:visibility="invisible"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

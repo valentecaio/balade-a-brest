@@ -40,7 +40,7 @@ public class StrollActivity extends AppCompatActivity {
             }
         });
 
-        String[] strolls = new String[] {"Telecom i8", "Telecom ecole", "Recouvrance"};
+        String[] strolls = new String[] {"Telecom centre vie", "Telecom ecole"};
         final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, strolls);
         scrolls_LV.setAdapter(adapter);
     }

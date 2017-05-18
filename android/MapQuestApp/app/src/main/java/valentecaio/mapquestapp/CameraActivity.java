@@ -29,7 +29,7 @@ import static valentecaio.mapquestapp.R.id.camera_view;
 
 public class CameraActivity extends AppCompatActivity implements LocationListener, SurfaceHolder.Callback, SensorEventListener {
 
-    boolean DEBUG = true;
+    boolean DEBUG = false;
     private static double DISTANCE_SAFETY_MARGIN = 300;
     private static double AZIMUTH_SAFETY_MARGIN = 90;
 
@@ -101,9 +101,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
 
-        if(DEBUG){
-            AZIMUTH_SAFETY_MARGIN = 90;
-        }
+        myLocation = getLastBestLocation();
     }
 
     private void setTargetLocation(){
@@ -111,6 +109,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         Double target_lng = getIntent().getDoubleExtra("target_longitude", 0);
         Double target_lat = getIntent().getDoubleExtra("target_latitude", 0);
         target = new Point(target_name, target_lat, target_lng);
+        Log.e("target: ", target.toString());
     }
 
     private void updateDescription() {
@@ -153,7 +152,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         mCamera = Camera.open();
-        mCamera.setDisplayOrientation(0);
+        mCamera.setDisplayOrientation(90);
     }
 
     @Override
@@ -289,6 +288,31 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
             mCamera.setDisplayOrientation(0);
         } else {
             mCamera.setDisplayOrientation(90);
+        }
+    }
+
+    /**
+     * @return the last know best location
+     */
+    private Location getLastBestLocation() throws SecurityException {
+        Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location locationNet = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        long GPSLocationTime = 0;
+        if (null != locationGPS) {
+            GPSLocationTime = locationGPS.getTime();
+        }
+
+        long NetLocationTime = 0;
+
+        if (null != locationNet) {
+            NetLocationTime = locationNet.getTime();
+        }
+
+        if (0 < GPSLocationTime - NetLocationTime) {
+            return locationGPS;
+        } else {
+            return locationNet;
         }
     }
 

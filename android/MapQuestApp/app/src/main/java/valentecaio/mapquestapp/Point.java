@@ -61,4 +61,9 @@ public class Point {
         }
         return true;
     }
+
+    @Override
+    public String toString(){
+        return "Point " + getName() + " [" + getLongitude() + ", " + getLatitude() + "]";
+    }
 }
