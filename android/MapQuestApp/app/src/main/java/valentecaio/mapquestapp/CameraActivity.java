@@ -2,6 +2,7 @@ package valentecaio.mapquestapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -152,7 +153,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         mCamera = Camera.open();
-        mCamera.setDisplayOrientation(90);
+        mCamera.setDisplayOrientation(0);
     }
 
     @Override
@@ -277,6 +278,17 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
             calculateDistance();
             calculateTargetAzimuth();
             updateDescription();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if(newConfig.equals(Configuration.ORIENTATION_LANDSCAPE)) {
+            mCamera.setDisplayOrientation(0);
+        } else {
+            mCamera.setDisplayOrientation(90);
         }
     }
 
