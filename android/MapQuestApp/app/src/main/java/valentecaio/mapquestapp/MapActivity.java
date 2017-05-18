@@ -1,14 +1,14 @@
 package valentecaio.mapquestapp;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -16,8 +16,6 @@ import com.mapquest.mapping.MapQuestAccountManager;
 import com.mapquest.mapping.maps.MapView;
 import com.mapquest.mapping.maps.MapboxMap;
 import com.mapquest.mapping.maps.OnMapReadyCallback;
-
-import java.util.ArrayList;
 
 public class MapActivity extends AppCompatActivity implements View.OnClickListener {
     private MapboxMap mMapboxMap;
@@ -40,6 +38,7 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void configureMap(){
+        // load map data
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(MapboxMap mapboxMap) {
@@ -56,6 +55,9 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
                 LatLng laverie = new LatLng(48.357061, -4.570031);
                 LatLng d1_128b = new LatLng(48.359158, -4.570728);
 
+                LatLng cv = new LatLng(48.358906, -4.570013);
+                LatLng c5 = new LatLng(48.359004, -4.569447);
+
                 // center map
                 mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(d1_128b, 17));
 
@@ -63,9 +65,20 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
                 addMarker(mMapboxMap, tour, "tour", "tour HU3");
                 addMarker(mMapboxMap, jardin, "jardin", "jardin HU3");
                 addMarker(mMapboxMap, tram, "tram", "tram HU3");
-                addMarker(mMapboxMap, quarto_yan, "quarto yan", "partiu soiree");
+                addMarker(mMapboxMap, quarto_yan, "chambre yan", "partiu soiree");
                 addMarker(mMapboxMap, laverie, "laverie", "bora roubar meia");
                 addMarker(mMapboxMap, d1_128b, "d1_128b", "d1_128b");
+                addMarker(mMapboxMap, cv, "centre vie", "");
+                addMarker(mMapboxMap, c5, "departement des langues", "");
+
+                // set listener to markers
+                mMapboxMap.setOnInfoWindowClickListener(new MapboxMap.OnInfoWindowClickListener() {
+                    @Override
+                    public boolean onInfoWindowClick(@NonNull Marker marker) {
+                        Log.d("debug", marker.getTitle());
+                        return false;
+                    }
+                });
             }
         });
 
