@@ -73,6 +73,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
                 // + String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
                 Log.i("debug", "Touched on the icon");
                 Intent i = new Intent(CameraActivity.this, InfoActivity.class);
+                i.putExtra("id", "centre vie");
                 startActivity(i);
                 return true;
             }

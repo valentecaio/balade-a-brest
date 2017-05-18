@@ -75,8 +75,11 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
                 mMapboxMap.setOnInfoWindowClickListener(new MapboxMap.OnInfoWindowClickListener() {
                     @Override
                     public boolean onInfoWindowClick(@NonNull Marker marker) {
-                        Log.d("debug", marker.getTitle());
-                        return false;
+                        Log.i("info", marker.getTitle());
+                        Intent i = new Intent(MapActivity.this, InfoActivity.class);
+                        i.putExtra("id", marker.getTitle());
+                        startActivity(i);
+                        return true;
                     }
                 });
             }
