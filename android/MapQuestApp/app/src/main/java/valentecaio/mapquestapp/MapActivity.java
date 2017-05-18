@@ -57,19 +57,22 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
 
                 LatLng cv = new LatLng(48.358906, -4.570013);
                 LatLng c5 = new LatLng(48.359004, -4.569447);
+                LatLng imt_statue = new LatLng(48.360124, -4.570747);
+
 
                 // center map
                 mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(d1_128b, 17));
 
                 // put points in map
-                addMarker(mMapboxMap, tour, "tour", "tour HU3");
-                addMarker(mMapboxMap, jardin, "jardin", "jardin HU3");
-                addMarker(mMapboxMap, tram, "tram", "tram HU3");
-                addMarker(mMapboxMap, quarto_yan, "chambre yan", "partiu soiree");
-                addMarker(mMapboxMap, laverie, "laverie", "bora roubar meia");
-                addMarker(mMapboxMap, d1_128b, "d1_128b", "d1_128b");
+                addMarker(mMapboxMap, tour, "tour", "");
+                addMarker(mMapboxMap, jardin, "jardin", "");
+                addMarker(mMapboxMap, tram, "tram", "");
+                addMarker(mMapboxMap, quarto_yan, "chambre yan", "");
+                addMarker(mMapboxMap, laverie, "laverie", "");
+                addMarker(mMapboxMap, d1_128b, "d1_128b", "");
                 addMarker(mMapboxMap, cv, "centre vie", "");
                 addMarker(mMapboxMap, c5, "departement des langues", "");
+                addMarker(mMapboxMap, c5, "imt statue", "");
 
                 // set listener to markers
                 mMapboxMap.setOnInfoWindowClickListener(new MapboxMap.OnInfoWindowClickListener() {
