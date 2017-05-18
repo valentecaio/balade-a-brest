@@ -58,10 +58,9 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        target = new Point("yan", 48.3588, -4.5700);
+        setTargetLocation();
+
         myLocation = new Location("hi");
-        myLocation.setLatitude(48.356647);
-        myLocation.setLongitude(-4.570205);
 
         descriptionTextView = (TextView) findViewById(R.id.cameraTextView);
         pointerIcon = (ImageView) findViewById(R.id.icon);
@@ -73,7 +72,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
                 // + String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
                 Log.i("debug", "Touched on the icon");
                 Intent i = new Intent(CameraActivity.this, InfoActivity.class);
-                i.putExtra("id", "centre vie");
+                i.putExtra("id", target.getName());
                 startActivity(i);
                 return true;
             }
@@ -104,6 +103,13 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         if(DEBUG){
             AZIMUTH_SAFETY_MARGIN = 90;
         }
+    }
+
+    private void setTargetLocation(){
+        String target_name = getIntent().getStringExtra("target_name");
+        Double target_lng = getIntent().getDoubleExtra("target_longitude", 0);
+        Double target_lat = getIntent().getDoubleExtra("target_latitude", 0);
+        target = new Point(target_name, target_lng, target_lat);
     }
 
     private void updateDescription() {
