@@ -110,7 +110,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         String target_name = getIntent().getStringExtra("target_name");
         Double target_lng = getIntent().getDoubleExtra("target_longitude", 0);
         Double target_lat = getIntent().getDoubleExtra("target_latitude", 0);
-        target = new Point(target_name, target_lng, target_lat);
+        target = new Point(target_name, target_lat, target_lng);
     }
 
     private void updateDescription() {
