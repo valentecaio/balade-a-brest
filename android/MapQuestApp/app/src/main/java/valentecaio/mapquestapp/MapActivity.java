@@ -72,7 +72,7 @@ public class MapActivity extends AppCompatActivity implements View.OnClickListen
                 addMarker(mMapboxMap, d1_128b, "d1_128b", "");
                 addMarker(mMapboxMap, cv, "centre vie", "");
                 addMarker(mMapboxMap, c5, "departement des langues", "");
-                addMarker(mMapboxMap, c5, "imt statue", "");
+                addMarker(mMapboxMap, imt_statue, "imt statue", "");
 
                 // set listener to markers
                 mMapboxMap.setOnInfoWindowClickListener(new MapboxMap.OnInfoWindowClickListener() {
