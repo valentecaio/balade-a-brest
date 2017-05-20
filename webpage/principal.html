@@ -84,34 +84,35 @@
 			</script>
 			
 			<script type="text/javascript">
-				function setURL(loc) {
-					document.getElementById('mapadiv').setAttribute('src', loc);
+				function searchByName(name, data){
+					for(i in data){
+						if(data[i].name == name){
+							return data[i];
+						}
+					}
+					return null;
 				}
-				function changeMap(loc) {
+			
+				function show_point(loc) {
 					// delete previous maps
 					div_map = document.getElementsByClassName('map')[0];
 					while (div_map.hasChildNodes()) {
-						console.log(div_map.lastChild)
 						div_map.removeChild(div_map.lastChild);
 					}
 					
-					balade = []
-					if (loc == "balade1") {
-						balade = [[-4.5250042190, 48.382436270, "1"], [-4.5210042190, 48.386435270, "2"], [-4.5015042190, 48.394435270, "3"], [-4.5116742190, 48.39236270, "4"]]
-					} else if (loc == "balade2") {
-						balade = [[-4.5240042190, 48.382436270, "1"], [-4.5210042190, 48.382435270, "2"], [-4.5010042190, 48.392435270, "3"], [-4.5116042190, 48.392936270, "4"]]
-					} else if (loc == "balade3") {
-						balade = [[-4.5250042190, 48.382436270, "1"], [-4.5210042190, 48.382435270, "2"], [-4.5015042190, 48.394435270, "3"], [-4.5116742190, 48.39236270, "4"]]
-					} else if (loc == "point1") {
-						balade = [[-4.5250042190, 48.382436270, "1"]]
-					} else if (loc == "point2") {
-						balade = [[-4.5210042190, 48.386435270, "2"]]
-					} else if (loc == "point3") {
-						balade = [[-4.5015042190, 48.394435270, "3"]]
-					} else if (loc == "point4") {
-						balade = [[-4.5116742190, 48.39236270, "4"]]
+					var point_to_show = searchByName(loc, points);
+					$(document).ready(addmarkers([point_to_show]));
+				}
+				
+				function show_balade(loc) {
+					// delete previous maps
+					div_map = document.getElementsByClassName('map')[0];
+					while (div_map.hasChildNodes()) {
+						div_map.removeChild(div_map.lastChild);
 					}
-					$(document).ready(addmarkers(balade));
+					
+					var balade_to_show = searchByName(loc, balades);
+					$(document).ready(addmarkers(balade_to_show.points));
 				}
 				
 				// load map without points
@@ -120,12 +121,12 @@
 				// create example points
 				var points = [{latitude: -4.5250042190, longitude: 48.382436270, name: "point1"}, {latitude: -4.5210042190, longitude: 48.386435270, name: "point2"}, {latitude: -4.5015042190, longitude: 48.394435270, name: "point3"}, {latitude: -4.5116742190, longitude: 48.39236270, name: "point4"}, {latitude: -4.5010042190, longitude: 48.392435270, name: "point5"}, {latitude: -4.5210042190, longitude: 48.382435270, name: "point6"}]
 				
-				// create example strolls
-				var balades = [{name: 'balade1', points: [points[0], points[1], points[2], points[3]]}, {name: 'balade2', points: [points[0], points[1], points[5], points[6]]}, {name: 'balade3', points: [points[5], points[6], points[2], points[3]]}]
+				// create example strolls (balades)
+				var balades = [{name: 'balade1', points: [points[0], points[1], points[2], points[3]]}, {name: 'balade2', points: [points[0], points[1], points[4], points[5]]}, {name: 'balade3', points: [points[4], points[5], points[2], points[3]]}]
 				
-				// add points and strolls to tables
-				add_rows("points_list", points);
-				add_rows("balades_list", balades);
+				// add points and balades to tables
+				add_rows("points_list", points, "show_point");
+				add_rows("balades_list", balades, "show_balade");
 			</script>
 			
 		</body>
