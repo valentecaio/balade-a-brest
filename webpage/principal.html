@@ -58,7 +58,7 @@
 									
 									<div class="row list-group">
 										<div class="btn-group" style="width:100%">
-											<button style="width:90%;height: 40px; text-align: left; color: black;" class="btn btn-default" onclick="setURL('http://www.openstreetmap.org/export/embed.html?bbox=-4.5092225074768075%2C48.37828799386725%2C-4.492785930633546%2C48.3865964594547&amp;layer=mapnik&amp;marker=48.38243527056857%2C-4.501004219055176')">Item 1</button>
+											<button style="width:90%;height: 40px; text-align: left; color: black;" class="btn btn-default" onclick="changeMap('mapdiv1')">Item 1</button>
 											<button style="width:10%;height: 40px;" class="btn btn-default"><span class="glyphicon glyphicon-wrench" style="color: black"></span></button>
 										</div>
 										<div class="btn-group" style="width:100%">
@@ -109,7 +109,7 @@
 					
 					
 					<div class="col-sm-8">
-						<iframe id="mapadiv" align="absolute" width=100% height="550" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.openstreetmap.org/export/embed.html?bbox=-4.5092225074768075%2C48.37828799386725%2C-4.492785930633546%2C48.3865964594547&amp;layer=mapnik"></iframe>
+						<div style="width:100%; height:550px" id='mapdiv' class="map"></div>
 					</div>  
 				</div>
 			</div>
@@ -120,12 +120,22 @@
 				}
 			</script>
 			<script type="text/javascript">
-				$(document).ready(main);
-			</script>
-			<script type="text/javascript">
 				$('.btn').click(function() {
 					$(this).toggleClass('active');
 				});
+			</script>
+			
+			<script type="text/javascript">
+				function changeMap(loc) {
+					// delete previous maps
+					div_map = document.getElementsByClassName('map')[0];
+					while (div_map.hasChildNodes()) {
+						div_map.removeChild(div_map.lastChild);
+					}
+					balade = [[-4.5250042190, 48.382436270, "1"], [-4.5210042190, 48.386435270, "2"], [-4.5015042190, 48.394435270, "3"], [-4.5116742190, 48.39236270, "4"]]
+					$(document).ready(addmarkers(balade));
+				}
+				$(document).ready(addmarkers);
 			</script>
 			
 		</body>
