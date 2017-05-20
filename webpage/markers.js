@@ -3,7 +3,7 @@ function addmarkers(balade) {
 		map = new OpenLayers.Map("mapdiv");
 		map.addLayer(new OpenLayers.Layer.OSM());
 
-		epsg4326 = new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
+		epsg4326 = new OpenLayers.Projection("EPSG:4326");
 		projectTo = map.getProjectionObject();
 		
 		var lonLat_center = new OpenLayers.LonLat(-4.50010299, 48.38423089).transform(epsg4326, projectTo);
@@ -11,7 +11,7 @@ function addmarkers(balade) {
 		map.setCenter(lonLat_center, zoom);
 
 		var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
-		for(i=0; i<balade.length; i++) {
+		for(i=0; balade && i<balade.length; i++) {
 			var marker = new OpenLayers.Feature.Vector(
 					new OpenLayers.Geometry.Point(balade[i][0], balade[i][1]).transform(epsg4326, projectTo), {
 					description: balade[i][2]
