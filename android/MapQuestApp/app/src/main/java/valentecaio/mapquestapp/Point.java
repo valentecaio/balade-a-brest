@@ -1,5 +1,7 @@
 package valentecaio.mapquestapp;
 
+import com.mapbox.mapboxsdk.geometry.LatLng;
+
 /**
  * Created by caio on 07/05/2017.
  */
@@ -37,5 +39,31 @@ public class Point {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public LatLng getLocation() {
+        return new LatLng(getLatitude(), getLongitude());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (!Point.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        final Point other = (Point) obj;
+
+        if ((this.getName() == null) ? (other.getName() != null) : !this.name.equals(other.name)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString(){
+        return "Point " + getName() + " [" + getLongitude() + ", " + getLatitude() + "]";
     }
 }

@@ -2,7 +2,7 @@ package valentecaio.mapquestapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -12,7 +12,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -30,7 +29,7 @@ import static valentecaio.mapquestapp.R.id.camera_view;
 
 public class CameraActivity extends AppCompatActivity implements LocationListener, SurfaceHolder.Callback, SensorEventListener {
 
-    boolean DEBUG = true;
+    boolean DEBUG = false;
     private static double DISTANCE_SAFETY_MARGIN = 300;
     private static double AZIMUTH_SAFETY_MARGIN = 90;
 
@@ -60,12 +59,9 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        verify_permissions();
+        setTargetLocation();
 
-        target = new Point("yan", 48.3588, -4.5700);
         myLocation = new Location("hi");
-        myLocation.setLatitude(48.356647);
-        myLocation.setLongitude(-4.570205);
 
         descriptionTextView = (TextView) findViewById(R.id.cameraTextView);
         pointerIcon = (ImageView) findViewById(R.id.icon);
@@ -77,6 +73,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
                 // + String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
                 Log.i("debug", "Touched on the icon");
                 Intent i = new Intent(CameraActivity.this, InfoActivity.class);
+                i.putExtra("id", target.getName());
                 startActivity(i);
                 return true;
             }
@@ -104,9 +101,15 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
 
-        if(DEBUG){
-            AZIMUTH_SAFETY_MARGIN = 90;
-        }
+        myLocation = getLastBestLocation();
+    }
+
+    private void setTargetLocation(){
+        String target_name = getIntent().getStringExtra("target_name");
+        Double target_lng = getIntent().getDoubleExtra("target_longitude", 0);
+        Double target_lat = getIntent().getDoubleExtra("target_latitude", 0);
+        target = new Point(target_name, target_lat, target_lng);
+        Log.e("target: ", target.toString());
     }
 
     private void updateDescription() {
@@ -277,28 +280,39 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         }
     }
 
-    private void verify_permissions(){
-        String[] permissions = {
-                android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.INTERNET,
-                android.Manifest.permission.ACCESS_NETWORK_STATE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.ACCESS_WIFI_STATE,
-                android.Manifest.permission.CAMERA};
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
 
-        ArrayList<String> permissionsToAsk = new ArrayList<String>();
-        for(String permission: permissions){
-            if(ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
-                permissionsToAsk.add(permission);
-            }
+        if(newConfig.equals(Configuration.ORIENTATION_LANDSCAPE)) {
+            mCamera.setDisplayOrientation(0);
+        } else {
+            mCamera.setDisplayOrientation(90);
+        }
+    }
+
+    /**
+     * @return the last know best location
+     */
+    private Location getLastBestLocation() throws SecurityException {
+        Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location locationNet = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        long GPSLocationTime = 0;
+        if (null != locationGPS) {
+            GPSLocationTime = locationGPS.getTime();
         }
 
-        // ask permission
-        if (permissionsToAsk.size() > 0) {
-            String[] request = new String[permissionsToAsk.size()];
-            request = permissionsToAsk.toArray(request);
-            ActivityCompat.requestPermissions(this, request, 1);
+        long NetLocationTime = 0;
+
+        if (null != locationNet) {
+            NetLocationTime = locationNet.getTime();
+        }
+
+        if (0 < GPSLocationTime - NetLocationTime) {
+            return locationGPS;
+        } else {
+            return locationNet;
         }
     }
 
