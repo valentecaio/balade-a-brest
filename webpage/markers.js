@@ -22,9 +22,8 @@ function addmarkers(balade) {
 
 	var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
 	for (i=0; balade && i < balade.length; i++) {
-		console.log(balade[i], balade[i].latitude, balade[i].longitude)
 		var marker = new OpenLayers.Feature.Vector(
-				new OpenLayers.Geometry.Point(balade[i].latitude, balade[i].longitude).transform(epsg4326, projectTo), {
+				new OpenLayers.Geometry.Point(balade[i].lon, balade[i].lat).transform(epsg4326, projectTo), {
 				description: balade[i].name
 			}, {
 				externalGraphic: 'image_marker.png',
