@@ -94,29 +94,17 @@
 				}
 			
 				function show_point(loc) {
-					// delete previous maps
-					div_map = document.getElementsByClassName('map')[0];
-					while (div_map.hasChildNodes()) {
-						div_map.removeChild(div_map.lastChild);
-					}
-					
 					var point_to_show = searchByName(loc, points);
-					$(document).ready(addmarkers([point_to_show]));
+					$(document).ready(refresh_markers(map, [point_to_show]));
 				}
 				
 				function show_balade(loc) {
-					// delete previous maps
-					div_map = document.getElementsByClassName('map')[0];
-					while (div_map.hasChildNodes()) {
-						div_map.removeChild(div_map.lastChild);
-					}
-					
 					var balade_to_show = searchByName(loc, balades);
-					$(document).ready(addmarkers(balade_to_show.points));
+					$(document).ready(refresh_markers(map, balade_to_show.points));
 				}
 				
 				// load map without points
-				$(document).ready(setup_map({lon: -4.50010299, lat: 48.38423089}, 14));
+				var map = setup_map(center={lon: -4.50010299, lat: 48.38423089}, zoom=14);
 				
 				// create example points
 				var points = [{lon: -4.5250042190, lat: 48.382436270, name: "point1"}, {lon: -4.5210042190, lat: 48.386435270, name: "point2"}, {lon: -4.5015042190, lat: 48.394435270, name: "point3"}, {lon: -4.5116742190, lat: 48.39236270, name: "point4"}, {lon: -4.5010042190, lat: 48.392435270, name: "point5"}, {lon: -4.5210042190, lat: 48.382435270, name: "point6"}]

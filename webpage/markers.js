@@ -7,19 +7,17 @@ function setup_map(center, zoom) {
 
 	var lonLat_center = new OpenLayers.LonLat(center.lon, center.lat).transform(epsg4326, projectTo);
 	map.setCenter(lonLat_center, zoom);
+	
+	return map;
 }
 
-function addmarkers(balade) {
-	map = new OpenLayers.Map("mapdiv");
-	map.addLayer(new OpenLayers.Layer.OSM());
-
-	epsg4326 = new OpenLayers.Projection("EPSG:4326");
-	projectTo = map.getProjectionObject();
-
-	var lonLat_center = new OpenLayers.LonLat(-4.50010299, 48.38423089).transform(epsg4326, projectTo);
-	var zoom = 14;
-	map.setCenter(lonLat_center, zoom);
-
+function refresh_markers(map, balade) {
+	// remove old markers
+	if(map.layers[1]){
+		map.removeLayer(map.layers[1])
+	}
+	
+	// add new markers
 	var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
 	for (i=0; balade && i < balade.length; i++) {
 		var marker = new OpenLayers.Feature.Vector(
