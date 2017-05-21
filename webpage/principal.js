@@ -23,7 +23,9 @@ function show_balade(name) {
 // save point and go to editPoint
 function go_to_edit_point(name) {
 	var point_to_save = searchByName(name, points);
-	//TODO: finish this method
+	var pointName = point_to_save.name;
+	sessionStorage.setItem("divName", pointName);
+	window.location = "edition.html";
 }
 
 // save balade and go to editBalade
