@@ -69,7 +69,8 @@
 					}
 					
 					// add marker to map
-					markers.addMarker(new OpenLayers.Marker(point_clicked));
+					var new_position = new OpenLayers.LonLat(point_clicked.lon, point_clicked.lat).transform(fromProjection, toProjection);
+					markers.addMarker(new OpenLayers.Marker(new_position));
 					
 					// add point data to form boxes
 					document.getElementById("form_latitude").value = point_clicked.lat
