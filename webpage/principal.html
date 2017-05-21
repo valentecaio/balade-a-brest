@@ -84,6 +84,7 @@
 			</script>
 			
 			<script type="text/javascript">
+				// search by name in global variables
 				function searchByName(name, data){
 					for(i in data){
 						if(data[i].name == name){
@@ -93,14 +94,16 @@
 					return null;
 				}
 			
+				// draw a point in the map
 				function show_point(loc) {
 					var point_to_show = searchByName(loc, points);
-					$(document).ready(refresh_markers(map, [point_to_show]));
+					refresh_markers(map, [point_to_show]);
 				}
 				
+				// draw a balade in the map
 				function show_balade(loc) {
 					var balade_to_show = searchByName(loc, balades);
-					$(document).ready(refresh_markers(map, balade_to_show.points));
+					refresh_markers(map, balade_to_show.points);
 				}
 				
 				// load map without points

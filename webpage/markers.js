@@ -1,3 +1,4 @@
+// init map without any marker or layer
 function setup_map(center, zoom) {
 	map = new OpenLayers.Map("mapdiv");
 	map.addLayer(new OpenLayers.Layer.OSM());
@@ -11,6 +12,7 @@ function setup_map(center, zoom) {
 	return map;
 }
 
+// remove markers from map and put new ones
 function refresh_markers(map, balade) {
 	// remove old markers
 	if(map.layers[1]){
