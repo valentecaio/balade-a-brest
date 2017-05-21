@@ -20,6 +20,18 @@ function show_balade(name) {
 	refresh_markers(map, balade_to_show.points);
 }
 
+// save point and go to editPoint
+function go_to_edit_point(name) {
+	var point_to_save = searchByName(name, points);
+	//TODO: finish this method
+}
+
+// save balade and go to editBalade
+function go_to_edit_balade(name) {
+	var balade_to_save = searchByName(name, balades);
+	//TODO: finish this method
+}
+
 // draw all points in the map
 function show_all_points(name) {
 	refresh_markers(map, points);
@@ -77,7 +89,7 @@ function load_data() {
 
 // dinamically add rows to table
 // data must be an iterable object where each entry has a attribute name
-function add_rows(table_id, data, onclick_function) {
+function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
 	for (i = 0; i < data.length; i++) {
 		var new_row = document.createElement('div');
 		new_row.className = "btn-group";
@@ -87,11 +99,12 @@ function add_rows(table_id, data, onclick_function) {
 		but1.style = "width:90%;height: 40px; text-align: left; color: black;";
 		but1.className = "btn btn-default";
 		but1.innerHTML = data[i].name;
-		but1.setAttribute('onclick', onclick_function + "('" + data[i].name + "')");
+		but1.setAttribute('onclick', onclick_but1 + "('" + data[i].name + "')");
 
 		var but_edit = document.createElement('button');
 		but_edit.style = "width:10%;height: 40px;";
 		but_edit.className = "btn btn-default";
+		but_edit.setAttribute('onclick', onclick_but_edit + "('" + data[i].name + "')");
 
 		var span = document.createElement('span');
 		span.className = "glyphicon glyphicon-wrench";
@@ -110,6 +123,6 @@ function main() {
 	load_data();
 
 	// add points and balades to tables
-	add_rows("points_list", points, "show_point");
-	add_rows("balades_list", balades, "show_balade");
+	add_rows("points_list", points, "show_point", "go_to_edit_point");
+	add_rows("balades_list", balades, "show_balade", "go_to_edit_balade");
 }
