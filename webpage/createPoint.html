@@ -60,7 +60,8 @@
 				
 				trigger: function(e) {
 					// get point values
-					point_clicked = map.getLonLatFromPixel(e.xy);
+					var lonlat = map.getLonLatFromPixel(e.xy);
+					point_clicked = new OpenLayers.LonLat(lonlat.lon,lonlat.lat).transform(toProjection,fromProjection);
 					
 					// remove old markers
 					if(map.layers[1]){
