@@ -75,6 +75,37 @@ function load_data() {
 	]
 }
 
+// dinamically add rows to table
+// data must be an iterable object where each entry has a attribute name
+function add_rows(table_id, data, onclick_function) {
+	for (i = 0; i < data.length; i++) {
+		var new_row = document.createElement('div');
+		new_row.className = "btn-group";
+		new_row.style = "width:100%";
+
+		var but1 = document.createElement('button');
+		but1.style = "width:90%;height: 40px; text-align: left; color: black;";
+		but1.className = "btn btn-default";
+		but1.innerHTML = data[i].name;
+		but1.setAttribute('onclick', onclick_function + "('" + data[i].name + "')");
+
+		var but_edit = document.createElement('button');
+		but_edit.style = "width:10%;height: 40px;";
+		but_edit.className = "btn btn-default";
+
+		var span = document.createElement('span');
+		span.className = "glyphicon glyphicon-wrench";
+		span.style = "color: black";
+
+		but_edit.appendChild(span);
+		new_row.appendChild(but1);
+		new_row.appendChild(but_edit);
+
+		table = document.getElementById(table_id);
+		table.appendChild(new_row);
+	}
+}
+
 function main() {
 	load_data();
 
