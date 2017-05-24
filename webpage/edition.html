@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Edition</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel='stylesheet' type='text/css' href="principal.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		
+		<nav class="navbar navbar-inverse fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>                        
+					</button>
+					<a class="navbar-brand" href="initial.html">WB</a>
+				</div>
+				<div class="collapse navbar-collapse" id="myNavbar">
+					<ul class="nav navbar-nav">
+						<li><a href="principal.html">Balades</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="contact.html"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>
+						<li><a href=""><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+			
+			<div class="container-fluid">
+				<div class="wb">
+					<h1>Walk in Brest</h1>
+					<p class="lead">L'objectif du projet est de fournir aux élèves du dispositif relais<br>un système qui leur permettra de s'impliquer dans un projet d'une<br> application de balade en réalité augmentée à Brest.</p>
+					<p><a href="principal.html" class="btn btn-default" role="button">Essayer</a></p>
+				</div>
+			</div>
+			<div id="divName"></div>
+			<script type="text/javascript">	
+				document.getElementById("divName").innerHTML = sessionStorage.getItem("divName");
+			</script>
+		</body>
+	</html>
