@@ -16,7 +16,7 @@ function setup_map(center, zoom) {
 	vectorLayer;
 }
 
-function addMarker(map, vectorLayer, location) {
+function add_marker(map, vectorLayer, location) {
 	var fromProjection = new OpenLayers.Projection("EPSG:4326");
 	var toProjection = new OpenLayers.Projection("EPSG:900913");
 
@@ -40,6 +40,6 @@ function refresh_markers(map, markersVectorLayer, balade) {
 
 	// add new markers
 	for (i = 0; balade && i < balade.length; i++) {
-		addMarker(map, markersVectorLayer, balade[i]);
+		add_marker(map, markersVectorLayer, balade[i]);
 	}
 }
