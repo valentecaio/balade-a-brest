@@ -24,8 +24,12 @@ function show_balade(name) {
 function go_to_edit_point(name) {
 	var point_to_save = searchByName(name, points);
 	var pointName = point_to_save.name;
-	sessionStorage.setItem("modalText", pointName);
-	//window.location = "edition.html";
+	var pointLat = point_to_save.lat;
+	var pointLon = point_to_save.lon;
+	sessionStorage.setItem("divName", pointName);
+	//sessionStorage.setItem("divLat", pointLat);
+	//sessionStorage.setItem("divLon", pointLon);
+	window.location = "edition.html";
 }
 
 // save balade and go to editBalade
@@ -35,7 +39,7 @@ function go_to_edit_balade(name) {
 }
 
 // draw all points in the map
-function show_all_points(name) {
+function show_all_points() {
 	refresh_markers(map, points);
 }
 
@@ -106,9 +110,9 @@ function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
 		var but_edit = document.createElement('button');
 		but_edit.style = "width:10%;height: 40px;";
 		but_edit.className = "btn btn-default";
-		//but_edit.setAttribute('onclick', onclick_but_edit + "('" + data[i].name + "')");
-		but_edit.setAttribute('data-toggle', 'modal');
-		but_edit.setAttribute('data-target', '#modalEdition');
+		but_edit.setAttribute('onclick', onclick_but_edit + "('" + data[i].name + "')");
+		//but_edit.setAttribute('data-toggle', 'modal');
+		//but_edit.setAttribute('data-target', '#modalEdition');
 
 
 		var span = document.createElement('span');
