@@ -1,5 +1,5 @@
 // search by name in global variables
-function searchByName(name, data) {
+function search_by_name(name, data) {
 	for (i in data) {
 		if (data[i].name == name) {
 			return data[i];
@@ -55,5 +55,5 @@ function get_all_balades() {
 			points: [points[4], points[5], points[2], points[3]]
 		}
 	]
-	return balades
+	return balades;
 }
