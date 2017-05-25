@@ -24,7 +24,8 @@ $resultat = $req->fetch();
 
 if ($resultat['id_usager']){
     $_SESSION['error'] = 'Usager déjà existant';
-
+    header('Location: login_s4php.php');
+    exit();
 }
 // Insertion du message à l'aide d'une requête préparée
 $req = $bdd->prepare('INSERT INTO usagers (nom, prenom, mot_de_passe, email) VALUES (:nom, :prenom, :mot_de_passe, :email)');

@@ -9,7 +9,7 @@
 		        document.getElementById("signup").inscriptionPassword.focus();
 		        return;
 		    }
-		    alert("OK");
+		    //alert("OK");
 		    document.getElementById("signup").submit();
 		}
 	</script>
@@ -45,10 +45,21 @@
 				</div>
 			</div>
 		</nav>
-		
+
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-6">			
+				<div class="col-sm-6">
+					<?php
+        				if (!empty($_SESSION['error'])){
+    				?>
+    					<div class="alert">
+    				<?php
+        					echo $_SESSION['error'];
+        					//unset($_SESSION['error']);
+        					session_destroy();
+    				?>
+   						</div>
+   					<?php } ?>		
 					<form class="form-signin" id="signin" action="login_script.php" method="post">
 						<h2 class="form-signin-heading">Se connecter</h2>
 						<label for="inputEmail" class="sr-only">Addresse e-mail</label>
@@ -63,9 +74,9 @@
 						<button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
 					</form>
 				</div>
-				<div class="col-sm-6">
-					
+				
 
+   				<div class="col-sm-6">
 					<form class="form-signin" id="signup" action="signup_script.php" method="post">
 						<h2 class="form-signin-heading">Inscription</h2>
 						<label for="inscriptionName" class="sr-only">Prénom</label>

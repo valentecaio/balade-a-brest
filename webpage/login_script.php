@@ -1,5 +1,7 @@
 <?php 
 
+session_start();
+
 // Connexion à la base de données
 try
 {
@@ -13,7 +15,7 @@ catch(Exception $e)
 $pass_hache = sha1($_POST['inputPassword']);
 
 // Vérification des identifiants
-$req = $bdd->prepare('SELECT id_usager, permission FROM usagers WHERE email = :email AND mot_de_passe = :mot_de_passe');
+$req = $bdd->prepare('SELECT id_usager, nom, prenom, permission FROM usagers WHERE email = :email AND mot_de_passe = :mot_de_passe');
 $req->execute(array(
     'email' => $_POST['inputEmail'],
     'mot_de_passe' => $pass_hache));
@@ -22,16 +24,17 @@ $resultat = $req->fetch();
 
 if (!$resultat)
 {
+    $_SESSION['error'] = 'Mauvais identifiant ou mot de passe';
     //echo nl2br('Mauvais identifiant ou mot de passe !\n');
-    header('Location: principal.php');
-    exit('Mauvais identifiant ou mot de passe !');
+    header('Location: login_s4php.php');
+    exit();
+    //exit('Mauvais identifiant ou mot de passe !');
 }
 else
 {
-    session_start();
-    if($resultat['permission'] == 'admin'){
-        $_SESSION['permission'] = $resultat['permission'];
-    }
+    $_SESSION['nom'] = $resultat['nom'];
+    $_SESSION['prenom'] = $resultat['prenom'];
+    $_SESSION['permission'] = $resultat['permission'];
     $_SESSION['id_usager'] = $resultat['id_usager'];
     $_SESSION['inputEmail'] = $_POST['inputEmail'];
     echo nl2br('Vous êtes connecté !\n');
