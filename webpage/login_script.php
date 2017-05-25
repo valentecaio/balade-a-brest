@@ -13,27 +13,29 @@ catch(Exception $e)
 $pass_hache = sha1($_POST['inputPassword']);
 
 // Vérification des identifiants
-$req = $bdd->prepare('SELECT id_usager FROM usagers WHERE email = :email AND mot_de_passe = :mot_de_passe');
+$req = $bdd->prepare('SELECT id_usager, permission FROM usagers WHERE email = :email AND mot_de_passe = :mot_de_passe');
 $req->execute(array(
     'email' => $_POST['inputEmail'],
-    'mot_de_passe' => $_POST['inputPassword']));
+    'mot_de_passe' => $pass_hache));
 
 $resultat = $req->fetch();
 
 if (!$resultat)
 {
-    echo 'Mauvais identifiant ou mot de passe !';
-    echo $_POST['inputEmail'];
-    echo $_POST['inputPassword'];
-    echo "OK";
+    //echo nl2br('Mauvais identifiant ou mot de passe !\n');
+    header('Location: principal.php');
+    exit('Mauvais identifiant ou mot de passe !');
 }
 else
 {
     session_start();
+    if($resultat['permission'] == 'admin'){
+        $_SESSION['permission'] = $resultat['permission'];
+    }
     $_SESSION['id_usager'] = $resultat['id_usager'];
     $_SESSION['inputEmail'] = $_POST['inputEmail'];
-    echo 'Vous êtes connecté !';
-    //  echo isset($_SESSION['id_usager']);
-header('Location: principal.php');
+    echo nl2br('Vous êtes connecté !\n');
+    echo $_SESSION['id_usager'];
+    header('Location: principal.php');
 }
 ?>

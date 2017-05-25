@@ -12,7 +12,14 @@ catch(Exception $e)
 
 // Hachage du mot de passe
 $pass_hache = sha1($_POST['inscriptionPassword']);
+/*
+$req = $bdd->prepare('SELECT id_usager FROM usagers WHERE email = :email');
+$req->execute(array(
+    'email' => $_POST['inscriptionEmail'],
+    'mot_de_passe' => $pass_hache));
 
+$resultat = $req->fetch();
+*/
 // Insertion du message à l'aide d'une requête préparée
 $req = $bdd->prepare('INSERT INTO usagers (nom, prenom, mot_de_passe, email) VALUES (:nom, :prenom, :mot_de_passe, :email)');
 $req->execute(array(
@@ -29,7 +36,7 @@ $req->execute(array(
 $resultat = $req->fetch();
 session_start();
     $_SESSION['id_usager'] = $resultat['id_usager'];
-    $_SESSION['inscriptionEmail'] = $POST['inscriptionEmail'];
+    $_SESSION['inscriptionEmail'] = $_POST['inscriptionEmail'];
     echo 'Vous êtes connecté !';
     echo $_SESSION['id_usager'];
    // header('Location: principal.php');
