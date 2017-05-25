@@ -51,7 +51,7 @@
 								<a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $_SESSION['prenom']." ".$_SESSION['nom']."  "?><span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li><a data-target="#myModal" data-toggle="modal" class="MainNavText" id="MainNavHelp" href="#myModal"><span class="glyphicon glyphicon-cog"></span>  Paramètres</a></li>
-									<li><a href="initial.html"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
+									<li><a href="logout_script.php"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
 								</ul>
 							</li>
 						<?php }else{ ?>
