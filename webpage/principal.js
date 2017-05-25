@@ -1,3 +1,6 @@
+// global variables
+var map, points, balades;
+
 // search by name in global variables
 function searchByName(name, data) {
 	for (i in data) {
@@ -45,12 +48,6 @@ function show_all_points() {
 
 // load points and balades from database
 function load_data() {
-	// load map without points
-	map = setup_map(center = {
-				lon: -4.50010299,
-				lat: 48.38423089
-			}, zoom = 14);
-
 	// create example points
 	points = [{
 			lon: -4.5250042190,
@@ -130,6 +127,12 @@ function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
 
 function main() {
 	load_data();
+
+	// load map without points
+	map = setup_map(center = {
+				lon: -4.50010299,
+				lat: 48.38423089
+			}, zoom = 14);
 
 	// add points and balades to tables
 	add_rows("points_list", points, "show_point", "go_to_edit_point");
