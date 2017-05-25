@@ -1,16 +1,16 @@
 // global variables
-var map, points, balades;
+var map, points, balades, markersVectorLayer;
 
 // draw a point in the map
 function show_point(name) {
 	var point_to_show = searchByName(name, points);
-	refresh_markers(map, [point_to_show]);
+	refresh_markers(map, markersVectorLayer, [point_to_show]);
 }
 
 // draw a balade in the map
 function show_balade(name) {
 	var balade_to_show = searchByName(name, balades);
-	refresh_markers(map, balade_to_show.points);
+	refresh_markers(map, markersVectorLayer, balade_to_show.points);
 }
 
 // save point and go to editPoint
@@ -33,7 +33,7 @@ function go_to_edit_balade(name) {
 
 // draw all points in the map
 function show_all_points() {
-	refresh_markers(map, points);
+	refresh_markers(map, markersVectorLayer, points);
 }
 
 // dinamically add rows to table
@@ -71,33 +71,11 @@ function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
 	}
 }
 
-// remove markers from map and put new ones
-function refresh_markers(map, balade) {
-	// remove old markers
-	if(map.layers[1]){
-		map.removeLayer(map.layers[1])
-	}
-	
-	// add new markers
-	var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
-	for (i=0; balade && i < balade.length; i++) {
-		var marker = new OpenLayers.Feature.Vector(
-				new OpenLayers.Geometry.Point(balade[i].lon, balade[i].lat).transform(epsg4326, projectTo), {
-				description: balade[i].name
-			}, {
-				externalGraphic: 'image_marker.png',
-				graphicHeight: 30,
-				graphicWidth: 30,
-				graphicXOffset: -12,
-				graphicYOffset: -25
-			});
-		vectorLayer.addFeatures(marker);
-	}
-	map.addLayer(vectorLayer);
-
+// add popup to markers
+function add_control_to_map() {
 	//Add a selector control to the vectorLayer with popup functions
 	var controls = {
-		selector: new OpenLayers.Control.SelectFeature(vectorLayer, {
+		selector: new OpenLayers.Control.SelectFeature(markersVectorLayer, {
 			onSelect: createPopup,
 			onUnselect: destroyPopup
 		})
@@ -127,14 +105,18 @@ function refresh_markers(map, balade) {
 }
 
 function main() {
-	points = get_all_points()
-	balades = get_all_balades()
-	
+	points = get_all_points();
+	balades = get_all_balades();
+
 	// load map without points
-	map = setup_map(center = {
+	map,
+	markersVectorLayer = setup_map(
+			center = {
 				lon: -4.50010299,
 				lat: 48.38423089
 			}, zoom = 14);
+
+	add_control_to_map();
 
 	// add points and balades to tables
 	add_rows("points_list", points, "show_point", "go_to_edit_point");
