@@ -126,17 +126,27 @@
 							<div id="point-interet" class="tab-pane fade in active">
 								<div class="container-fluid">
 									<div class="row list-group" id="points_list"></div>
-									<div class="btn-group" style="width:100%">
-										<a href="createPoint.html"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter point d'interêt</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
-									</div>		
+									
+									<?php
+										if(isset($_SESSION['id_usager'])){ ?>
+											<div class="btn-group" style="width:100%">
+												<a href="createPoint.html"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter point d'interêt</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
+											</div>		
+									<?php } ?>
+
 								</div>
 							</div>
 							<div id="balade" class="tab-pane fade">
 								<div class="container-fluid">
 									<div class="row list-group" id="balades_list"></div>
-									<div class="btn-group" style="width:100%">
-										<button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter balade</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button>
-									</div>
+
+									<?php
+										if(isset($_SESSION['id_usager'])){ ?>
+											<div class="btn-group" style="width:100%">
+												<button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter balade</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button>
+											</div>
+									<?php } ?>
+
 								</div>
 							</div>
 						</div>
