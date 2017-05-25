@@ -15,7 +15,7 @@ catch(Exception $e)
 $pass_hache = sha1($_POST['inputPassword']);
 
 // Vérification des identifiants
-$req = $bdd->prepare('SELECT id_usager, nom, prenom, permission FROM usagers WHERE email = :email AND mot_de_passe = :mot_de_passe');
+$req = $bdd->prepare('SELECT id_usager, nom, prenom, email, permission FROM usagers WHERE email = :email AND mot_de_passe = :mot_de_passe');
 $req->execute(array(
     'email' => $_POST['inputEmail'],
     'mot_de_passe' => $pass_hache));
@@ -36,7 +36,7 @@ else
     $_SESSION['prenom'] = $resultat['prenom'];
     $_SESSION['permission'] = $resultat['permission'];
     $_SESSION['id_usager'] = $resultat['id_usager'];
-    $_SESSION['inputEmail'] = $_POST['inputEmail'];
+    $_SESSION['email'] = $resultat['email'];
     echo nl2br('Vous êtes connecté !\n');
     echo $_SESSION['id_usager'];
     header('Location: principal.php');

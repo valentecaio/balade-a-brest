@@ -1,7 +1,16 @@
 <?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
+	<?php
+    if (!empty($_SESSION['error'])){
+        echo '<script type="text/javascript">alert("'.$_SESSION['error'].'");</script>';
+        //echo $_SESSION['error'];
+        //unset($_SESSION['error']);
+        session_destroy();
+        session_start();
+    } ?>
 
+	<?php ?>
 	<script type="text/javascript">
 		function ValidateForm(){
 		    if (document.getElementById("signup").inscriptionPassword.value != document.getElementById("signup").inscriptionPasswordCheck.value) {
@@ -49,17 +58,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-6">
-					<?php
-        				if (!empty($_SESSION['error'])){
-    				?>
-    					<div class="alert">
-    				<?php
-        					echo $_SESSION['error'];
-        					//unset($_SESSION['error']);
-        					session_destroy();
-    				?>
-   						</div>
-   					<?php } ?>		
+		
 					<form class="form-signin" id="signin" action="login_script.php" method="post">
 						<h2 class="form-signin-heading">Se connecter</h2>
 						<label for="inputEmail" class="sr-only">Addresse e-mail</label>
