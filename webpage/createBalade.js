@@ -1,73 +1,58 @@
 // global variables
-var map, points, destinations;
+var map, markersVectorLayer, points, destinations;
 destinations = [];
 
-// add points to map (with controller)
-function add_markers(map, balade) {
-	// add new markers
-	var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
-	for (i=0; balade && i < balade.length; i++) {
-		var marker = new OpenLayers.Feature.Vector(
-				new OpenLayers.Geometry.Point(balade[i].lon, balade[i].lat).transform(epsg4326, projectTo), {
-				description: balade[i].name
-			}, {
-				externalGraphic: 'image_marker.png',
-				graphicHeight: 30,
-				graphicWidth: 30,
-				graphicXOffset: -12,
-				graphicYOffset: -25
-			});
-		vectorLayer.addFeatures(marker);
-	}
-	map.addLayer(vectorLayer);
+// remove repeated values from an array
+// found at https://stackoverflow.com/questions/1584370/how-to-merge-two-arrays-in-javascript-and-de-duplicate-items
+function arrayUnique(array) {
+    var a = array.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j--, 1);
+        }
+    }
 
-	/*
+    return a;
+}
+
+// add points to map (with controller)
+function setup_click_listener() {
 	//Add a selector control to the vectorLayer with popup functions
 	var controls = {
-		selector: new OpenLayers.Control.SelectFeature(vectorLayer, {
-			onSelect: addDestination,
-			onUnselect: destroyPopup
+		selector: new OpenLayers.Control.SelectFeature(markersVectorLayer, {
+			onSelect: addDestination
 		})
 	};
 
 	function addDestination(feature) {
-		center = feature.geometry.getBounds().getCenterLonLat();
-		destinations.push({
-			lon: center.lon,
-			lat: center.lat,
-			name: "point3"
-		})
-		feature.popup = new OpenLayers.Popup.FramedCloud("pop",
-				feature.geometry.getBounds().getCenterLonLat(),
-				null,
-				'<div class="markerContent">' + feature.attributes.description + '</div>',
-				null,
-				true,
-				function () {
-				controls['selector'].unselectAll();
-			});
-		//feature.popup.closeOnMove = true;
-		map.addPopup(feature.popup);
-	}
-
-	function destroyPopup(feature) {
-		feature.popup.destroy();
-		feature.popup = null;
+		// get clicked point and add to destinations
+		var clicked_point = feature.attributes.point;
+		console.log(clicked_point)
+		destinations.push(clicked_point);
+		
+		// remove destination if already chosen before this event
+		destinations = arrayUnique(destinations);
 	}
 
 	map.addControl(controls['selector']);
 	controls['selector'].activate();
-	*/
 }
 
 function main() {
 	points = get_all_points();
 	
 	// load map without points
-	map = setup_map(center = {
+	map,
+	markersVectorLayer = setup_map(
+			center = {
 				lon: -4.50010299,
 				lat: 48.38423089
 			}, zoom = 14);
 	
-	add_markers(map, points);
+	// plot all points on map
+	refresh_markers(map, markersVectorLayer, points);
+	
+	// add click listener to markers
+	setup_click_listener();
 };

@@ -22,7 +22,8 @@ function add_marker(map, vectorLayer, location) {
 
 	var marker = new OpenLayers.Feature.Vector(
 			new OpenLayers.Geometry.Point(location.lon, location.lat).transform(fromProjection, toProjection), {
-			description: location.name
+			description: location.name,
+			point: location
 		}, {
 			externalGraphic: 'image_marker.png',
 			graphicHeight: 30,

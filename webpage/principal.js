@@ -3,19 +3,19 @@ var map, points, balades, markersVectorLayer;
 
 // draw a point in the map
 function show_point(name) {
-	var point_to_show = searchByName(name, points);
+	var point_to_show = search_by_name(name, points);
 	refresh_markers(map, markersVectorLayer, [point_to_show]);
 }
 
 // draw a balade in the map
 function show_balade(name) {
-	var balade_to_show = searchByName(name, balades);
+	var balade_to_show = search_by_name(name, balades);
 	refresh_markers(map, markersVectorLayer, balade_to_show.points);
 }
 
 // save point and go to editPoint
 function go_to_edit_point(name) {
-	var point_to_save = searchByName(name, points);
+	var point_to_save = search_by_name(name, points);
 	var pointName = point_to_save.name;
 	var pointLat = point_to_save.lat;
 	var pointLon = point_to_save.lon;
@@ -27,7 +27,7 @@ function go_to_edit_point(name) {
 
 // save balade and go to editBalade
 function go_to_edit_balade(name) {
-	var balade_to_save = searchByName(name, balades);
+	var balade_to_save = search_by_name(name, balades);
 	//TODO: finish this method
 }
 

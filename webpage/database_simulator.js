@@ -1,5 +1,5 @@
 // search by name in global variables
-function searchByName(name, data) {
+function search_by_name(name, data) {
 	for (i in data) {
 		if (data[i].name == name) {
 			return data[i];
