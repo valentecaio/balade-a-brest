@@ -45,7 +45,7 @@
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
-						<li><a href="principal.html">Balades</a></li>
+						<li><a href="principal.php">Balades</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="contact.html"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>
