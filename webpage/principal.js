@@ -46,50 +46,6 @@ function show_all_points() {
 	refresh_markers(map, points);
 }
 
-// load points and balades from database
-function load_data() {
-	// create example points
-	points = [{
-			lon: -4.5250042190,
-			lat: 48.382436270,
-			name: "point1"
-		}, {
-			lon: -4.5210042190,
-			lat: 48.386435270,
-			name: "point2"
-		}, {
-			lon: -4.5015042190,
-			lat: 48.394435270,
-			name: "point3"
-		}, {
-			lon: -4.5116742190,
-			lat: 48.39236270,
-			name: "point4"
-		}, {
-			lon: -4.5010042190,
-			lat: 48.392435270,
-			name: "point5"
-		}, {
-			lon: -4.5210042190,
-			lat: 48.382435270,
-			name: "point6"
-		}
-	]
-
-	// create example strolls (balades)
-	balades = [{
-			name: 'balade1',
-			points: [points[0], points[1], points[2], points[3]]
-		}, {
-			name: 'balade2',
-			points: [points[0], points[1], points[4], points[5]]
-		}, {
-			name: 'balade3',
-			points: [points[4], points[5], points[2], points[3]]
-		}
-	]
-}
-
 // dinamically add rows to table
 // data must be an iterable object where each entry has a attribute name
 function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
@@ -126,8 +82,9 @@ function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
 }
 
 function main() {
-	load_data();
-
+	points = get_all_points()
+	balades = get_all_balades()
+	
 	// load map without points
 	map = setup_map(center = {
 				lon: -4.50010299,
