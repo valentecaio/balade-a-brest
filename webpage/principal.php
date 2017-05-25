@@ -27,13 +27,13 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>                        
 					</button>
-					<a class="navbar-brand" href="initial.html">WB</a>
+					<a class="navbar-brand" href="initial.php">WB</a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Balades</a></li>
 						<?php
-							if(isset($_SESSION['id_usagerd'])){
+							if(isset($_SESSION['id_usager'])){
 								if(strcmp($_SESSION['permission'], "admin") == 0 ){ //if permission == "admin" the dropdown is shown ?>
 									<li class="dropdown">
 										<a class="dropdown-toggle" data-toggle="dropdown" href="#">Suggestions <span class="caret"></span></a>
@@ -45,7 +45,7 @@
 						<?php }} ?>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="contact.html"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>
+						<li><a href="contact.php"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>
 						<?php 
 						if(isset($_SESSION['id_usager'])){?>
 							<li class="dropdown">
@@ -71,8 +71,8 @@
 						        <div class="modal-body" id="modalText"></div>
 						        	<form class="form-horizontal" action="modSettings.php" method="POST">
 							        	<div class="form-group">
-										    <label class="control-label col-sm-4" for="name">Email:</label>
-										    <label class="control-label col-sm-4" for="name"><?php echo $_SESSION['email']?></label>
+										    <label class="control-label col-sm-4" for="email">Email:</label>
+										    <label class="control-label col-sm-4" for="email"><?php echo $_SESSION['email']?></label>
 										</div>
 										<div class="form-group">
 										    <label class="control-label col-sm-4" for="name">Prénom:</label>
@@ -130,7 +130,7 @@
 									<?php
 										if(isset($_SESSION['id_usager'])){ ?>
 											<div class="btn-group" style="width:100%">
-												<a href="createPoint.html"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter point d'interêt</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
+												<a href="createPoint.php"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter point d'interêt</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
 											</div>		
 									<?php } ?>
 
@@ -143,7 +143,7 @@
 									<?php
 										if(isset($_SESSION['id_usager'])){ ?>
 											<div class="btn-group" style="width:100%">
-												<button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter balade</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button>
+												<a href="createBalade.php"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter balade</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
 											</div>
 									<?php } ?>
 
