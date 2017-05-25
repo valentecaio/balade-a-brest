@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Create Balade</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="jquery.min.js"></script>
+  		<script src="bootstrap.min.js"></script>
+		<link rel='stylesheet' type='text/css' href="principal.css">
+		<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+		<script>
+			var map,markers,point_clicked;
+
+			points = [{
+					lon: -4.5250042190,
+					lat: 48.382436270,
+					name: "point1"
+				}, {
+					lon: -4.5210042190,
+					lat: 48.386435270,
+					name: "point2"
+				}, {
+					lon: -4.5015042190,
+					lat: 48.394435270,
+					name: "point3"
+				}, {
+					lon: -4.5116742190,
+					lat: 48.39236270,
+					name: "point4"
+				}, {
+					lon: -4.5010042190,
+					lat: 48.392435270,
+					name: "point5"
+				}, {
+					lon: -4.5210042190,
+					lat: 48.382435270,
+					name: "point6"
+				}
+			]
+			var zoom = 14;
+			var curpos = new Array();
+			
+			var tanguy_tower = [48.383410, -4.496798]
+			
+			var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+			var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+			
+			var cntrposition = new OpenLayers.LonLat(tanguy_tower[1], tanguy_tower[0]).transform( fromProjection, toProjection);
+			var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
+			
+			for (i=0; points && i < points.length; i++) {
+			var marker = new OpenLayers.Feature.Vector(
+				new OpenLayers.Geometry.Point(points[i].lon, points[i].lat).transform(fromProjection, toProjection), {
+				description: points[i].lat
+			}, {
+				externalGraphic: 'image_marker.png',
+				graphicHeight: 30,
+				graphicWidth: 30,
+				graphicXOffset: -12,
+				graphicYOffset: -25
+			});
+			vectorLayer.addFeatures(marker);
+			}
+			
+			function init()
+			{
+				map = new OpenLayers.Map("Map");
+				markers = new OpenLayers.Layer.Markers("Markers");
+				
+				var mapnik = new OpenLayers.Layer.OSM("MAP"); 
+				
+				map.addLayers([mapnik,markers]);
+				map.setCenter(cntrposition, zoom);
+				map.addLayer(vectorLayer);
+				
+				var click = new OpenLayers.Control.Click();
+				map.addControl(click);
+				click.activate();
+			};
+		</script>
+	</head>
+	
+	<body onload="init();">
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>                        
+					</button>
+					<a class="navbar-brand" href="initial.html">WB</a>
+				</div>
+				<div class="collapse navbar-collapse" id="myNavbar">
+					<ul class="nav navbar-nav">
+						<li><a href="principal.html">Balades</a></li>
+						<li class="active"><a href="">Paramètres</a></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="contact.html"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>
+						<li><a href="login_s4.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+					</ul>
+				</div>
+			</nav>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-4">
+					<form class="form-horizontal">
+  						<div class="form-group">
+    						<label class="control-label col-sm-3" for="form_name" style="text-align: right;">Nom:</label>
+    						<div class="col-sm-9">
+      							<input type="text" class="form-control" id="form_name" placeholder="Entrez le nom de la nouvelle balade ">
+    						</div>
+  						</div>
+  						<div class="form-group">
+    						<label class="control-label col-sm-3" for="form_name" style="text-align: right;">Thème:</label>
+    						<div class="col-sm-9">
+      							<input type="text" class="form-control" id="form_theme" placeholder="Entrez le thème de la nouvelle balade ">
+    						</div>
+  						</div>
+  					</form>
+  					<div class="form-group">
+  						<label for="comment">Description:</label>
+  						<textarea class="form-control" rows="5" id="comment" placeholder="Donnez une description de la nouvelle balade"></textarea>
+					</div>
+			  		<div class="row"> 
+			    		<div class="col-sm-6 pull-right">
+			    			<button type="submit" class="btn btn-default">Supprimer</button>
+			    			<button type="submit" class="btn" data-toggle="modal" data-target="#myModal">Envoyer</button>
+			    		</div>
+			    		<!-- Modal -->
+						<div class="modal fade" id="myModal" role="dialog">
+						    <div class="modal-dialog">
+						    	<!-- Modal content-->
+						      	<div class="modal-content">
+							        <div class="modal-header">
+							        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+							        	<h4 class="modal-title">Message enregistrée</h4>
+							        </div>
+							        <div class="modal-body">
+							        	<h4 >Votre message sera annalisée par le gestionnaire du site.</h4>
+							        </div>
+							        <div class="modal-footer">
+							        	<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+							        </div>
+						      </div>
+						    </div>
+						</div>									      	
+			    	</div>
+			  	</div>
+				<div class="col-sm-8">
+					<div style="width:100%; height:550px" id='Map'></div>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+</html>
