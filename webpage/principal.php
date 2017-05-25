@@ -44,7 +44,7 @@
 						if(isset($_SESSION['id_usager'])){?>
 							<li><a href="logout_script.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li> 
 						<?php }else{ ?>
-							<li><a href="login_s4.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+							<li><a href="login_s4php.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 						<?php } ?>
 					</ul>
 				</div>
