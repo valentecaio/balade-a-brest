@@ -17,8 +17,7 @@ $pass_hache = sha1($_POST['inscriptionPassword']);
 
 $req = $bdd->prepare('SELECT id_usager FROM usagers WHERE email = :email');
 $req->execute(array(
-    'email' => $_POST['inscriptionEmail'],
-    'mot_de_passe' => $pass_hache));
+    'email' => $_POST['inscriptionEmail']));
 
 $resultat = $req->fetch();
 
@@ -35,15 +34,17 @@ $req->execute(array(
     'mot_de_passe' => $pass_hache,
     'email' => $_POST['inscriptionEmail']));
 
-$req = $bdd->prepare('SELECT id_usager FROM usagers WHERE email = :email AND mot_de_passe = :mot_de_passe');
+$req = $bdd->prepare('SELECT id_usager, nom, prenom, permission, email,  FROM usagers WHERE email = :email AND mot_de_passe = :mot_de_passe');
 $req->execute(array(
     'email' => $_POST['inscriptionEmail'],
     'mot_de_passe' => $pass_hache));
 
 $resultat = $req->fetch();
-
+    $_SESSION['nom'] = $resultat['nom'];
+    $_SESSION['prenom'] = $resultat['prenom'];
+    $_SESSION['permission'] = $resultat['permission'];
     $_SESSION['id_usager'] = $resultat['id_usager'];
-    $_SESSION['inscriptionEmail'] = $_POST['inscriptionEmail'];
+    $_SESSION['email'] = $resultat['email'];
     //echo 'Vous êtes connecté !';
     //echo $_SESSION['id_usager'];
     header('Location: principal.php');
