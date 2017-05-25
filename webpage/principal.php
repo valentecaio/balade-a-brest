@@ -1,4 +1,7 @@
-<?php session_start();?>
+<?php 
+	session_start();
+	include 'principalJS.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -12,7 +15,7 @@
 		<script src="bootstrap.min.js"></script>
 		<script src="OpenLayers.js"></script>
 		<script src='markers.js' style="padding-top: 20px" ></script>
-		<script src='principal.js' style="padding-top: 20px" ></script>
+		
 	</head>
 	
 	<body>

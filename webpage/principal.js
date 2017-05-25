@@ -100,7 +100,7 @@ function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
 		var new_row = document.createElement('div');
 		new_row.className = "btn-group";
 		new_row.style = "width:100%";
-
+		
 		var but1 = document.createElement('button');
 		but1.style = "width:90%;height: 40px; text-align: left; color: black;";
 		but1.className = "btn btn-default";
@@ -113,7 +113,6 @@ function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
 		but_edit.setAttribute('onclick', onclick_but_edit + "('" + data[i].name + "')");
 		//but_edit.setAttribute('data-toggle', 'modal');
 		//but_edit.setAttribute('data-target', '#modalEdition');
-
 
 		var span = document.createElement('span');
 		span.className = "glyphicon glyphicon-wrench";
