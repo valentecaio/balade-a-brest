@@ -4,6 +4,22 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
+	<script type="text/javascript">
+		function ValidateForm(){
+		    if (document.getElementById("modif").newPassword.value != document.getElementById("modif").confirmPassword.value) {
+		        alert("Les deux mots de passe doivent être égaux");
+		        document.getElementById("modif").inscriptionPassword.focus();
+		        return;
+		    }else if(document.getElementById("modif").password.value == document.getElementById("modif").confirmPassword.value){
+		    	alert("Le nouveau mot de passe doit être différent de l'actuel");
+		        document.getElementById("modif").inscriptionPassword.focus();
+		        return;
+		    }
+		    //alert("OK");
+		    document.getElementById("modif").submit();
+		}
+	</script>
+
 	<head>
 		<title>Balades</title>
 		<meta charset="utf-8">
@@ -68,10 +84,10 @@
 						        	<h4 class="modal-title">Modifier paramètres du compte</h4>
 						        </div>
 						        <div class="modal-body" id="modalText"></div>
-						        	<form class="form-horizontal" action="modSettings.php" method="POST">
+						        	<form class="form-horizontal" id=modif action="mod_settings.php" method="post">
 							        	<div class="form-group">
-										    <label class="control-label col-sm-4" for="name">Email:</label>
-										    <label class="control-label col-sm-4" for="name"><?php echo $_SESSION['email']?></label>
+										    <label class="control-label col-sm-4" for="email">Email:</label>
+										    <label class="control-label col-sm-4" for="email"><?php echo $_SESSION['email']?></label>
 										</div>
 										<div class="form-group">
 										    <label class="control-label col-sm-4" for="name">Prénom:</label>
@@ -86,9 +102,9 @@
 										    </div>
 										</div>
 										<div class="form-group">
-										    <label class="control-label col-sm-4" for="password">Mot de passe:</label>
+										    <label class="control-label col-sm-4" for="oldPassword">Mot de passe:</label>
 										    <div class="col-sm-7"> 
-										      	<input type="password" class="form-control" id="password">
+										      	<input type="password" class="form-control" id="old_Password">
 										    </div>
 										</div>
 										<div class="form-group">
@@ -105,7 +121,7 @@
 										</div>
 									</form>
 						        <div class="modal-footer">
-						        	<button type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
+						        	<button type="button" class="btn btn-default" onClick="ValidateForm()" data-dismiss="modal">Submit</button>
 						        </div>
 					      </div>
 					    </div>

@@ -13,7 +13,6 @@
         session_start();
     } ?>
 
-	<?php ?>
 	<script type="text/javascript">
 		function ValidateForm(){
 		    if (document.getElementById("signup").inscriptionPassword.value != document.getElementById("signup").inscriptionPasswordCheck.value) {
