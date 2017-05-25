@@ -55,5 +55,5 @@ function get_all_balades() {
 			points: [points[4], points[5], points[2], points[3]]
 		}
 	]
-	return balades
+	return balades;
 }

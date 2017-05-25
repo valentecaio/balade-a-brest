@@ -55,4 +55,4 @@ function main() {
 	
 	// add click listener to markers
 	setup_click_listener();
-};
+}
