@@ -1,26 +1,15 @@
-function init_map(cntrposition, zoom) {
-	map = new OpenLayers.Map("Map");
+// global variables
+var map, markers, point_clicked;
+
+function main() {
+	// load map without points
+	map = setup_map(center = {
+				lon: -4.496798,
+				lat: 48.38423089
+			}, zoom = 16);
+
 	markers = new OpenLayers.Layer.Markers("Markers");
-
-	var mapnik = new OpenLayers.Layer.OSM("MAP");
-
-	map.addLayers([mapnik, markers]);
-	map.setCenter(cntrposition, zoom);
-
-	var click = new OpenLayers.Control.Click();
-	map.addControl(click);
-	click.activate();
-}
-
-function main_createPoint() {
-	var zoom = 16;
-	var tanguy_tower = [48.383410, -4.496798]
-	var cntrposition = new OpenLayers.LonLat(tanguy_tower[1], tanguy_tower[0]).transform(fromProjection, toProjection);
-	
-	var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform from WGS 1984
-	var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-
-	init_map(cntrposition, zoom);
+	map.addLayer(markers);
 
 	OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
 			defaultHandlerOptions: {
@@ -42,13 +31,16 @@ function main_createPoint() {
 			},
 
 			trigger: function (e) {
+				var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+				var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+
 				// get point values
 				var lonlat = map.getLonLatFromPixel(e.xy);
 				point_clicked = new OpenLayers.LonLat(lonlat.lon, lonlat.lat).transform(toProjection, fromProjection);
 
 				// remove old markers
 				if (map.layers[1]) {
-					map.layers[1].clearMarkers()
+					map.layers[1].clearMarkers();
 				}
 
 				// add marker to map
@@ -56,9 +48,13 @@ function main_createPoint() {
 				markers.addMarker(new OpenLayers.Marker(new_position));
 
 				// add point data to form boxes
-				document.getElementById("form_latitude").value = point_clicked.lat
-					document.getElementById("form_longitude").value = point_clicked.lon
+				document.getElementById("form_latitude").value = point_clicked.lat;
+				document.getElementById("form_longitude").value = point_clicked.lon;
 			}
 
 		});
+
+	var click = new OpenLayers.Control.Click();
+	map.addControl(click);
+	click.activate();
 }
