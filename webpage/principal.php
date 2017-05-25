@@ -1,4 +1,7 @@
-<?php session_start();?>
+<?php 
+	session_start();
+	include 'principalJS.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -12,7 +15,7 @@
 		<script src="bootstrap.min.js"></script>
 		<script src="OpenLayers.js"></script>
 		<script src='markers.js' style="padding-top: 20px" ></script>
-		<script src='principal.js' style="padding-top: 20px" ></script>
+		
 	</head>
 	
 	<body>
@@ -29,14 +32,16 @@
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Balades</a></li>
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#">Suggestions
-							<span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Parcours</a></li>
-								<li><a href="#">Ajouts</a></li>
-							</ul>
-						</li>
+						<?php
+							if(strcmp($_SESSION['permission'], "admin") == 0 ){ //if permission == "admin" the dropdown is shown ?>
+								<li class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" href="#">Suggestions <span class="caret"></span></a>
+									<ul class="dropdown-menu">
+										<li><a href="#">Parcours</a></li>
+										<li><a href="#">Ajouts</a></li>
+									</ul>
+								</li>
+						<?php } ?>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="contact.html"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>
@@ -53,6 +58,58 @@
 							<li><a href="login_s4php.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 						<?php } ?>
 					</ul>
+					<!-- Modal -->
+					<div class="modal fade" id="myModal" role="dialog">
+					    <div class="modal-dialog">
+					    	<!-- Modal content-->
+					      	<div class="modal-content">
+						        <div class="modal-header">
+						        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+						        	<h4 class="modal-title">Modifier paramètres du compte</h4>
+						        </div>
+						        <div class="modal-body" id="modalText"></div>
+						        	<form class="form-horizontal" action="modSettings.php" method="POST">
+							        	<div class="form-group">
+										    <label class="control-label col-sm-4" for="name">Email:</label>
+										    <label class="control-label col-sm-4" for="name"><?php echo $_SESSION['email']?></label>
+										</div>
+										<div class="form-group">
+										    <label class="control-label col-sm-4" for="name">Prénom:</label>
+										    <div class="col-sm-7">
+										    	<input type="text" class="form-control" id="name" value=<?php echo $_SESSION['prenom']?>>
+										    </div>
+										</div>
+										<div class="form-group">
+										    <label class="control-label col-sm-4" for="surname">Nom:</label>
+										    <div class="col-sm-7"> 
+										      	<input type="text" class="form-control" id="surname" value=<?php echo $_SESSION['nom']?>>
+										    </div>
+										</div>
+										<div class="form-group">
+										    <label class="control-label col-sm-4" for="password">Mot de passe:</label>
+										    <div class="col-sm-7"> 
+										      	<input type="password" class="form-control" id="password">
+										    </div>
+										</div>
+										<div class="form-group">
+										    <label class="control-label col-sm-4" for="newPassword">Nouveau mot de passe:</label>
+										    <div class="col-sm-7"> 
+										      	<input type="password" class="form-control" id="newPassword">
+										    </div>
+										</div>
+										<div class="form-group">
+										    <label class="control-label col-sm-4" for="confirmPassword">Confirmer mot de passe:</label>
+										    <div class="col-sm-7"> 
+									      		<input type="password" class="form-control" id="confirmPassword">
+										    </div>
+										</div>
+									</form>
+						        <div class="modal-footer">
+						        	<button type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
+						        </div>
+					      </div>
+					    </div>
+					</div>
 				</div>
 			</nav>
 			
@@ -70,58 +127,6 @@
 									<div class="row list-group" id="points_list"></div>
 									<div class="btn-group" style="width:100%">
 										<a href="createPoint.html"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter point d'interêt</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
-									</div>
-									<!-- Modal -->
-									<div class="modal fade" id="myModal" role="dialog">
-									    <div class="modal-dialog">
-									    	<!-- Modal content-->
-									      	<div class="modal-content">
-										        <div class="modal-header">
-										        	<button type="button" class="close" data-dismiss="modal">&times;</button>
-										        	<h4 class="modal-title">Modifier paramètres du compte</h4>
-										        </div>
-										        <div class="modal-body" id="modalText"></div>
-										        	<form class="form-horizontal">
-											        	<div class="form-group">
-														    <label class="control-label col-sm-4" for="name">Email:</label>
-														    <label class="control-label col-sm-4" for="name"><?php echo $_SESSION['inputEmail']?></label>
-														</div>
-														<div class="form-group">
-														    <label class="control-label col-sm-4" for="name">Prénom:</label>
-														    <div class="col-sm-7">
-														    	<input type="text" class="form-control" id="name" placeholder=<?php echo $_SESSION['prenom']?>>
-														    </div>
-														</div>
-														<div class="form-group">
-														    <label class="control-label col-sm-4" for="surname">Nom:</label>
-														    <div class="col-sm-7"> 
-														      	<input type="text" class="form-control" id="surname" placeholder=<?php echo $_SESSION['nom']?>>
-														    </div>
-														</div>
-														<div class="form-group">
-														    <label class="control-label col-sm-4" for="password">Mot de passe:</label>
-														    <div class="col-sm-7"> 
-														      	<input type="password" class="form-control" id="password">
-														    </div>
-														</div>
-														<div class="form-group">
-														    <label class="control-label col-sm-4" for="newPassword">Nouveau mot de passe:</label>
-														    <div class="col-sm-7"> 
-														      	<input type="password" class="form-control" id="newPassword">
-														    </div>
-														</div>
-														<div class="form-group">
-														    <label class="control-label col-sm-4" for="confirmPassword">Confirmer mot de passe:</label>
-														    <div class="col-sm-7"> 
-													      		<input type="password" class="form-control" id="confirmPassword">
-														    </div>
-														</div>
-													</form>
-										        <div class="modal-footer">
-										        	<button type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
-										        </div>
-									      </div>
-									    </div>
 									</div>		
 								</div>
 							</div>
