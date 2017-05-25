@@ -1,4 +1,14 @@
-// simulates loading points from database
+// search by name in global variables
+function searchByName(name, data) {
+	for (i in data) {
+		if (data[i].name == name) {
+			return data[i];
+		}
+	}
+	return null;
+}
+
+// simulate loading points from database
 function get_all_points() {
 	// create example points
 	var points = [{

@@ -1,68 +1,73 @@
+// global variables
+var map, points, destinations;
+destinations = [];
 
-var map, markers, point_clicked;
-
-points = [{
-		lon: -4.5250042190,
-		lat: 48.382436270,
-		name: "point1"
-	}, {
-		lon: -4.5210042190,
-		lat: 48.386435270,
-		name: "point2"
-	}, {
-		lon: -4.5015042190,
-		lat: 48.394435270,
-		name: "point3"
-	}, {
-		lon: -4.5116742190,
-		lat: 48.39236270,
-		name: "point4"
-	}, {
-		lon: -4.5010042190,
-		lat: 48.392435270,
-		name: "point5"
-	}, {
-		lon: -4.5210042190,
-		lat: 48.382435270,
-		name: "point6"
+// add points to map (with controller)
+function add_markers(map, balade) {
+	// add new markers
+	var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
+	for (i=0; balade && i < balade.length; i++) {
+		var marker = new OpenLayers.Feature.Vector(
+				new OpenLayers.Geometry.Point(balade[i].lon, balade[i].lat).transform(epsg4326, projectTo), {
+				description: balade[i].name
+			}, {
+				externalGraphic: 'image_marker.png',
+				graphicHeight: 30,
+				graphicWidth: 30,
+				graphicXOffset: -12,
+				graphicYOffset: -25
+			});
+		vectorLayer.addFeatures(marker);
 	}
-]
-var zoom = 14;
-var curpos = new Array();
+	map.addLayer(vectorLayer);
 
-var tanguy_tower = [48.383410, -4.496798]
+	/*
+	//Add a selector control to the vectorLayer with popup functions
+	var controls = {
+		selector: new OpenLayers.Control.SelectFeature(vectorLayer, {
+			onSelect: addDestination,
+			onUnselect: destroyPopup
+		})
+	};
 
-var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform from WGS 1984
-var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+	function addDestination(feature) {
+		center = feature.geometry.getBounds().getCenterLonLat();
+		destinations.push({
+			lon: center.lon,
+			lat: center.lat,
+			name: "point3"
+		})
+		feature.popup = new OpenLayers.Popup.FramedCloud("pop",
+				feature.geometry.getBounds().getCenterLonLat(),
+				null,
+				'<div class="markerContent">' + feature.attributes.description + '</div>',
+				null,
+				true,
+				function () {
+				controls['selector'].unselectAll();
+			});
+		//feature.popup.closeOnMove = true;
+		map.addPopup(feature.popup);
+	}
 
-var cntrposition = new OpenLayers.LonLat(tanguy_tower[1], tanguy_tower[0]).transform(fromProjection, toProjection);
-var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
+	function destroyPopup(feature) {
+		feature.popup.destroy();
+		feature.popup = null;
+	}
 
-for (i = 0; points && i < points.length; i++) {
-	var marker = new OpenLayers.Feature.Vector(
-			new OpenLayers.Geometry.Point(points[i].lon, points[i].lat).transform(fromProjection, toProjection), {
-			description: points[i].lat
-		}, {
-			externalGraphic: 'image_marker.png',
-			graphicHeight: 30,
-			graphicWidth: 30,
-			graphicXOffset: -12,
-			graphicYOffset: -25
-		});
-	vectorLayer.addFeatures(marker);
+	map.addControl(controls['selector']);
+	controls['selector'].activate();
+	*/
 }
 
 function main() {
-	map = new OpenLayers.Map("Map");
-	markers = new OpenLayers.Layer.Markers("Markers");
-
-	var mapnik = new OpenLayers.Layer.OSM("MAP");
-
-	map.addLayers([mapnik, markers]);
-	map.setCenter(cntrposition, zoom);
-	map.addLayer(vectorLayer);
-
-	var click = new OpenLayers.Control.Click();
-	map.addControl(click);
-	click.activate();
+	points = get_all_points();
+	
+	// load map without points
+	map = setup_map(center = {
+				lon: -4.50010299,
+				lat: 48.38423089
+			}, zoom = 14);
+	
+	add_markers(map, points);
 };
