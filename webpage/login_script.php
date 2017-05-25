@@ -41,4 +41,6 @@ else
     echo $_SESSION['id_usager'];
     header('Location: principal.php');
 }
+
+$req->closeCursor();
 ?>

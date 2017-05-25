@@ -2,7 +2,10 @@
 <!DOCTYPE html>
 <html lang="en">
 	<?php
-    if (!empty($_SESSION['error'])){
+	if (isset($_SESSION['id_usager'])){
+		header('Location: principal.php');
+		exit();
+    }else if (!empty($_SESSION['error'])){
         echo '<script type="text/javascript">alert("'.$_SESSION['error'].'");</script>';
         //echo $_SESSION['error'];
         //unset($_SESSION['error']);
@@ -45,7 +48,7 @@
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav">
-						<li><a href="principal.html">Balades</a></li>
+						<li><a href="principal.php">Balades</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="contact.html"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>
