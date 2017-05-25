@@ -30,7 +30,7 @@ if (strcmp($resultat['mot_de_passe'], $pass_hache) != 0){
     //exit('Mauvais identifiant ou mot de passe !');
 }else{
 	$req->closeCursor();
-
+	echo "OK2";
 	$req = $bdd->prepare('UPDATE usagers SET nom = :nom, prenom = :prenom WHERE id_usager = :id_usager');
 	$req->execute(array(
 		'nom' => $_POST['surname'],
