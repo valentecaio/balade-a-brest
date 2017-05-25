@@ -31,7 +31,7 @@ function go_to_edit_point(name) {
 	sessionStorage.setItem("divName", pointName);
 	//sessionStorage.setItem("divLat", pointLat);
 	//sessionStorage.setItem("divLon", pointLon);
-	window.location = "edition.html";
+	window.location = "";
 }
 
 // save balade and go to editBalade
@@ -103,33 +103,32 @@ function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
 		new_row.className = "btn-group";
 		new_row.style = "width:100%";
 		<?php
-			if(isset($_SESSION['id_usagerd'])){
-				if(strcmp($_SESSION['permission'], "admin") == 0 ){ ?>
-					var but1 = document.createElement('button');
-					but1.style = "width:90%;height: 40px; text-align: left; color: black;";
-					but1.className = "btn btn-default";
-					but1.innerHTML = data[i].name;
-					but1.setAttribute('onclick', onclick_but1 + "('" + data[i].name + "')");
+			if(isset($_SESSION['id_usager'])&&(strcmp($_SESSION['permission'], "admin") == 0 )){ ?>
+				var but1 = document.createElement('button');
+				but1.style = "width:90%;height: 40px; text-align: left; color: black;";
+				but1.className = "btn btn-default";
+				but1.innerHTML = data[i].name;
+				but1.setAttribute('onclick', onclick_but1 + "('" + data[i].name + "')");
 
-					var but_edit = document.createElement('button');
-					but_edit.style = "width:10%;height: 40px;";
-					but_edit.className = "btn btn-default";
-					but_edit.setAttribute('onclick', onclick_but_edit + "('" + data[i].name + "')");
-					//but_edit.setAttribute('data-toggle', 'modal');
-					//but_edit.setAttribute('data-target', '#modalEdition');
+				var but_edit = document.createElement('button');
+				but_edit.style = "width:10%;height: 40px;";
+				but_edit.className = "btn btn-default";
+				but_edit.setAttribute('onclick', onclick_but_edit + "('" + data[i].name + "')");
+				//but_edit.setAttribute('data-toggle', 'modal');
+				//but_edit.setAttribute('data-target', '#modalEdition');
 
-					var span = document.createElement('span');
-					span.className = "glyphicon glyphicon-wrench";
-					span.style = "color: black";
+				var span = document.createElement('span');
+				span.className = "glyphicon glyphicon-wrench";
+				span.style = "color: black";
 
-					but_edit.appendChild(span);
-					new_row.appendChild(but1);
-					new_row.appendChild(but_edit);
+				but_edit.appendChild(span);
+				new_row.appendChild(but1);
+				new_row.appendChild(but_edit);
 
-					table = document.getElementById(table_id);
-					table.appendChild(new_row);
+				table = document.getElementById(table_id);
+				table.appendChild(new_row);
 
-		<?php }} else { ?>
+		<?php } else { ?>
 				var but1 = document.createElement('button');
 				but1.style = "width:100%;height: 40px; text-align: left; color: black;";
 				but1.className = "btn btn-default";
