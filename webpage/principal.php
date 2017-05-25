@@ -33,15 +33,16 @@
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Balades</a></li>
 						<?php
-							if(strcmp($_SESSION['permission'], "admin") == 0 ){ //if permission == "admin" the dropdown is shown ?>
-								<li class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" href="#">Suggestions <span class="caret"></span></a>
-									<ul class="dropdown-menu">
-										<li><a href="#">Parcours</a></li>
-										<li><a href="#">Ajouts</a></li>
-									</ul>
-								</li>
-						<?php } ?>
+							if(isset($_SESSION['id_usagerd'])){
+								if(strcmp($_SESSION['permission'], "admin") == 0 ){ //if permission == "admin" the dropdown is shown ?>
+									<li class="dropdown">
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#">Suggestions <span class="caret"></span></a>
+										<ul class="dropdown-menu">
+											<li><a href="#">Parcours</a></li>
+											<li><a href="#">Ajouts</a></li>
+										</ul>
+									</li>
+						<?php }} ?>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="contact.html"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>
