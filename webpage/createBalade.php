@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php
+	session_start();
+	include 'createBaladeJS.php';
+?>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -10,8 +13,7 @@
   		<script src="bootstrap.min.js"></script>
 		<link rel='stylesheet' type='text/css' href="principal.css">
 		<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
-		<script src="createBalade.js"></script>
-		<script src="markers.js"></script>
+		<script src="markersBalade.js"></script>
 		<script src='database_simulator.js'></script>
 	</head>
 	
@@ -33,13 +35,18 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="contact.php"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $_SESSION['prenom']." ".$_SESSION['nom']."  "?><span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a data-target="#myModal" data-toggle="modal" class="MainNavText" id="MainNavHelp" href="#myModal"><span class="glyphicon glyphicon-cog"></span>  Paramètres</a></li>
-								<li><a href="logout_script.php"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
-							</ul>
-						</li>
+						<?php 
+						if(isset($_SESSION['id_usager'])){?>
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $_SESSION['prenom']." ".$_SESSION['nom']."  "?><span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li><a data-target="#myModal" data-toggle="modal" class="MainNavText" id="MainNavHelp" href="#myModal"><span class="glyphicon glyphicon-cog"></span>  Paramètres</a></li>
+									<li><a href="logout_script.php"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
+								</ul>
+							</li>
+						<?php }else{ ?>
+							<li><a href="login_s4php.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+						<?php } ?>
 					</ul>
 					<!-- Modal -->
 					<div class="modal fade" id="myModal" role="dialog">
@@ -116,6 +123,7 @@
   						<label for="comment">Description:</label>
   						<textarea class="form-control" rows="5" id="comment" placeholder="Donnez une description de la nouvelle balade"></textarea>
 					</div>
+					<div class="row list-group" id="points_list"></div>
 			  		<div class="row"> 
 			    		<div class="col-sm-6 pull-right">
 			    			<button type="submit" class="btn btn-default">Supprimer</button>

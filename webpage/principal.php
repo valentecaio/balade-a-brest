@@ -26,7 +26,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel='stylesheet' type='text/css' href="principal.css">
-		
 		<script src="jquery.min.js"></script>
 		<script src="bootstrap.min.js"></script>
 		<script src="OpenLayers.js"></script>
@@ -49,8 +48,7 @@
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Balades</a></li>
 						<?php
-							if(isset($_SESSION['id_usager'])){
-								if(strcmp($_SESSION['permission'], "admin") == 0 ){ //if permission == "admin" the dropdown is shown ?>
+							if(isset($_SESSION['id_usager']) && (strcmp($_SESSION['permission'], "admin") == 0 )){ //if permission == "admin" the dropdown is shown ?>
 									<li class="dropdown">
 										<a class="dropdown-toggle" data-toggle="dropdown" href="#">Suggestions <span class="caret"></span></a>
 										<ul class="dropdown-menu">
@@ -58,7 +56,7 @@
 											<li><a href="#">Ajouts</a></li>
 										</ul>
 									</li>
-						<?php }} ?>
+						<?php } ?>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="contact.php"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>

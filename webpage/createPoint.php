@@ -102,13 +102,18 @@
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="contact.php"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $_SESSION['prenom']." ".$_SESSION['nom']."  "?><span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a data-target="#myModal" data-toggle="modal" class="MainNavText" id="MainNavHelp" href="#myModal"><span class="glyphicon glyphicon-cog"></span>  Paramètres</a></li>
-								<li><a href="logout_script.php"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
-							</ul>
-						</li>
+						<?php 
+						if(isset($_SESSION['id_usager'])){?>
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $_SESSION['prenom']." ".$_SESSION['nom']."  "?><span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li><a data-target="#myModal" data-toggle="modal" class="MainNavText" id="MainNavHelp" href="#myModal"><span class="glyphicon glyphicon-cog"></span>  Paramètres</a></li>
+									<li><a href="logout_script.php"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
+								</ul>
+							</li>
+						<?php }else{ ?>
+							<li><a href="login_s4php.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+						<?php } ?>
 					</ul>
 					<!-- Modal -->
 					<div class="modal fade" id="myModal" role="dialog">
