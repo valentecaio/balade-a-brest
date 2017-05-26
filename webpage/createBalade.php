@@ -123,7 +123,7 @@
   						<label for="comment">Description:</label>
   						<textarea class="form-control" rows="5" id="comment" placeholder="Donnez une description de la nouvelle balade"></textarea>
 					</div>
-					<div class="row list-group" id="points_list"></div>
+					<div class="form-group" id="points_list"></div>
 			  		<div class="row"> 
 			    		<div class="col-sm-6 pull-right">
 			    			<button type="submit" class="btn btn-default">Supprimer</button>
@@ -146,7 +146,7 @@
 							        </div>
 						      </div>
 						    </div>
-						</div>									      	
+						</div>							      	
 			    	</div>
 			  	</div>
 				<div class="col-sm-8">

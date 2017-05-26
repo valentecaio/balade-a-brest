@@ -31,7 +31,7 @@ function go_to_edit_point(name) {
 	sessionStorage.setItem("divName", pointName);
 	//sessionStorage.setItem("divLat", pointLat);
 	//sessionStorage.setItem("divLon", pointLon);
-	window.location = "";
+	window.location = "edition.html";
 }
 
 // save balade and go to editBalade
