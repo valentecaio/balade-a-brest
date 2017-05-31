@@ -66,7 +66,7 @@
 						<label for="inputEmail" class="sr-only">Addresse e-mail</label>
 						<input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Addresse e-mail" required autofocus>
 						<label for="inputPassword" class="sr-only">Mot de passe</label>
-						<input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+						<input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Mot de passe">
 						<div class="checkbox">
 							<label>
 								<input type="checkbox" value="remember-me"><b>Se souvenir de moi</b>

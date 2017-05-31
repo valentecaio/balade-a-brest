@@ -4,21 +4,6 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
-	<script type="text/javascript">
-		function ValidateForm(){
-		    if (document.getElementById("modif").newPassword.value != document.getElementById("modif").confirmPassword.value) {
-		        alert("Les deux mots de passe doivent être égaux");
-		        document.getElementById("modif").inscriptionPassword.focus();
-		        return;
-		    }else if(document.getElementById("modif").password.value == document.getElementById("modif").confirmPassword.value){
-		    	alert("Le nouveau mot de passe doit être différent de l'actuel");
-		        document.getElementById("modif").inscriptionPassword.focus();
-		        return;
-		    }
-		    //alert("OK");
-		    document.getElementById("modif").submit();
-		}
-	</script>
 
 	<head>
 		<title>Balades</title>
@@ -30,9 +15,38 @@
 		<script src="bootstrap.min.js"></script>
 		<script src="OpenLayers.js"></script>
 		<script src='markers.js' style="padding-top: 20px" ></script>
-		
+		<script src="validateFormModUser.js"></script>
 	</head>
 	
+	<?php
+	if (!empty($_SESSION['error'])){
+        echo '<script type="text/javascript">alert("'.$_SESSION['error'].'");</script>';
+        //echo $_SESSION['error'];
+        unset($_SESSION['error']);
+    }
+    if(isset($_GET['modal'])){ ?>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('#myModal').modal('show');
+			});
+		</script>
+	<?php } ?>
+<!--
+	<script type="text/javascript">
+		function ValidateFormModif(){
+		    if (document.getElementById("modif").newPassword.value != document.getElementById("modif").confirmPassword.value) {
+		        alert("Les deux mots de passe doivent être égaux");
+		        document.getElementById("modif").newPassword.focus();
+		        return;
+		    }else if(document.getElementById("modif").oldPassword.value === document.getElementById("modif").newPassword.value){
+		    	alert("Le nouveau mot de passe doit être différent de l'actuel");
+		        document.getElementById("modif").newPassword.focus();
+		        return;
+		    }
+		    document.getElementById("modif").submit();
+		}
+	</script>
+-->
 	<body>
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
@@ -83,44 +97,51 @@
 						        	<h4 class="modal-title">Modifier paramètres du compte</h4>
 						        </div>
 						        <div class="modal-body" id="modalText"></div>
-						        	<form class="form-horizontal" id=modif action="mod_settings.php" method="post">
-							        	<div class="form-group">
+						        	<form class="form-horizontal" id="modif" action="mod_settings.php" method="post">
+							        	<!--<div class="form-group">
 										    <label class="control-label col-sm-4" for="email">Email:</label>
 										    <label class="control-label col-sm-4" for="email"><?php echo $_SESSION['email']?></label>
+										</div>-->
+										<div class="form-group">
+										    <label class="control-label col-sm-4" for="email">Email:</label>
+										    <div class="col-sm-7">
+										    	<input type="text" class="form-control" name="email" id="email" value=<?php echo $_SESSION['email']?>>
+										    </div>
 										</div>
 										<div class="form-group">
 										    <label class="control-label col-sm-4" for="name">Prénom:</label>
 										    <div class="col-sm-7">
-										    	<input type="text" class="form-control" id="name" value=<?php echo $_SESSION['prenom']?>>
+										    	<input type="text" class="form-control" name="name" id="name" value=<?php echo $_SESSION['prenom']?>>
 										    </div>
 										</div>
 										<div class="form-group">
 										    <label class="control-label col-sm-4" for="surname">Nom:</label>
 										    <div class="col-sm-7"> 
-										      	<input type="text" class="form-control" id="surname" value=<?php echo $_SESSION['nom']?>>
+										      	<input type="text" class="form-control" name="surname" id="surname" value=<?php echo $_SESSION['nom']?>>
 										    </div>
 										</div>
 										<div class="form-group">
 										    <label class="control-label col-sm-4" for="oldPassword">Mot de passe:</label>
 										    <div class="col-sm-7"> 
-										      	<input type="password" class="form-control" id="old_Password">
+										      	<input type="password" class="form-control" name="oldPassword" id="oldPassword">
 										    </div>
 										</div>
 										<div class="form-group">
 										    <label class="control-label col-sm-4" for="newPassword">Nouveau mot de passe:</label>
 										    <div class="col-sm-7"> 
-										      	<input type="password" class="form-control" id="newPassword">
+										      	<input type="password" class="form-control" name="newPassword" id="newPassword">
 										    </div>
 										</div>
 										<div class="form-group">
 										    <label class="control-label col-sm-4" for="confirmPassword">Confirmer mot de passe:</label>
 										    <div class="col-sm-7"> 
-									      		<input type="password" class="form-control" id="confirmPassword">
+									      		<input type="password" class="form-control" name="confirmPassword" id="confirmPassword">
 										    </div>
 										</div>
+										<input type="hidden" name="url" id="url" value="principal.php">
 									</form>
 						        <div class="modal-footer">
-						        	<button type="button" class="btn btn-default" onClick="ValidateForm()" data-dismiss="modal">Submit</button>
+						        	<button type="button" class="btn btn-default" onClick="validateFormModUser()">Submit</button>
 						        </div>
 					      </div>
 					    </div>
