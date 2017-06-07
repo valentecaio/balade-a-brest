@@ -18,6 +18,12 @@ function arrayUnique(array) {
 	return a;
 }
 
+function delete_confirmation(id) {
+	table = document.getElementById('points_list');
+	table.removeChild(table.childNodes[id]);
+	destinations.splice( id, 1 );
+}
+
 function refresh_balades_table() {
 	// get table reference
 	table = document.getElementById('points_list');
@@ -38,8 +44,22 @@ function refresh_balades_table() {
 		but1.className = "btn btn-default";
 		but1.innerHTML = destinations[i].name + ' (' + destinations[i].lon + ', ' + destinations[i].lat + ')';
 
-		new_row.appendChild(but1);
+		var but_edit = document.createElement('button');
+		but_edit.style = "width:10%;height: 40px;";
+		but_edit.className = "btn btn-default";
+		but_edit.id = i;
+		//but_edit.setAttribute('data-toggle' , "modal");
+		//but_edit.setAttribute('data-target' , "#deleteConfirmation");
+		but_edit.setAttribute('onclick', "delete_confirmation" + "('" + but_edit.id + "')");
 		
+		var span = document.createElement('span');
+		span.className = "glyphicon glyphicon-trash";
+		span.style = "color: black";
+		
+		but_edit.appendChild(span);
+		new_row.appendChild(but1);
+		new_row.appendChild(but_edit);
+
 		// add new row to table
 		table.appendChild(new_row);
 	}
