@@ -12,7 +12,7 @@ catch(Exception $e)
 }
 // Vérification de la validité des informations
 
-$req = $bdd->prepare('SELECT id_point FROM point WHERE nom = :nom');
+/*$req = $bdd->prepare('SELECT id_point FROM point WHERE nom = :nom');
 $req->execute(array(
     'nom' => $_POST['form_name']));
 
@@ -23,15 +23,16 @@ if ($resultat['id_point']){
     header('Location: createPoint.php');
     exit();
 }
-$req->closeCursor();
+$req->closeCursor();*/
 
 // Insertion du message à l'aide d'une requête préparée
-$req = $bdd->prepare('INSERT INTO point (nom, latitude, longitude) VALUES (:nom, :latitude, :longitude)');
+$req = $bdd->prepare('INSERT INTO point (nom, latitude, longitude, description) VALUES (:nom, :latitude, :longitude, :description)');
 $req->execute(array(
     'nom' => $_POST['form_name'],
     'latitude' => $_POST['form_latitude'],
-    'longitude' => $_POST['form_longitude']));
+    'longitude' => $_POST['form_longitude'],
+    'description' => $_POST['comment']));
 
     //$req->closeCursor();
-    header('Location: createPoint.php?modal=1');
+    header('Location: createPoint.php?modal=2');
 ?>
