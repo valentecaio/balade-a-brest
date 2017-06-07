@@ -172,7 +172,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-4">
-					<form class="form-horizontal">
+					<form class="form-horizontal" enctype="multipart/form-data" id="createp" action="insert_point.php" method="post">
   						<div class="form-group">
     						<label class="control-label col-sm-3" for="form_name" style="text-align: right;">Nom:</label>
     						<div class="col-sm-9">
@@ -191,17 +191,30 @@
       							<input type="text" class="form-control" id="form_longitude">
     						</div>
   						</div>
+  						<div class="form-group">
+	  						<label class="control-label col-sm-3" for="form_comment" style="text-align: right;">Description:</label>
+	  						<div class="col-sm-9">
+	  							<textarea class="form-control" rows="5" id="form_comment" placeholder="Donnez une description du point"></textarea>
+	  						</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-3" for="form_longitude" style="text-align: right;">Télécharger média:</label>
+							<div class="col-sm-8">
+   								<input id="fileupload" name="myfile" type="file" />
+   							</div>
+   						</div>
+   						<div class="col-sm-6 pull-right">
+			    			<button type="submit" class="btn btn-default">Annuler</button>
+			    			<!--<button type="submit" class="btn" data-toggle="modal" data-target="#sendModal">Envoyer</button>-->
+			    			<button type="submit" class="btn">Envoyer</button>
+			    		</div>
   					</form>
-  					<div class="form-group">
-  						<label for="comment">Description:</label>
-  						<textarea class="form-control" rows="5" id="comment" placeholder="Donnez une description du point"></textarea>
-					</div>
 					
 			  		<div class="row"> 
-			    		<div class="col-sm-6 pull-right">
+			    		<!--<div class="col-sm-6 pull-right">
 			    			<button type="submit" class="btn btn-default">Supprimer</button>
 			    			<button type="submit" class="btn" data-toggle="modal" data-target="#sendModal">Envoyer</button>
-			    		</div>
+			    		</div>-->
 			    		<!-- Modal -->
 						<div class="modal fade" id="sendModal" role="dialog">
 						    <div class="modal-dialog">
