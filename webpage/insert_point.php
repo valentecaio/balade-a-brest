@@ -25,14 +25,25 @@ if ($resultat['id_point']){
 }
 $req->closeCursor();*/
 
-// Insertion du message à l'aide d'une requête préparée
-$req = $bdd->prepare('INSERT INTO point (nom, latitude, longitude, description) VALUES (:nom, :latitude, :longitude, :description)');
-$req->execute(array(
-    'nom' => $_POST['form_name'],
-    'latitude' => $_POST['form_latitude'],
-    'longitude' => $_POST['form_longitude'],
-    'description' => $_POST['comment']));
+if(strcmp($_SESSION['permission'], "admin") == 0 ){
 
+// Insertion du message à l'aide d'une requête préparée
+    $req = $bdd->prepare('INSERT INTO point (nom, latitude, longitude, description, status) VALUES (:nom, :latitude, :longitude, :description, \'accepte\')');
+    $req->execute(array(
+        'nom' => $_POST['form_name'],
+        'latitude' => $_POST['form_latitude'],
+        'longitude' => $_POST['form_longitude'],
+        'description' => $_POST['comment']));
+
+}else{
+
+    $req = $bdd->prepare('INSERT INTO point (nom, latitude, longitude, description) VALUES (:nom, :latitude, :longitude, :description)');
+    $req->execute(array(
+        'nom' => $_POST['form_name'],
+        'latitude' => $_POST['form_latitude'],
+        'longitude' => $_POST['form_longitude'],
+        'description' => $_POST['comment']));
+}
     //$req->closeCursor();
     header('Location: createPoint.php?modal=2');
 ?>

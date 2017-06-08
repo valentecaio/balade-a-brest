@@ -259,7 +259,7 @@
 							        	<h4 >Votre message sera annalisé par le gestionnaire du site.</h4>
 							        </div>
 							        <div class="modal-footer">
-							        	<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+							        	<button type="button" class="btn btn-default" onclick="location.href = 'principal.php';">OK</button>
 							        </div>
 						      </div>
 						    </div>
