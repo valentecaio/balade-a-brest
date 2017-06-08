@@ -256,7 +256,7 @@
 							        	<h4 class="modal-title">Message enregistrée</h4>
 							        </div>
 							        <div class="modal-body">
-							        	<h4 >Votre message sera annalisée par le gestionnaire du site.</h4>
+							        	<h4 >Votre message sera annalisé par le gestionnaire du site.</h4>
 							        </div>
 							        <div class="modal-footer">
 							        	<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
