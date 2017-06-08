@@ -1,6 +1,7 @@
 <?php session_start(); ?>
 <!DOCTYPE HTML>
 <html>
+
 	<head>
 		<title>Create Point</title>
 		<meta charset="utf-8">
@@ -10,6 +11,7 @@
   		<script src="bootstrap.min.js"></script>
 		<link rel='stylesheet' type='text/css' href="principal.css">
 		<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+		<script src="validateFormModUser.js"></script>
 		<script>
 			var map,markers,point_clicked;
 			var zoom = 16;
@@ -83,6 +85,27 @@
 			});
 		</script>
 	</head>
+
+	<?php
+	if (!empty($_SESSION['error'])){
+        echo '<script type="text/javascript">alert("'.$_SESSION['error'].'");</script>';
+        //echo $_SESSION['error'];
+        unset($_SESSION['error']);
+    }
+    if(isset($_GET['modal']) && $_GET['modal']==2){ ?>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('#sendModal').modal('show');
+			});
+		</script>
+	<?php 
+	} else if(isset($_GET['modal']) && $_GET['modal']==1){ ?>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('#myModal').modal('show');
+			});
+		</script>
+	<?php } ?>
 	
 	<body onload='init();'>
 		<nav class="navbar navbar-inverse">
@@ -125,10 +148,16 @@
 						        	<h4 class="modal-title">Modifier paramètres du compte</h4>
 						        </div>
 						        <div class="modal-body" id="modalText"></div>
-						        	<form class="form-horizontal" action="modSettings.php" method="POST">
-							        	<div class="form-group">
+						        	<form class="form-horizontal" id="modif" action="mod_settings.php" method="POST">
+							        	<!--<div class="form-group">
 										    <label class="control-label col-sm-4" for="email">Email:</label>
 										    <label class="control-label col-sm-4" for="email"><?php echo $_SESSION['email']?></label>
+										</div>-->
+										<div class="form-group">
+										    <label class="control-label col-sm-4" for="email">Email:</label>
+										    <div class="col-sm-7">
+										    	<input type="text" class="form-control" name="email" id="email" value=<?php echo $_SESSION['email']?>>
+										    </div>
 										</div>
 										<div class="form-group">
 										    <label class="control-label col-sm-4" for="name">Prénom:</label>
@@ -143,9 +172,9 @@
 										    </div>
 										</div>
 										<div class="form-group">
-										    <label class="control-label col-sm-4" for="password">Mot de passe:</label>
+										    <label class="control-label col-sm-4" for="oldPassword">Mot de passe:</label>
 										    <div class="col-sm-7"> 
-										      	<input type="password" class="form-control" id="password">
+										      	<input type="password" class="form-control" id="oldPassword">
 										    </div>
 										</div>
 										<div class="form-group">
@@ -160,9 +189,10 @@
 									      		<input type="password" class="form-control" id="confirmPassword">
 										    </div>
 										</div>
+										<input type="hidden" name="url" id="url" value="createPoint.php">
 									</form>
 						        <div class="modal-footer">
-						        	<button type="button" class="btn btn-default" data-dismiss="modal">Submit</button>
+						        	<button type="button" class="btn btn-default" onClick="validateFormModUser()">Submit</button>
 						        </div>
 					      </div>
 					    </div>
@@ -172,36 +202,50 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-4">
-					<form class="form-horizontal">
+					<form class="form-horizontal" enctype="multipart/form-data" id="createp" action="insert_point.php" method="post">
+
   						<div class="form-group">
     						<label class="control-label col-sm-3" for="form_name" style="text-align: right;">Nom:</label>
     						<div class="col-sm-9">
-      							<input type="text" class="form-control" id="form_name" placeholder="Entrez le nom du nouveau point">
+      							<input type="text" class="form-control" name="form_name" id="form_name" placeholder="Entrez le nom du nouveau point" required>
     						</div>
   						</div>
   						<div class="form-group">
     						<label class="control-label col-sm-3" for="form_latitude" style="text-align: right;">Latitude:</label>
     						<div class="col-sm-9">
-      							<input type="text" class="form-control" id="form_latitude">
+      							<input type="text" class="form-control" name="form_latitude" id="form_latitude">
     						</div>
   						</div>
   						<div class="form-group">
     						<label class="control-label col-sm-3" for="form_longitude" style="text-align: right;">Longitude:</label>
     						<div class="col-sm-9">
-      							<input type="text" class="form-control" id="form_longitude">
+      							<input type="text" class="form-control" name="form_longitude" id="form_longitude">
     						</div>
   						</div>
+  						<div class="form-group">
+	  						<label class="control-label col-sm-3" for="form_comment" style="text-align: right;">Description:</label>
+	  						<div class="col-sm-9">
+	  							<textarea class="form-control" rows="5" id="form_comment" placeholder="Donnez une description du point"></textarea>
+	  						</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-3" for="form_longitude" style="text-align: right;">Télécharger média:</label>
+							<div class="col-sm-8">
+   								<input id="fileupload" name="myfile" type="file" />
+   							</div>
+   						</div>
+   						<div class="col-sm-6 pull-right">
+			    			<button type="submit" class="btn btn-default">Annuler</button>
+			    			<!--<button type="submit" class="btn" data-toggle="modal" data-target="#sendModal">Envoyer</button>-->
+			    			<button type="submit" class="btn">Envoyer</button>
+			    		</div>
   					</form>
-  					<div class="form-group">
-  						<label for="comment">Description:</label>
-  						<textarea class="form-control" rows="5" id="comment" placeholder="Donnez une description du point"></textarea>
-					</div>
 					
 			  		<div class="row"> 
-			    		<div class="col-sm-6 pull-right">
+			    		<!--<div class="col-sm-6 pull-right">
 			    			<button type="submit" class="btn btn-default">Supprimer</button>
 			    			<button type="submit" class="btn" data-toggle="modal" data-target="#sendModal">Envoyer</button>
-			    		</div>
+			    		</div>-->
 			    		<!-- Modal -->
 						<div class="modal fade" id="sendModal" role="dialog">
 						    <div class="modal-dialog">
@@ -212,7 +256,7 @@
 							        	<h4 class="modal-title">Message enregistrée</h4>
 							        </div>
 							        <div class="modal-body">
-							        	<h4 >Votre message sera annalisée par le gestionnaire du site.</h4>
+							        	<h4 >Votre message sera annalisé par le gestionnaire du site.</h4>
 							        </div>
 							        <div class="modal-footer">
 							        	<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>

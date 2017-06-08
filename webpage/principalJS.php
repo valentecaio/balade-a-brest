@@ -1,5 +1,6 @@
-<?php?>
+<script src="jquery.min.js"></script>
 <script type="text/javascript">
+
 // search by name in global variables
 function searchByName(name, data) {
 	for (i in data) {
@@ -47,12 +48,13 @@ function show_all_points() {
 
 // load points and balades from database
 function load_data() {
+	
 	// load map without points
 	map = setup_map(center = {
 				lon: -4.50010299,
 				lat: 48.38423089
 			}, zoom = 14);
-
+	/*
 	// create example points
 	points = [{
 			lon: -4.5250042190,
@@ -92,7 +94,7 @@ function load_data() {
 			name: 'balade3',
 			points: [points[4], points[5], points[2], points[3]]
 		}
-	]
+	]*/
 }
 
 // dinamically add rows to table
@@ -199,10 +201,15 @@ function refresh_markers(map, balade) {
 
 function main() {
 	load_data();
-
+	$.ajax({url: "get_points.php", success: function(result){
+        points = JSON.parse(result);
+        add_rows("points_list", points, "show_point", "go_to_edit_point");
+    	//console.log(points);
+    }});
+	//yourContainer.innerHTML = JSON.stringify(points);
+	console.log(points);
 	// add points and balades to tables
-	add_rows("points_list", points, "show_point", "go_to_edit_point");
-	add_rows("balades_list", balades, "show_balade", "go_to_edit_balade");
+	//add_rows("balades_list", balades, "show_balade", "go_to_edit_balade");
 }
 
 </script>
