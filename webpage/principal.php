@@ -11,11 +11,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel='stylesheet' type='text/css' href="principal.css">
-		<script src="jquery.min.js"></script>
-		<script src="bootstrap.min.js"></script>
-		<script src="OpenLayers.js"></script>
-		<script src='markers.js' style="padding-top: 20px" ></script>
+		<script src="lib/jquery.min.js"></script>
+		<script src="lib/bootstrap.min.js"></script>
+		<script src="lib/OpenLayers.js"></script>
+		<script src='markers.js'></script>
 		<script src="validateFormModUser.js"></script>
+		
 	</head>
 	
 	<?php
@@ -47,7 +48,7 @@
 		}
 	</script>
 -->
-	<body>
+	<body onload="main();">
 		<nav class="navbar navbar-inverse">
 			<div class="container-fluid">
 				<div class="navbar-header">
@@ -192,11 +193,5 @@
 					</div>
 				</div>
 			</div>
-			<script type="text/javascript">
-				// global variables
-				var map, points, balades;
-
-				main();
-			</script>
 		</body>
 	</html>
