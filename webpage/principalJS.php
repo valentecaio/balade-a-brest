@@ -1,4 +1,3 @@
-<script src="jquery.min.js"></script>
 <script type="text/javascript">
 
 // global variables
