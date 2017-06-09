@@ -1,3 +1,5 @@
+<script type="text/javascript">
+
 // global variables
 var map, markersVectorLayer, points, destinations;
 destinations = [];
@@ -123,3 +125,5 @@ function main() {
 	// add click listener to markers
 	setup_click_listener();
 }
+
+</script>

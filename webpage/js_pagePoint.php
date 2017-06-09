@@ -57,7 +57,7 @@ function main() {
 	setup_click_listener();
 	
 	<?php
-		if($_SESSION['actualPage'] == 'edition'){ ?>
+		if($_SESSION['pageFunction'] == 'edition'){ ?>
 			console.log("edition page");
 	<?php } ?>
 }

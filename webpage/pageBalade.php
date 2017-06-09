@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php 
+	session_start();
+	include 'js_pageBalade.php';
+?>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -12,7 +15,6 @@
   		<script src="lib/bootstrap.min.js"></script>
 		<script src="markers.js"></script>
 		<script src='database_simulator.js'></script>
-		<script src='createBalade.js'></script>
 	</head>
 	
 	<body onload="main();">

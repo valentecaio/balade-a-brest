@@ -34,15 +34,20 @@ function go_to_edit_point(name) {
 	sessionStorage.setItem("divName", pointName);
 	
 	<?php 
-		$_SESSION['actualPage'] = "edition";
+		$_SESSION['pageFunction'] = "edition";
 	?>
 	window.location = "pagePoint.php";
-	}
+}
 
 // save balade and go to editBalade
 function go_to_edit_balade(name) {
 	var balade_to_save = search_by_name(name, balades);
 	//TODO: finish this method
+	
+	<?php 
+		$_SESSION['pageFunction'] = "edition";
+	?>
+	window.location = "pageBalade.php";
 }
 
 // draw all points in the map
