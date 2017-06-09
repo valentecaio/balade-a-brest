@@ -10,7 +10,7 @@
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Balades</a></li>
+				<li class="active"><a href="principal.php">Balades</a></li>
 				<?php
 					if(isset($_SESSION["id_usager"]) && (strcmp($_SESSION["permission"], "admin") == 0 )){ //if permission == "admin" the dropdown is shown ?>
 					<li class="dropdown">
