@@ -27,7 +27,7 @@
 	<?php } ?>
 	
 	<body>
-		<?php include 'navigationBar.html';	?>
+		<?php include 'navigationBar.php';	?>
 		<div class="container-fluid">
 			<div class="wb">
 				<h1>Walk in Brest</h1>

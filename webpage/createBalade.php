@@ -16,7 +16,7 @@
 	</head>
 	
 	<body onload="main();">
-		<?php include 'navigationBar.html';	?>
+		<?php include 'navigationBar.php';	?>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-4">

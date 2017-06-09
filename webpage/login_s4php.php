@@ -35,7 +35,7 @@
 		<script src="lib/bootstrap.min.js"></script>
 	</head>
 	<body>
-		<?php include 'navigationBar.html';	?>
+		<?php include 'navigationBar.php';	?>
 		<script type="text/javascript">
 			document.getElementById("nav_login").setAttribute('class', "active");
 		</script>

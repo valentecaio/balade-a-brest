@@ -31,8 +31,7 @@
 		</script>
 	<?php } ?>
 	<body onload="main();">
-		<?php include 'navigationBar.html';	?>
-		<link rel="import" href="navigationBar.html">
+		<?php include 'navigationBar.php';	?>
 			<script type="text/javascript">
 				document.getElementById("nav_balades").setAttribute('class', "active");
 			</script>
