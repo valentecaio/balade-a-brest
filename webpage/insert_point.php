@@ -20,7 +20,7 @@ $resultat = $req->fetch();
 
 if ($resultat['id_point']){
     $_SESSION['error'] = 'Point déjà existant';
-    header('Location: createPoint.php');
+    header('Location: pagePoint.php');
     exit();
 }
 $req->closeCursor();*/
@@ -45,5 +45,5 @@ if(strcmp($_SESSION['permission'], "admin") == 0 ){
         'description' => $_POST['comment']));
 }
     //$req->closeCursor();
-    header('Location: createPoint.php?modal=2');
+    header('Location: pagePoint.php?modal=2');
 ?>

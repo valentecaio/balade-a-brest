@@ -6,24 +6,24 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>                        
 			</button>
-			<a class="navbar-brand" href="initial.php">WB</a>
+			<a class="navbar-brand" href="pageInitial.php">WB</a>
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
-				<li id="nav_balades" class=""><a href="principal.php">Balades</a></li>
+				<li id="nav_balades" class=""><a href="pageMain.php">Balades</a></li>
 				<?php
 					if(isset($_SESSION["id_usager"]) && (strcmp($_SESSION["permission"], "admin") == 0 )){ //if permission == "admin" the dropdown is shown ?>
 					<li id="nav_suggestions" class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Suggestions <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Parcours</a></li>
-							<li><a href="suggestionPoint.php">Ajout point d'interêt</a></li>
+							<li><a href="pagePoint.php">Ajout point d'interêt</a></li>
 						</ul>
 					</li>
 				<?php } ?>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li id="nav_contact" class=""><a href="contact.php"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>
+				<li id="nav_contact" class=""><a href="pageContact.php"><span class="glyphicon glyphicon-earphone "></span> Contact</a></li>
 				<?php 
 					if(isset($_SESSION["id_usager"])){?>
 					<li class="dropdown">
@@ -34,7 +34,7 @@
 						</ul>
 					</li>
 					<?php }else{ ?>
-					<li id="nav_login" class=""><a href="login_s4php.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+					<li id="nav_login" class=""><a href="pageLogin.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 				<?php } ?>
 			</ul>
 			<!-- Modal -->
@@ -88,7 +88,7 @@
 									<input type="password" class="form-control" name="confirmPassword" id="confirmPassword">
 								</div>
 							</div>
-							<input type="hidden" name="url" id="url" value="principal.php">
+							<input type="hidden" name="url" id="url" value="pageMain.php">
 						</form>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" onClick="validateFormModUser()">Submit</button>

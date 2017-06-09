@@ -23,7 +23,7 @@ $resultat = $req->fetch();
 
 if ($resultat['id_usager']){
     $_SESSION['error'] = 'Usager déjà existant';
-    header('Location: login_s4php.php');
+    header('Location: pageLogin.php');
     exit();
 }
 $req->closeCursor();
@@ -56,5 +56,5 @@ $resultat = $req->fetch();
     //$req->closeCursor();
     //echo 'Vous êtes connecté !';
     echo $_SESSION['id_usager'];
-    header('Location: principal.php');
+    header('Location: pageMain.php');
 ?>

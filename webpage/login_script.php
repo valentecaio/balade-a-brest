@@ -26,7 +26,7 @@ if (!$resultat)
 {
     $_SESSION['error'] = 'Mauvais identifiant ou mot de passe';
     //echo nl2br('Mauvais identifiant ou mot de passe !\n');
-    header('Location: login_s4php.php');
+    header('Location: pageLogin.php');
     exit();
     //exit('Mauvais identifiant ou mot de passe !');
 }
@@ -39,7 +39,7 @@ else
     $_SESSION['email'] = $resultat['email'];
     echo nl2br('Vous êtes connecté !\n');
     echo $_SESSION['id_usager'];
-    header('Location: principal.php');
+    header('Location: pageMain.php');
 }
 
 $req->closeCursor();
