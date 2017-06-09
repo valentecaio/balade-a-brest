@@ -23,15 +23,32 @@ function add_marker(map, vectorLayer, location) {
 	var marker = new OpenLayers.Feature.Vector(
 			new OpenLayers.Geometry.Point(location.lon, location.lat).transform(fromProjection, toProjection), {
 			description: location.name,
-			point: location
+			point: location,
+			selected: false
 		}, {
-			externalGraphic: 'image_marker.png',
+			externalGraphic: "blue_marker.png",
 			graphicHeight: 30,
 			graphicWidth: 30,
 			graphicXOffset: -12,
 			graphicYOffset: -25
 		});
 	vectorLayer.addFeatures(marker);
+}
+
+function change_color(vectorLayer, marker) {
+	var color;
+	if (marker.attributes.selected) {
+		color = 'red';
+	} else {
+		color = 'blue';
+	}
+
+	// change style icon
+	var icon = color + '_marker.png';
+	marker.style.externalGraphic = icon;
+
+	// redraw
+	vectorLayer.drawFeature(marker);
 }
 
 // remove markers from map and put new ones

@@ -1,5 +1,6 @@
-<?php?>
+<script src="markers.js"></script>
 <script type="text/javascript">
+
 // global variables
 var map, markersVectorLayer, points, destinations;
 destinations = [];
@@ -14,9 +15,16 @@ function arrayUnique(array) {
 				a.splice(j--, 1);
 		}
 	}
-
 	return a;
 }
+
+// Array Remove - By John Resig (MIT Licensed)
+// found at https://stackoverflow.com/questions/500606/deleting-array-elements-in-javascript-delete-vs-splice
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
 
 function delete_confirmation(id) {
 	table = document.getElementById('points_list');
@@ -70,20 +78,25 @@ function setup_click_listener() {
 	//Add a selector control to the vectorLayer with popup functions
 	var controls = {
 		selector: new OpenLayers.Control.SelectFeature(markersVectorLayer, {
-			onSelect: addDestination
+			onSelect: onClickMarker
 		})
 	};
 
-	function addDestination(feature) {
-		// get clicked point and add to destinations
-		var clicked_point = feature.attributes.point;
-		console.log(clicked_point)
-		destinations.push(clicked_point);
-
-		// remove destination if already chosen before this event
-		destinations = arrayUnique(destinations);
-
+	function onClickMarker(feature) {
+		// change selected status
+		feature.attributes.selected = !feature.attributes.selected;
+		
+		if(feature.attributes.selected) {
+			// get clicked point and add to destinations
+			destinations.push(feature.attributes.point);
+		} else {
+			// remove clicked point from destinations
+			destinations.remove(destinations.indexOf(feature.attributes.point));			
+		}
+	
+		// refresh balades table and marker color
 		refresh_balades_table();
+		change_color(markersVectorLayer, feature);
 	}
 
 	map.addControl(controls['selector']);
