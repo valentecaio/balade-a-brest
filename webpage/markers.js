@@ -26,7 +26,7 @@ function add_marker(map, vectorLayer, location) {
 			point: location,
 			selected: false
 		}, {
-			externalGraphic: "blue_marker.png",
+			externalGraphic: "images/blue_marker.png",
 			graphicHeight: 30,
 			graphicWidth: 30,
 			graphicXOffset: -12,
@@ -44,7 +44,7 @@ function change_color(vectorLayer, marker) {
 	}
 
 	// change style icon
-	var icon = color + '_marker.png';
+	var icon = 'images/' + color + '_marker.png';
 	marker.style.externalGraphic = icon;
 
 	// redraw
