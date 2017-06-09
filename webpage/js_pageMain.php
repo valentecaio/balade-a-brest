@@ -28,13 +28,15 @@ function show_balade(name) {
 // save point and go to editPoint
 function go_to_edit_point(name) {
 	var point_to_save = search_by_name(name, points);
-	var pointName = point_to_save.name;
-	var pointLat = point_to_save.lat;
-	var pointLon = point_to_save.lon;
-	sessionStorage.setItem("divName", pointName);
 	
-	<?php 
-		$_SESSION['pageFunction'] = "edition";
+	sessionStorage.setItem("pointName", point_to_save.name);
+	sessionStorage.setItem("pointLon", point_to_save.lon);
+	sessionStorage.setItem("pointLat", point_to_save.lat);
+	sessionStorage.setItem("pointId", point_to_save.id);
+	sessionStorage.setItem("pointDescrition", point_to_save.txt);
+
+	<?php
+		$_SESSION['pagePointFunction'] = "edition";
 	?>
 	window.location = "pagePoint.php";
 }
@@ -45,7 +47,7 @@ function go_to_edit_balade(name) {
 	//TODO: finish this method
 	
 	<?php 
-		$_SESSION['pageFunction'] = "edition";
+		$_SESSION['pageBaladeFunction'] = "edition";
 	?>
 	window.location = "pageBalade.php";
 }
@@ -63,7 +65,7 @@ function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
 		new_row.className = "btn-group";
 		new_row.style = "width:100%";
 		<?php
-			if(isset($_SESSION['id_usager'])&&(strcmp($_SESSION['permission'], "admin") == 0 )){ ?>
+			if(isset($_SESSION['id_usager'])&&(strcmp($_SESSION['permission'], "admin") == 0)){ ?>
 				var but1 = document.createElement('button');
 				but1.style = "width:90%;height: 40px; text-align: left; color: black;";
 				but1.className = "btn btn-default";
