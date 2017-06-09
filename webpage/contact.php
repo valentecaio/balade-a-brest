@@ -12,6 +12,9 @@
 	</head>
 	<body>
 		<?php include 'navigationBar.html';	?>
+		<script type="text/javascript">
+				document.getElementById("nav_contact").setAttribute('class', "active");
+			</script>
 		<div class="container-fluid">
 		</div>
 	</body>

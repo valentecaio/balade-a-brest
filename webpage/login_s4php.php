@@ -36,7 +36,9 @@
 	</head>
 	<body>
 		<?php include 'navigationBar.html';	?>
-
+		<script type="text/javascript">
+			document.getElementById("nav_login").setAttribute('class', "active");
+		</script>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-6">
