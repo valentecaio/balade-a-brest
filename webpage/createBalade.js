@@ -101,7 +101,7 @@ function setup_click_listener() {
 }
 
 function main() {
-	points = get_all_points();
+	//points = get_all_points();
 
 	// load map without points
 	map,
@@ -110,9 +110,15 @@ function main() {
 				lon: -4.50010299,
 				lat: 48.38423089
 			}, zoom = 14);
-
+	$.ajax({url: "get_points.php", success: function(result){
+        points = JSON.parse(result);
+        // plot all points on map
+        refresh_markers(map, markersVectorLayer, points);
+        console.log(points);
+        //add_rows("points_list", points, "show_point", "go_to_edit_point");
+    }});
 	// plot all points on map
-	refresh_markers(map, markersVectorLayer, points);
+	//refresh_markers(map, markersVectorLayer, points);
 
 	// add click listener to markers
 	setup_click_listener();
