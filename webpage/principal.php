@@ -65,7 +65,7 @@
 									<?php
 										if(isset($_SESSION['id_usager'])){ ?>
 											<div class="btn-group" style="width:100%">
-												<a href="createPoint.php"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter point d'interêt</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
+												<a href="pagePoint.php"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter point d'interêt</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
 											</div>		
 									<?php } ?>
 

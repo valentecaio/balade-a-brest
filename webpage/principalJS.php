@@ -32,10 +32,12 @@ function go_to_edit_point(name) {
 	var pointLat = point_to_save.lat;
 	var pointLon = point_to_save.lon;
 	sessionStorage.setItem("divName", pointName);
-	//sessionStorage.setItem("divLat", pointLat);
-	//sessionStorage.setItem("divLon", pointLon);
-	window.location = "edition.html";
-}
+	
+	<?php 
+		$_SESSION['actualPage'] = "edition";
+	?>
+	window.location = "pagePoint.php";
+	}
 
 // save balade and go to editBalade
 function go_to_edit_balade(name) {
