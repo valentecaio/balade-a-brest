@@ -18,12 +18,12 @@
 	</head>
 	
 	<?php
-	if (!empty($_SESSION['error'])){
-        echo '<script type="text/javascript">alert("'.$_SESSION['error'].'");</script>';
-        //echo $_SESSION['error'];
-        unset($_SESSION['error']);
-    }
-    if(isset($_GET['modal'])){ ?>
+		if (!empty($_SESSION['error'])){
+			echo '<script type="text/javascript">alert("'.$_SESSION['error'].'");</script>';
+			//echo $_SESSION['error'];
+			unset($_SESSION['error']);
+		}
+		if(isset($_GET['modal'])){ ?>
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$('#myModal').modal('show');
@@ -32,51 +32,51 @@
 	<?php } ?>
 	<body onload="main();">
 		<?php include 'navigationBar.php';	?>
-			<script type="text/javascript">
-				document.getElementById("nav_balades").setAttribute('class', "active");
-			</script>
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-sm-4">
-						<ul class="nav nav-tabs">
-							<li class="active"><a data-toggle="tab" href="#balade" style="color: black"><b>Balades</b></a></li>
-							<li><a data-toggle="tab" href="#point-interet" style="color: black"><b>Points d'interêt</b></a></li>
-						</ul>
-						
-						<div class="tab-content">
-							<div id="balade" class="tab-pane fade in active">
-								<div class="container-fluid">
-									<div class="row list-group" id="balades_list"></div>
-
-									<?php
-										if(isset($_SESSION['id_usager'])){ ?>
-											<div class="btn-group" style="width:100%">
-												<a href="pageBalade.php"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter balade</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
-											</div>
-									<?php } ?>
-
-								</div>
+		<script type="text/javascript">
+			document.getElementById("nav_balades").setAttribute('class', "active");
+		</script>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-4">
+					<ul class="nav nav-tabs">
+						<li class="active"><a data-toggle="tab" href="#balade" style="color: black"><b>Balades</b></a></li>
+						<li><a data-toggle="tab" href="#point-interet" style="color: black"><b>Points d'interêt</b></a></li>
+					</ul>
+					
+					<div class="tab-content">
+						<div id="balade" class="tab-pane fade in active">
+							<div class="container-fluid">
+								<div class="row list-group" id="balades_list"></div>
+								
+								<?php
+									if(isset($_SESSION['id_usager'])){ ?>
+									<div class="btn-group" style="width:100%">
+										<a href="pageBalade.php"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter balade</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
+									</div>
+								<?php } ?>
+								
 							</div>
-							<div id="point-interet" class="tab-pane fade">
-								<div class="container-fluid">
-									<div class="row list-group" id="points_list"></div>
-									
-									<?php
-										if(isset($_SESSION['id_usager'])){ ?>
-											<div class="btn-group" style="width:100%">
-												<a href="pagePoint.php"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter point d'interêt</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
-											</div>		
-									<?php } ?>
-
-								</div>
+						</div>
+						<div id="point-interet" class="tab-pane fade">
+							<div class="container-fluid">
+								<div class="row list-group" id="points_list"></div>
+								
+								<?php
+									if(isset($_SESSION['id_usager'])){ ?>
+									<div class="btn-group" style="width:100%">
+										<a href="pagePoint.php"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter point d'interêt</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
+									</div>		
+								<?php } ?>
+								
 							</div>
 						</div>
 					</div>
-					
-					<div class="col-sm-8">
-						<div style="width:100%; height:550px" id='mapdiv' class="map"></div>
-					</div>
+				</div>
+				
+				<div class="col-sm-8">
+					<div style="width:100%; height:550px" id='mapdiv' class="map"></div>
 				</div>
 			</div>
-		</body>
-	</html>
+		</div>
+	</body>
+</html>

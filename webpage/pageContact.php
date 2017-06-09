@@ -13,8 +13,8 @@
 	<body>
 		<?php include 'navigationBar.php';	?>
 		<script type="text/javascript">
-				document.getElementById("nav_contact").setAttribute('class', "active");
-			</script>
+			document.getElementById("nav_contact").setAttribute('class', "active");
+		</script>
 		<div class="container-fluid">
 		</div>
 	</body>

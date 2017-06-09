@@ -11,14 +11,14 @@
 		<script src="lib/bootstrap.min.js"></script>
 		<script src="validateFormModUser.js"></script>
 	</head>
-
+	
 	<?php
-	if (!empty($_SESSION['error'])){
-        echo '<script type="text/javascript">alert("'.$_SESSION['error'].'");</script>';
-        //echo $_SESSION['error'];
-        unset($_SESSION['error']);
-    }
-    if(isset($_GET['modal'])){ ?>
+		if (!empty($_SESSION['error'])){
+			echo '<script type="text/javascript">alert("'.$_SESSION['error'].'");</script>';
+			//echo $_SESSION['error'];
+			unset($_SESSION['error']);
+		}
+		if(isset($_GET['modal'])){ ?>
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$('#myModal').modal('show');
@@ -35,6 +35,6 @@
 				<p><a href="pageMain.php" class="btn btn-default" role="button">Essayer</a></p>
 			</div>
 		</div>
-			
+		
 	</body>
 </html>
