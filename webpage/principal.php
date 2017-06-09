@@ -37,25 +37,12 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<ul class="nav nav-tabs">
-							<li class="active"><a data-toggle="tab" href="#point-interet" style="color: black"><b>Points d'interêt</b></a></li>
-							<li><a data-toggle="tab" href="#balade" style="color: black"><b>Balades</b></a></li>
+							<li class="active"><a data-toggle="tab" href="#balade" style="color: black"><b>Balades</b></a></li>
+							<li><a data-toggle="tab" href="#point-interet" style="color: black"><b>Points d'interêt</b></a></li>
 						</ul>
 						
 						<div class="tab-content">
-							<div id="point-interet" class="tab-pane fade in active">
-								<div class="container-fluid">
-									<div class="row list-group" id="points_list"></div>
-									
-									<?php
-										if(isset($_SESSION['id_usager'])){ ?>
-											<div class="btn-group" style="width:100%">
-												<a href="createPoint.php"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter point d'interêt</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
-											</div>		
-									<?php } ?>
-
-								</div>
-							</div>
-							<div id="balade" class="tab-pane fade">
+							<div id="balade" class="tab-pane fade in active">
 								<div class="container-fluid">
 									<div class="row list-group" id="balades_list"></div>
 
@@ -64,6 +51,19 @@
 											<div class="btn-group" style="width:100%">
 												<a href="createBalade.php"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter balade</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
 											</div>
+									<?php } ?>
+
+								</div>
+							</div>
+							<div id="point-interet" class="tab-pane fade">
+								<div class="container-fluid">
+									<div class="row list-group" id="points_list"></div>
+									
+									<?php
+										if(isset($_SESSION['id_usager'])){ ?>
+											<div class="btn-group" style="width:100%">
+												<a href="createPoint.php"><button style="width:100%;height: 40px; text-align: left; color: black" class="btn btn-default"><b>Ajouter point d'interêt</b><span class="glyphicon glyphicon-plus pull-right" style="color: black"></span></button></a>
+											</div>		
 									<?php } ?>
 
 								</div>

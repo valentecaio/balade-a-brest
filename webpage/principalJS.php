@@ -200,6 +200,7 @@ function main() {
 	$.ajax({url: "get_points.php", success: function(result){
         points = JSON.parse(result);
         add_rows("points_list", points, "show_point", "go_to_edit_point");
+        //add_rows("balades_list", points, "show_point", "go_to_edit_point");
     }});
 	//yourContainer.innerHTML = JSON.stringify(points);
 	// add points and balades to tables
