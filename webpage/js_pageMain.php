@@ -30,36 +30,13 @@ function show_balade(name) {
 	refresh_markers(map, markersVectorLayer, balade_to_show.points);
 }
 
-// save point and go to editPoint
-function go_to_edit_point(name) {
-	var point_to_save = search_by_name(name, points);
-	
-	sessionStorage.setItem("pointName", point_to_save.name);
-	sessionStorage.setItem("pointLon", point_to_save.lon);
-	sessionStorage.setItem("pointLat", point_to_save.lat);
-	sessionStorage.setItem("pointId", point_to_save.id);
-	sessionStorage.setItem("pointDescrition", point_to_save.txt);
-
-	<?php $_SESSION['pagePointFunction'] = "edition"; ?>
-	window.location = "pagePoint.php";
-}
-
-// save balade and go to editBalade
-function go_to_edit_balade(name) {
-	var balade_to_save = search_by_name(name, balades);
-	//TODO: finish this method
-	
-	<?php $_SESSION['pageBaladeFunction'] = "edition"; ?>
-	window.location = "pageBalade.php";
-}
-
 // draw all points in the map
 function show_all_points() {
 	refresh_markers(map, markersVectorLayer, points);
 }
 
 // dinamically add rows to table
-// data must be an iterable object where each entry has a attribute name
+// data must be an iterable object where each entry has an attribute name
 function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
 	for (i = 0; i < data.length; i++) {
 		var new_row = document.createElement('div');
@@ -138,6 +115,40 @@ function add_control_to_map() {
 	controls['selector'].activate();
 }
 
+// onclick functions
+function onclick_button_add_point(){
+	<?php $_SESSION['pagePointFunction'] = "creation"; ?>
+	window.location = "pagePoint.php";
+}
+
+function onclick_button_add_balade(){
+	<?php $_SESSION['pageBaladeFunction'] = "creation"; ?>
+	window.location = "pageBalade.php";
+}
+
+// save point and go to editPoint
+function onclick_button_edit_point(name) {
+	var point_to_save = search_by_name(name, points);
+	
+	sessionStorage.setItem("pointName", point_to_save.name);
+	sessionStorage.setItem("pointLon", point_to_save.lon);
+	sessionStorage.setItem("pointLat", point_to_save.lat);
+	sessionStorage.setItem("pointId", point_to_save.id);
+	sessionStorage.setItem("pointDescrition", point_to_save.txt);
+
+	<?php $_SESSION['pagePointFunction'] = "edition"; ?>
+	window.location = "pagePoint.php";
+}
+
+// save balade and go to editBalade
+function onclick_button_edit_balade(name) {
+	var balade_to_save = search_by_name(name, balades);
+	//TODO: finish this method
+	
+	<?php $_SESSION['pageBaladeFunction'] = "edition"; ?>
+	window.location = "pageBalade.php";
+}
+
 function main() {
 	// load map without points
 	map,
@@ -151,12 +162,12 @@ function main() {
 
 	$.ajax({url: "get_points.php", success: function(result){
         points = JSON.parse(result);
-        add_rows("points_list", points, "show_point", "go_to_edit_point");
-        //add_rows("balades_list", points, "show_point", "go_to_edit_point");
+        add_rows("points_list", points, "show_point", "onclick_button_edit_point");
+        //add_rows("balades_list", points, "show_point", "onclick_button_edit_point");
     }});
 	//yourContainer.innerHTML = JSON.stringify(points);
 	// add points and balades to tables
-	//add_rows("balades_list", balades, "show_balade", "go_to_edit_balade");
+	//add_rows("balades_list", balades, "show_balade", "onclick_button_edit_balade");
 }
 
 </script>

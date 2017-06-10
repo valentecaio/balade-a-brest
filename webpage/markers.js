@@ -16,17 +16,18 @@ function setup_map(center, zoom) {
 	vectorLayer;
 }
 
-function add_marker(map, vectorLayer, location) {
+function add_marker(map, vectorLayer, location, selected=false) {
 	var fromProjection = new OpenLayers.Projection("EPSG:4326");
 	var toProjection = new OpenLayers.Projection("EPSG:900913");
 
+	var icon = 'images/' + (selected ? 'red':'blue') + '_marker2.png';
 	var marker = new OpenLayers.Feature.Vector(
 			new OpenLayers.Geometry.Point(location.lon, location.lat).transform(fromProjection, toProjection), {
 			description: location.name,
 			point: location,
-			selected: false
+			selected: selected
 		}, {
-			externalGraphic: "images/blue_marker2.png",
+			externalGraphic: icon,
 			graphicHeight: 30,
 			graphicWidth: 30,
 			graphicXOffset: -12,
