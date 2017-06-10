@@ -1,3 +1,8 @@
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<script src="lib/jquery.min.js"></script>
+<script src="lib/bootstrap.min.js"></script>
+<script src="markers.js"></script>
+
 <script type="text/javascript">
 
 // global variables

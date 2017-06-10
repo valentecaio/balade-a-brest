@@ -1,8 +1,8 @@
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script src="lib/jquery.min.js"></script>
 <script src="lib/bootstrap.min.js"></script>
-<script src='database_simulator.js'></script>
 <script src="markers.js"></script>
+<script src='database_simulator.js'></script>
 
 <script type="text/javascript">
 
