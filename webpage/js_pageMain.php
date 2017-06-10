@@ -117,12 +117,12 @@ function add_control_to_map() {
 
 // onclick functions
 function onclick_button_add_point(){
-	<?php $_SESSION['pagePointFunction'] = "creation"; ?>
+	sessionStorage.setItem('pageType', "creation");
 	window.location = "pagePoint.php";
 }
 
 function onclick_button_add_balade(){
-	<?php $_SESSION['pageBaladeFunction'] = "creation"; ?>
+	sessionStorage.setItem('pageType', "creation");
 	window.location = "pageBalade.php";
 }
 
@@ -136,7 +136,7 @@ function onclick_button_edit_point(name) {
 	sessionStorage.setItem("pointId", point_to_save.id);
 	sessionStorage.setItem("pointDescrition", point_to_save.txt);
 
-	<?php $_SESSION['pagePointFunction'] = "edition"; ?>
+	sessionStorage.setItem('pageType', "edition");
 	window.location = "pagePoint.php";
 }
 
@@ -144,8 +144,8 @@ function onclick_button_edit_point(name) {
 function onclick_button_edit_balade(name) {
 	var balade_to_save = search_by_name(name, balades);
 	//TODO: finish this method
-	
-	<?php $_SESSION['pageBaladeFunction'] = "edition"; ?>
+
+	sessionStorage.setItem('pageType', "edition");
 	window.location = "pageBalade.php";
 }
 

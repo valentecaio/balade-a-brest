@@ -81,22 +81,22 @@ function main() {
 	setup_click_listener();
 	
 	// load data according to page function
-	<?php if(strcmp($_SESSION['pagePointFunction'], 'edition') == 0 ||
-			strcmp($_SESSION['pagePointFunction'], 'approval') == 0) { ?>
-			console.log("edition or approval page");
+	var pageType = sessionStorage.getItem('pageType');
+	if(pageType == 'edition' || pageType == 'approval') {
+		console.log("edition or approval page");
 
-			// load point data
-			var pointName = sessionStorage.getItem('pointName');
-			var pointLat = sessionStorage.getItem('pointLat');
-			var pointLon = sessionStorage.getItem('pointLon');
-			var pointId = sessionStorage.getItem('pointId');
-			var pointDescript = sessionStorage.getItem('pointDescription');
-			
-			// set point data
-			setPointClicked(pointLon, pointLat, pointName, pointId, pointDescript);
-	<?php } else if(strcmp($_SESSION['pagePointFunction'], 'creation') == 0) { ?>
+		// load point data
+		var pointName = sessionStorage.getItem('pointName');
+		var pointLat = sessionStorage.getItem('pointLat');
+		var pointLon = sessionStorage.getItem('pointLon');
+		var pointId = sessionStorage.getItem('pointId');
+		var pointDescript = sessionStorage.getItem('pointDescription');
+		
+		// set point data
+		setPointClicked(pointLon, pointLat, pointName, pointId, pointDescript);
+	} else if(pageType == 'creation') {
 			console.log("creation page");
-	<?php } ?>
+	}
 }
 
 </script>
