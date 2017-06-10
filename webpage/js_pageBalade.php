@@ -87,24 +87,24 @@ function setup_click_listener() {
 		})
 	};
 
-	function onClickMarker(feature) {
-		// select or unselect marker
-		set_marker_selected(markersVectorLayer, feature, !feature.attributes.selected);
-		
-		if(feature.attributes.selected) {
-			// get clicked point and add to destinations
-			destinations.push(feature.attributes.point);
-		} else {
-			// remove clicked point from destinations
-			destinations.remove(destinations.indexOf(feature.attributes.point));			
-		}
-	
-		// refresh balades table and marker color
-		refresh_balades_table();
-	}
-
 	map.addControl(controls['selector']);
 	controls['selector'].activate();
+}
+
+function onClickMarker(feature) {
+	// select or unselect marker
+	set_marker_selected(markersVectorLayer, feature, !feature.attributes.selected);
+		
+	if(feature.attributes.selected) {
+		// get clicked point and add to destinations
+		destinations.push(feature.attributes.point);
+	} else {
+		// remove clicked point from destinations
+		destinations.remove(destinations.indexOf(feature.attributes.point));			
+	}
+
+	// refresh balades table and marker color
+	refresh_balades_table();
 }
 
 function main() {
