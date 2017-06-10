@@ -1,3 +1,9 @@
+<script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+<script src="lib/jquery.min.js"></script>
+<script src="lib/bootstrap.min.js"></script>
+<script src='database_simulator.js'></script>
+<script src="markers.js"></script>
+
 <script type="text/javascript">
 
 // global variables
@@ -20,9 +26,9 @@ function arrayUnique(array) {
 // Array Remove - By John Resig (MIT Licensed)
 // found at https://stackoverflow.com/questions/500606/deleting-array-elements-in-javascript-delete-vs-splice
 Array.prototype.remove = function(from, to) {
-  var rest = this.slice((to || from) + 1 || this.length);
-  this.length = from < 0 ? this.length + from : from;
-  return this.push.apply(this, rest);
+	var rest = this.slice((to || from) + 1 || this.length);
+	this.length = from < 0 ? this.length + from : from;
+	return this.push.apply(this, rest);
 };
 
 function delete_confirmation(id) {
@@ -82,8 +88,8 @@ function setup_click_listener() {
 	};
 
 	function onClickMarker(feature) {
-		// change selected status
-		feature.attributes.selected = !feature.attributes.selected;
+		// select or unselect marker
+		set_marker_selected(markersVectorLayer, feature, !feature.attributes.selected);
 		
 		if(feature.attributes.selected) {
 			// get clicked point and add to destinations
@@ -95,7 +101,6 @@ function setup_click_listener() {
 	
 		// refresh balades table and marker color
 		refresh_balades_table();
-		change_color(markersVectorLayer, feature);
 	}
 
 	map.addControl(controls['selector']);
@@ -103,24 +108,22 @@ function setup_click_listener() {
 }
 
 function main() {
-	//points = get_all_points();
-
 	// load map without points
 	map,
 	markersVectorLayer = setup_map(
 			center = {
-				lon: -4.50010299,
+				lon: -4.496798,
 				lat: 48.38423089
-			}, zoom = 14);
+			}, zoom = 16);
+			
+	// load points from database
 	$.ajax({url: "get_points.php", success: function(result){
         points = JSON.parse(result);
-        // plot all points on map
+
+		// plot all points on map
         refresh_markers(map, markersVectorLayer, points);
         console.log(points);
-        //add_rows("points_list", points, "show_point", "go_to_edit_point");
     }});
-	// plot all points on map
-	//refresh_markers(map, markersVectorLayer, points);
 
 	// add click listener to markers
 	setup_click_listener();

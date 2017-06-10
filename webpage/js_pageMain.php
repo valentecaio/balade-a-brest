@@ -35,9 +35,7 @@ function go_to_edit_point(name) {
 	sessionStorage.setItem("pointId", point_to_save.id);
 	sessionStorage.setItem("pointDescrition", point_to_save.txt);
 
-	<?php
-		$_SESSION['pagePointFunction'] = "edition";
-	?>
+	<?php $_SESSION['pagePointFunction'] = "edition"; ?>
 	window.location = "pagePoint.php";
 }
 
@@ -46,9 +44,7 @@ function go_to_edit_balade(name) {
 	var balade_to_save = search_by_name(name, balades);
 	//TODO: finish this method
 	
-	<?php 
-		$_SESSION['pageBaladeFunction'] = "edition";
-	?>
+	<?php $_SESSION['pageBaladeFunction'] = "edition"; ?>
 	window.location = "pageBalade.php";
 }
 
@@ -64,8 +60,7 @@ function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
 		var new_row = document.createElement('div');
 		new_row.className = "btn-group";
 		new_row.style = "width:100%";
-		<?php
-			if(isset($_SESSION['id_usager'])&&(strcmp($_SESSION['permission'], "admin") == 0)){ ?>
+		<?php if(isset($_SESSION['id_usager'])&&(strcmp($_SESSION['permission'], "admin") == 0)){ ?>
 				var but1 = document.createElement('button');
 				but1.style = "width:90%;height: 40px; text-align: left; color: black;";
 				but1.className = "btn btn-default";
@@ -101,7 +96,7 @@ function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
 
 				table = document.getElementById(table_id);
 				table.appendChild(new_row);
-				<?php } ?>
+		<?php } ?>
 	}
 }
 
@@ -193,9 +188,6 @@ function add_control_to_map() {
 }
 
 function main() {
-	//points = get_all_points();
-	//balades = get_all_balades();
-
 	// load map without points
 	map,
 	markersVectorLayer = setup_map(

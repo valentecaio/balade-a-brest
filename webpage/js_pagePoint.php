@@ -1,7 +1,7 @@
 <script type="text/javascript">
 
 // global variables
-var map, markersVectorLayer, point_clicked, point;
+var map, markersVectorLayer, point;
 
 // add click listener to map
 function setup_click_listener() {
@@ -31,7 +31,7 @@ function setup_click_listener() {
 				// correct lon and lat values
 				var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform from WGS 1984
 				var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-				point_clicked = new OpenLayers.LonLat(lonlat.lon, lonlat.lat).transform(toProjection, fromProjection);
+				var point_clicked = new OpenLayers.LonLat(lonlat.lon, lonlat.lat).transform(toProjection, fromProjection);
 				var lon = point_clicked.lon;
 				var lat = point_clicked.lat;
 				
@@ -45,6 +45,7 @@ function setup_click_listener() {
 }
 
 function setPointClicked(lon, lat, name="", id="", descript=""){
+	// set point
 	point = {
 		name: name,
 		lon: lon,
@@ -64,7 +65,7 @@ function setPointClicked(lon, lat, name="", id="", descript=""){
 }
 
 function main() {
-	// load map without points
+	// load map without any point
 	map,
 	markersVectorLayer = setup_map(
 			center = {
@@ -74,16 +75,22 @@ function main() {
 	
 	setup_click_listener();
 	
-	<?php
-		if(strcmp($_SESSION['pagePointFunction'], 'edition') == 0){ ?>
-			console.log("edition page");
+	// load data according to page function
+	<?php if(strcmp($_SESSION['pagePointFunction'], 'edition') == 0 ||
+			strcmp($_SESSION['pagePointFunction'], 'approval') == 0) { ?>
+			console.log("edition or approval page");
+
+			// load point data
 			var pointName = sessionStorage.getItem('pointName');
 			var pointLat = sessionStorage.getItem('pointLat');
 			var pointLon = sessionStorage.getItem('pointLon');
 			var pointId = sessionStorage.getItem('pointId');
 			var pointDescript = sessionStorage.getItem('pointDescription');
 			
+			// set point data
 			setPointClicked(pointLon, pointLat, pointName, pointId, pointDescript);
+	<?php } else if(strcmp($_SESSION['pagePointFunction'], 'creation') == 0) { ?>
+			console.log("creation page");
 	<?php } ?>
 }
 

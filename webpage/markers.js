@@ -35,15 +35,12 @@ function add_marker(map, vectorLayer, location) {
 	vectorLayer.addFeatures(marker);
 }
 
-function change_color(vectorLayer, marker) {
-	var color;
-	if (marker.attributes.selected) {
-		color = 'red';
-	} else {
-		color = 'blue';
-	}
+function set_marker_selected(vectorLayer, marker, status) {
+	// select/unselect marker
+	marker.attributes.selected = status;
 
 	// change style icon
+	var color = (status ? 'red' : 'blue');
 	var icon = 'images/' + color + '_marker.png';
 	marker.style.externalGraphic = icon;
 
