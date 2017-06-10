@@ -122,7 +122,6 @@ function main() {
 
 		// plot all points on map
         refresh_markers(map, markersVectorLayer, points);
-        console.log(points);
     }});
 
 	// add click listener to markers
