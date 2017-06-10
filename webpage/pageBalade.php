@@ -30,14 +30,16 @@
       							<input type="text" class="form-control" id="form_theme" placeholder="Entrez le thème de la nouvelle balade ">
 							</div>
 						</div>
+						<div class="form-group">
+	  						<label class="control-label col-sm-3" for="form_comment" style="text-align: right;">Description:</label>
+	  						<div class="col-sm-9">
+	  							<textarea class="form-control" rows="5" id="form_comment" placeholder="Donnez une description de la nouvelle balade"></textarea>
+							</div>
+						</div>
 					</form>
-  					<div class="form-group">
-  						<label for="comment">Description:</label>
-  						<textarea class="form-control" rows="5" id="comment" placeholder="Donnez une description de la nouvelle balade"></textarea>
-					</div>
 					<div class="form-group" id="points_list"></div>
-			  		<div class="row"> 
-			    		<div class="col-sm-6 pull-right">
+			  		<div class="row pull-right"> 
+			  			<div class="container-fluid">
 			    			<button type="submit" class="btn btn-default">Supprimer</button>
 			    			<button type="submit" class="btn" data-toggle="modal" data-target="#sendModal">Envoyer</button>
 						</div>
