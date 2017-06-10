@@ -14,13 +14,7 @@
 				<li id="nav_balades" class=""><a href="pageMain.php">Balades</a></li>
 				<?php
 					if(isset($_SESSION["id_usager"]) && (strcmp($_SESSION["permission"], "admin") == 0 )){ //if permission == "admin" the dropdown is shown ?>
-					<li id="nav_suggestions" class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Suggestions <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="#">Parcours</a></li>
-							<li><a href="pagePoint.php">Ajout point d'interêt</a></li>
-						</ul>
-					</li>
+					<li id="nav_suggestions" class=""><a href="pageSuggestions.php">Suggestions</a></li>
 				<?php } ?>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">

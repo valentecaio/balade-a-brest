@@ -70,10 +70,13 @@
    								<input id="fileupload" name="myfile" type="file" />
 							</div>
 						</div>
-						<div class="row pull-right">
-							<div class="container-fluid">	
-		    					<button type="submit" class="btn btn-default">Annuler</button>
-			    				<button type="submit" class="btn">Envoyer</button>
+						<div class="row">
+							<div class="container-fluid">
+								<button id="delete_button" type="submit" class="btn btn-default" style="color: red">Supprimer</button>
+								<div class="pull-right">
+			    					<button type="submit" class="btn btn-default">Annuler</button>
+				    				<button id="send_button" type="submit" class="btn"></button>
+			    				</div>	
 							</div>
 						</div>
 					</form>

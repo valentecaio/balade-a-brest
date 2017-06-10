@@ -69,6 +69,18 @@ function setPointClicked(lon, lat, name="", id="", descript=""){
 	refresh_markers(map, markersVectorLayer, [point])
 }
 
+function add_buttons(){
+	var pageType = sessionStorage.getItem('pageType');
+	if(pageType == 'creation') {
+		document.getElementById("delete_button").style.display = 'none';
+		document.getElementById("send_button").innerHTML = 'Envoyer';
+	} else if(pageType == 'approval'){
+		document.getElementById("send_button").innerHTML = 'Approuver';
+	} else if(pageType == 'edition'){
+		document.getElementById("send_button").innerHTML = 'Envoyer';
+	}
+}
+
 function main() {
 	// load map without any point
 	map,
@@ -83,7 +95,7 @@ function main() {
 	// load data according to page function
 	var pageType = sessionStorage.getItem('pageType');
 	if(pageType == 'edition' || pageType == 'approval') {
-		console.log("edition or approval page");
+		console.log(pageType);
 
 		// load point data
 		var pointName = sessionStorage.getItem('pointName');
@@ -100,6 +112,8 @@ function main() {
 		// init global variable to avoid losing clicked points
 		setPointClicked(null, null);
 	}
+
+	add_buttons();
 }
 
 </script>
