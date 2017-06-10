@@ -95,7 +95,10 @@ function main() {
 		// set point data
 		setPointClicked(pointLon, pointLat, pointName, pointId, pointDescript);
 	} else if(pageType == 'creation') {
-			console.log("creation page");
+		console.log("creation page");
+		
+		// init global variable to avoid losing clicked points
+		setPointClicked(null, null);
 	}
 }
 
