@@ -7,7 +7,12 @@
         die('Erreur : '.$e->getMessage());
     }
 
-    $req = $bdd->query('SELECT id_point, nom, latitude, longitude, description FROM point');
+    if (!isset($_GET['status'])) {
+        $req = $bdd->query('SELECT id_point, nom, latitude, longitude, description FROM point WHERE status = \'accepte\'');
+    }
+    else{
+        $req = $bdd->query('SELECT id_point, nom, latitude, longitude, description FROM point WHERE status = \'en_attente\'');   
+    }
     
     $list = array();
     while ($data = $req->fetch()) {

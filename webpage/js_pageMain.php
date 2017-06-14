@@ -134,7 +134,7 @@ function onclick_button_edit_point(name) {
 	sessionStorage.setItem("pointLon", point_to_save.lon);
 	sessionStorage.setItem("pointLat", point_to_save.lat);
 	sessionStorage.setItem("pointId", point_to_save.id);
-	sessionStorage.setItem("pointDescrition", point_to_save.txt);
+	sessionStorage.setItem("pointDescription", point_to_save.txt);
 
 	sessionStorage.setItem('pageType', "edition");
 	window.location = "pagePoint.php";

@@ -60,6 +60,7 @@ function setPointClicked(lon, lat, name="", id="", descript=""){
 	};
 	
 	// add point data to form boxes
+	document.getElementById("form_id").value = id;
 	document.getElementById("form_name").value = name;
 	document.getElementById("form_latitude").value = lat;
 	document.getElementById("form_longitude").value = lon;
@@ -69,26 +70,25 @@ function setPointClicked(lon, lat, name="", id="", descript=""){
 	refresh_markers(map, markersVectorLayer, [point])
 }
 
-function button_action() {
-	var pageType = sessionStorage.getItem('pageType');
-	if(pageType == 'creation') {
-		document.getElementById("createp").setAttribute('action',"insert_point.php");
-	} else if(pageType == 'approval'){
-		document.getElementById("send_button").setAttribute('action',"query_approve_point.php");
-	} else if(pageType == 'edition'){
-		document.getElementById("send_button").setAttribute('action',"query_edition_point.php");
-	}
+function button_action(action) {
+	document.getElementById("createp").setAttribute('action', action);
 }
 
 function add_buttons(){
 	var pageType = sessionStorage.getItem('pageType');
 	if(pageType == 'creation') {
 		document.getElementById("delete_button").style.display = 'none';
-		document.getElementById("send_button").innerHTML = 'Envoyer';
+		var send_button = document.getElementById("send_button");
+		send_button.innerHTML = 'Envoyer';
+		send_button.setAttribute('onclick', "button_action('query_insert_point.php')");
 	} else if(pageType == 'approval'){
-		document.getElementById("send_button").innerHTML = 'Approuver';
+		var send_button = document.getElementById("send_button");
+		send_button.innerHTML = 'Approuver';
+		send_button.setAttribute('onclick', "button_action('query_approve_point.php')");
 	} else if(pageType == 'edition'){
-		document.getElementById("send_button").innerHTML = 'Envoyer';
+		var send_button = document.getElementById("send_button");
+		send_button.innerHTML = 'Envoyer';
+		send_button.setAttribute('onclick', "button_action('query_edition_point.php')");
 	}
 }
 
@@ -125,7 +125,7 @@ function main() {
 	}
 
 	add_buttons();
-	button_action();
+	//button_action();
 }
 
 </script>
