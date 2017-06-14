@@ -69,6 +69,17 @@ function setPointClicked(lon, lat, name="", id="", descript=""){
 	refresh_markers(map, markersVectorLayer, [point])
 }
 
+function button_action() {
+	var pageType = sessionStorage.getItem('pageType');
+	if(pageType == 'creation') {
+		document.getElementById("createp").setAttribute('action',"insert_point.php");
+	} else if(pageType == 'approval'){
+		document.getElementById("send_button").setAttribute('action',"query_approve_point.php");
+	} else if(pageType == 'edition'){
+		document.getElementById("send_button").setAttribute('action',"query_edition_point.php");
+	}
+}
+
 function add_buttons(){
 	var pageType = sessionStorage.getItem('pageType');
 	if(pageType == 'creation') {
@@ -114,6 +125,7 @@ function main() {
 	}
 
 	add_buttons();
+	button_action();
 }
 
 </script>

@@ -38,7 +38,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-4">
-					<form class="form-horizontal" enctype="multipart/form-data" id="createp" action="insert_point.php" method="post">
+					<form class="form-horizontal" enctype="multipart/form-data" id="createp" action="" method="post">
 						
   						<div class="form-group">
     						<label class="control-label col-sm-3" for="form_name" style="text-align: right;">Nom:</label>
@@ -61,7 +61,7 @@
   						<div class="form-group">
 	  						<label class="control-label col-sm-3" for="form_comment" style="text-align: right;">Description:</label>
 	  						<div class="col-sm-9">
-	  							<textarea class="form-control" rows="5" id="form_comment" placeholder="Donnez une description du point"></textarea>
+	  							<textarea type="text" class="form-control" rows="5" name="form_comment" id="form_comment" placeholder="Donnez une description du point"></textarea>
 							</div>
 						</div>
 						<div class="form-group">
@@ -72,9 +72,9 @@
 						</div>
 						<div class="row">
 							<div class="container-fluid">
-								<button id="delete_button" type="submit" class="btn btn-default" style="color: red">Supprimer</button>
+								<button id="delete_button" type="button" class="btn btn-default" style="color: red" onclick="">Supprimer</button>
 								<div class="pull-right">
-			    					<button type="submit" class="btn btn-default">Annuler</button>
+			    					<button type="button" class="btn btn-default" onclick="location.href = 'pageMain.php';">Annuler</button>
 				    				<button id="send_button" type="submit" class="btn"></button>
 			    				</div>	
 							</div>

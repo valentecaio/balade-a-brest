@@ -33,7 +33,7 @@ if(strcmp($_SESSION['permission'], "admin") == 0 ){
         'nom' => $_POST['form_name'],
         'latitude' => $_POST['form_latitude'],
         'longitude' => $_POST['form_longitude'],
-        'description' => $_POST['comment']));
+        'description' => $_POST['form_comment']));
 
 }else{
 
@@ -42,7 +42,7 @@ if(strcmp($_SESSION['permission'], "admin") == 0 ){
         'nom' => $_POST['form_name'],
         'latitude' => $_POST['form_latitude'],
         'longitude' => $_POST['form_longitude'],
-        'description' => $_POST['comment']));
+        'description' => $_POST['form_comment']));
 }
     //$req->closeCursor();
     header('Location: pagePoint.php?modal=2');
