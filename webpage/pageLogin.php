@@ -46,13 +46,12 @@
 						<form class="form-signin" id="signin" action="login_script.php" method="post">
 							<h2 class="form-signin-heading">Se connecter</h2>
 							<label for="inputEmail" class="sr-only">Addresse e-mail</label>
-							<input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Addresse e-mail" required autofocus>
+							<input type="email" name="inputEmail" id="inputEmail" class="form-control" value="<?php if(isset($_COOKIE["member_login"])) { echo $_COOKIE["member_login"]; } ?>" placeholder="Addresse e-mail" required autofocus>
 							<label for="inputPassword" class="sr-only">Mot de passe</label>
-							<input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Mot de passe">
+							<input type="password" name="inputPassword" id="inputPassword" class="form-control"  value="<?php if(isset($_COOKIE["member_password"])) { echo $_COOKIE["member_password"]; } ?>" placeholder="Mot de passe">
 							<div class="checkbox">
-								<label>
-									<input type="checkbox" value="remember-me"><b>Se souvenir de moi</b>
-								</label>
+								<input type="checkbox" name="remember" id="remember" <?php if(isset($_COOKIE["member_login"])) { ?> checked <?php } ?> /><b>Se souvenir de moi</b>
+								<label for="remember-me">Remember me</label>
 							</div>
 							<button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
 						</form>
