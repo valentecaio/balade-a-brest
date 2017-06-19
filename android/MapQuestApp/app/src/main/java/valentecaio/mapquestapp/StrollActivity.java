@@ -44,7 +44,7 @@ public class StrollActivity extends AppCompatActivity {
         // get balades from database
         balades = DAO.fake_readAllBalades();
 
-        BaladesAdapter adapter = new BaladesAdapter(this, balades);
+        BaladesAdapter adapter = new BaladesAdapter(this, balades, this);
         scrolls_LV.setAdapter(adapter);
     }
 

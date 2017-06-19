@@ -1,5 +1,6 @@
 package valentecaio.mapquestapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,11 @@ import java.util.ArrayList;
  */
 
 public class BaladesAdapter extends ArrayAdapter<Balade> {
-    public BaladesAdapter(Context context, ArrayList<Balade> balades) {
+    Activity delegate;
+
+    public BaladesAdapter(Context context, ArrayList<Balade> balades, Activity delegate) {
         super(context, 0, balades);
+        this.delegate = delegate;
     }
 
     @Override
@@ -34,7 +38,7 @@ public class BaladesAdapter extends ArrayAdapter<Balade> {
         tvName.setText(balade.getName());
 
         Button butDownload = (Button) convertView.findViewById(R.id.butDownload);
-        DownloadButtonListener listener = new DownloadButtonListener(balade);
+        DownloadButtonListener listener = new DownloadButtonListener(balade, this.delegate);
         butDownload.setOnClickListener(listener);
 
         // Return the completed view to render on screen

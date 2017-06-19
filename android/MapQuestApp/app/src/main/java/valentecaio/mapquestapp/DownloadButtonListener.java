@@ -1,5 +1,6 @@
 package valentecaio.mapquestapp;
 
+import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 
@@ -9,14 +10,21 @@ import android.view.View;
 
 public class DownloadButtonListener implements View.OnClickListener {
     Balade balade;
+    AppFileManager afm;
 
-    public DownloadButtonListener(Balade balade) {
+    public DownloadButtonListener(Balade balade, Activity delegate) {
         this.balade = balade;
+        afm = new AppFileManager(delegate.getApplication().getApplicationContext());
     }
 
     @Override
     public void onClick(View view) {
-        Log.i("onClick download button", "Downloading balade: " + balade.toString());
-        DAO.fake_downloadBalade(this.balade.getId());
+        Log.i("onClick", "Downloading balade: " + balade.toString());
+        Balade b = DAO.fake_downloadBalade(this.balade.getId());
+        afm.writeBalade(b);
+
+        afm.setName("balade_" + b.getId() + ".csv");
+        String csv = afm.read();
+        Log.i("written data", csv);
     }
 }

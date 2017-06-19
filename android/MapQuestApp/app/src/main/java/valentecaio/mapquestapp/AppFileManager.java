@@ -34,17 +34,8 @@ public class AppFileManager {
     private static String point_prefix = "point_";
     private static String balade_prefix = "balade_";
 
-    public AppFileManager(AppCompatActivity delegate) {
-        this.context = delegate.getApplication().getApplicationContext();
-    }
-
     public AppFileManager(Context context) {
         this.context = context.getApplicationContext();
-    }
-
-    public AppFileManager(AppCompatActivity delegate, String filename) {
-        this.context = delegate.getApplication().getApplicationContext();
-        this.name = filename;
     }
 
     public String getName() {
@@ -71,7 +62,7 @@ public class AppFileManager {
                     context.openFileOutput(nameToWrite, Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
-            IO.print(this, "wrote with sucess the file " + this.name);
+            IO.print(this, "wrote with sucess the file " + nameToWrite);
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
@@ -81,7 +72,7 @@ public class AppFileManager {
         return file.getName().contains(fileType);
     }
 
-    private String read() {
+    public String read() {
         String ret = "";
         try {
             String nameToRead = nameWithType();
