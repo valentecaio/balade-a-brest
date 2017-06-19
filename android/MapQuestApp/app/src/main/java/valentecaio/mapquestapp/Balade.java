@@ -10,7 +10,7 @@ public class Balade {
     private String id;
     private String name;
     private String theme;
-    private ArrayList points = new ArrayList();
+    private ArrayList<Point> points = new ArrayList<Point>();
 
     public Balade(String id, String name, String theme) {
         this.id = id;
@@ -23,7 +23,7 @@ public class Balade {
         this.theme = theme;
     }
 
-    public ArrayList getPoints() {
+    public ArrayList<Point> getPoints() {
         return points;
     }
 

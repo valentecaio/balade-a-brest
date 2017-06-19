@@ -23,7 +23,7 @@ public class AppFileManager {
     private Context context;
 
     private static String fileType = ".csv";
-    private static String separator = "===";
+    private static String separator = " $$$ ";
     private static String point_prefix = "point_";
     private static String balade_prefix = "balade_";
 
@@ -55,7 +55,7 @@ public class AppFileManager {
                     context.openFileOutput(nameToWrite, Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
-            IO.print(this, "wrote with sucess the file " + nameToWrite);
+            Log.i("WRITE", "filename: " + nameToWrite + ", content: " + data);
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
@@ -70,7 +70,6 @@ public class AppFileManager {
         try {
             String nameToRead = nameWithType();
             InputStream inputStream = context.openFileInput(nameToRead);
-            IO.print("reading from " + nameToRead);
 
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -84,6 +83,7 @@ public class AppFileManager {
 
                 inputStream.close();
                 ret = stringBuilder.toString();
+                Log.i("READ", "filename: " + nameToRead + ", content: " + ret);
             }
         } catch (FileNotFoundException e) {
             Log.e("login activity", "File not found: " + e.toString());
@@ -149,22 +149,30 @@ public class AppFileManager {
         write(s);
     }
 
-    public void writeBalade(Balade b){
+    private void writeBalade(Balade b){
         String s = b.getId()
                 + separator + b.getName()
                 + separator + b.getTheme();
-        ArrayList points = b.getPoints();
-        for(Object o: points){
-            s +=  separator + ((Point)o).getId();
+        ArrayList<Point> points = b.getPoints();
+        for(Point p: points){
+            s +=  separator + p.getId();
         }
 
         this.setName(balade_prefix + b.getId() + fileType);
         write(s);
     }
 
+    public void writeBaladeAndPoints(Balade b){
+        writeBalade(b);
+
+        for(Point p: b.getPoints()){
+            writePoint(p);
+        }
+    }
+
     private File[] getFiles(){
         String path = this.context.getFilesDir().getAbsolutePath();
-        IO.print("Path: " + path);
+        Log.i("getFiles", "Path: " + path);
         File directory = new File(path);
         File[] files = directory.listFiles();
         return files;
@@ -190,7 +198,7 @@ public class AppFileManager {
         boolean deleted = true;
         for (File file : files) {
             if (formatIsCSV(file)) {
-                IO.print("deleting " + file.getName());
+                Log.i("DELETE", "filename: " + file.getName());
                 deleted = file.delete() && deleted;
             }
         }
@@ -204,7 +212,7 @@ public class AppFileManager {
         for (File file : files) {
             String nameToDelete = nameWithType();
             if (nameToDelete.equals(file.getName()) && formatIsCSV(file)) {
-                IO.print("deleting " + file.getName());
+                Log.i("DELETE", "filename: " + file.getName());
                 deleted = file.delete();
             }
         }

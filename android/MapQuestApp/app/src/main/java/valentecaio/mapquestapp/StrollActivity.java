@@ -24,6 +24,9 @@ public class StrollActivity extends AppCompatActivity {
         configureListView();
 
         verify_permissions();
+
+        // read all data (useful to debug)
+        new AppFileManager(this).readAll();
     }
 
     public void configureListView(){

@@ -21,10 +21,6 @@ public class DownloadButtonListener implements View.OnClickListener {
     public void onClick(View view) {
         Log.i("onClick", "Downloading balade: " + balade.toString());
         Balade b = DAO.fake_downloadBalade(this.balade.getId());
-        afm.writeBalade(b);
-
-        afm.setName("balade_" + b.getId() + ".csv");
-        String csv = afm.read();
-        Log.i("written data", csv);
+        afm.writeBaladeAndPoints(b);
     }
 }
