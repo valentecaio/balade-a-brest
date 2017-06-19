@@ -41,14 +41,10 @@ public class StrollActivity extends AppCompatActivity {
             }
         });
 
+        // get balades from database
         balades = DAO.fake_readAllBalades();
 
-        String[] titles = new String[balades.size()];
-        for(int i=0; i<balades.size(); i++){
-            titles[i] = balades.get(i).toString();
-        }
-
-        final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, titles);
+        BaladesAdapter adapter = new BaladesAdapter(this, balades);
         scrolls_LV.setAdapter(adapter);
     }
 
