@@ -1,13 +1,10 @@
 package valentecaio.mapquestapp;
 
 import android.content.Context;
-import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,10 +12,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import valentecaio.mapquestapp.IO;
 
 /**
  * Created by caio on 18/06/2017.

@@ -1,7 +1,6 @@
 package valentecaio.mapquestapp;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by caio on 19/6/2017.
