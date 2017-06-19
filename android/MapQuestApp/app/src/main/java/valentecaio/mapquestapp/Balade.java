@@ -48,4 +48,9 @@ public class Balade {
     public String getTheme() {
         return theme;
     }
+
+    @Override
+    public String toString() {
+        return getName() + " (" + getPoints().size() + " points)";
+    }
 }
