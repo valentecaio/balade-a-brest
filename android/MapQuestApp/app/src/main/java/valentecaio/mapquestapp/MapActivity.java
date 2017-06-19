@@ -36,8 +36,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
     private LocationManager locationManager;
     private Marker nearest_marker;
 
-    ArrayList<Point> points = new ArrayList<Point>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +43,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
         setContentView(R.layout.activity_map);
 
+        // config camera bucton
         camera = (Button) findViewById(R.id.camera_button);
         camera.setOnClickListener(this);
 
+        // config map
         mMapView = (MapView) findViewById(R.id.mapquestMapView);
         mMapView.onCreate(savedInstanceState);
         configureMap();
@@ -71,30 +71,16 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
                 enableUserTracking(mMapboxMap);
 
-                // create points
-                Point tour = new Point("tour", 48.383421, -4.497139);
-                Point jardin = new Point("jardin", 48.381615, -4.499135);
-                Point tram = new Point("tram", 48.384105, -4.499425);
-                Point laverie = new Point("laverie", 48.357061, -4.570031);
-                Point cv = new Point("centre vie", 48.358906, -4.570013);
-                Point imt_statue = new Point("imt statue", 48.360124, -4.570747);
-                Point cv4 = new Point("departement des langues", 48.358974, -4.569635);
-                Point cv5 = new Point("departement informatique", 48.358899, -4.570263);
-                Point cv6 = new Point("salle meridianne", 48.358823, -4.570081);
-
-                // put points in array
-                Point[] array = new Point[] { tour, jardin, tram, laverie, cv, imt_statue, cv4, cv5, cv6 };
-                points = new ArrayList<Point>(Arrays.asList(array));
-
                 // put points on the map
-                for(Point p: points){
+                for(Point p: GlobalVariables.getInstance().balade.getPoints()){
                     addMarker(mMapboxMap, p.getLocation(), p.getName(), "");
                 }
                 // initialize nearest_marker
                 nearest_marker = mMapboxMap.getMarkers().get(0);
 
                 // center map
-                mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cv.getLocation(), 17));
+                Point center = GlobalVariables.getInstance().balade.getPoints().get(0);
+                mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center.getLocation(), 17));
 
                 // set listener to markers
                 mMapboxMap.setOnInfoWindowClickListener(new MapboxMap.OnInfoWindowClickListener() {
@@ -152,12 +138,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
         Intent i = new Intent(this, CameraActivity.class);
 
         String marker_name = nearest_marker.getTitle();
-        Log.e("points", points.toString());
+        ArrayList<Point> points = GlobalVariables.getInstance().balade.getPoints();
         Point point = points.get(points.indexOf(new Point(marker_name, 0 ,0)));
 
-        i.putExtra("target_name", point.getName());
-        i.putExtra("target_longitude", point.getLongitude());
-        i.putExtra("target_latitude", point.getLatitude());
+        // stock target in global variables
+        GlobalVariables.getInstance().target = point;
 
         startActivity(i);
     }
@@ -186,7 +171,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
     public void onLocationChanged(Location location) {
         myLocation = location;
         nearest_marker = sortMarkersbyDistance(mMapboxMap.getMarkers(), location).get(0);
-        Log.e("SORTED", "sorted markers by distance, " + nearest_marker);
+        Log.i("SORTED", "sorted markers by distance, " + nearest_marker);
     }
 
     /**

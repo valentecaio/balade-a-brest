@@ -25,7 +25,7 @@ public class StrollActivity extends AppCompatActivity {
 
         verify_permissions();
 
-        // read all data (useful to debug)
+        // read all balades and points (useful to debug)
         new AppFileManager(this).readAll();
     }
 
@@ -37,7 +37,11 @@ public class StrollActivity extends AppCompatActivity {
                                     int position, long id) {
                 Log.i("debug", "Click ListItem Number " + position);
 
+                // stock clicked balade as global variables
                 Balade chosen_balade = balades.get(position);
+                GlobalVariables.getInstance().balade = chosen_balade;
+
+                // go to mapActivity
                 Intent i = new Intent(StrollActivity.this, MapActivity.class);
                 startActivity(i);
             }
@@ -46,6 +50,7 @@ public class StrollActivity extends AppCompatActivity {
         // get balades from database
         balades = DAO.fake_readAllBalades();
 
+        // populate listView
         BaladesAdapter adapter = new BaladesAdapter(this, balades, this);
         scrolls_LV.setAdapter(adapter);
     }
