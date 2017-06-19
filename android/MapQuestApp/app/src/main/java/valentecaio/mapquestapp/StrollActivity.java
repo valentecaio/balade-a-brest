@@ -8,14 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 public class StrollActivity extends AppCompatActivity {
-
     private ListView scrolls_LV;
+    private ArrayList<Balade> balades = new ArrayList<Balade>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +24,9 @@ public class StrollActivity extends AppCompatActivity {
         configureListView();
 
         verify_permissions();
+
+        // read all data (useful to debug)
+        new AppFileManager(this).readAll();
     }
 
     public void configureListView(){
@@ -35,13 +37,16 @@ public class StrollActivity extends AppCompatActivity {
                                     int position, long id) {
                 Log.i("debug", "Click ListItem Number " + position);
 
+                Balade chosen_balade = balades.get(position);
                 Intent i = new Intent(StrollActivity.this, MapActivity.class);
                 startActivity(i);
             }
         });
 
-        String[] strolls = new String[] {"Telecom centre vie", "Telecom ecole"};
-        final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, strolls);
+        // get balades from database
+        balades = DAO.fake_readAllBalades();
+
+        BaladesAdapter adapter = new BaladesAdapter(this, balades, this);
         scrolls_LV.setAdapter(adapter);
     }
 
