@@ -1,8 +1,15 @@
+body {
+	padding-top: 0px;
+	padding-bottom: 40px;
+	background-image: url("./images/background-initial.jpg");
+	background-size: cover;
+}
+
 .wb {
-  text-align: center;
-  margin-top: 20px;
-  padding: 10px;
-  color: black;
+	text-align: center;
+	margin-top: 20px;
+	padding: 10px;
+	color: black;
 }
 
 .wb .btn {
@@ -11,10 +18,3 @@
 	font-size: 21px;
 	color: black;
 }
-body{
-	background-color: #a7a7a7;
-}
-<style> 
-	p {margin-top:1em;} 
-	h1{margin-bottom:1em;margin-top:1em;} 
-</style>
