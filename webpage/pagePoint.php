@@ -72,7 +72,7 @@
 						<div class="form-group">
 							<label class="control-label col-sm-3" for="form_longitude" style="text-align: right;">Télécharger média:</label>
 							<div class="col-sm-8">
-   								<input id="fileupload" name="myfile" type="file" />
+   								<input id="file_upload" name="file_upload" type="file">
 							</div>
 						</div>
 						<div class="row">
@@ -80,7 +80,7 @@
 								<button id="delete_button" type="submit" class="btn btn-default" style="color: red" onclick="button_action('query_delete_point.php')">Supprimer</button>
 								<div class="pull-right">
 			    					<button type="button" class="btn btn-default" onclick="location.href = 'pageMain.php';">Annuler</button>
-				    				<button id="send_button" type="submit" class="btn"></button>
+				    				<button id="send_button" type="submit" class="btn" name="submit"></button>
 			    				</div>	
 							</div>
 						</div>

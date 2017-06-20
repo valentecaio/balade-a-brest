@@ -1,13 +1,10 @@
 package valentecaio.mapquestapp;
 
 import android.content.Context;
-import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,10 +12,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import valentecaio.mapquestapp.IO;
 
 /**
  * Created by caio on 18/06/2017.
@@ -30,21 +23,12 @@ public class AppFileManager {
     private Context context;
 
     private static String fileType = ".csv";
-    private static String separator = "===";
+    private static String separator = " $$$ ";
     private static String point_prefix = "point_";
     private static String balade_prefix = "balade_";
 
-    public AppFileManager(AppCompatActivity delegate) {
-        this.context = delegate.getApplication().getApplicationContext();
-    }
-
     public AppFileManager(Context context) {
         this.context = context.getApplicationContext();
-    }
-
-    public AppFileManager(AppCompatActivity delegate, String filename) {
-        this.context = delegate.getApplication().getApplicationContext();
-        this.name = filename;
     }
 
     public String getName() {
@@ -71,7 +55,7 @@ public class AppFileManager {
                     context.openFileOutput(nameToWrite, Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
-            IO.print(this, "wrote with sucess the file " + this.name);
+            Log.i("WRITE", "filename: " + nameToWrite + ", content: " + data);
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
@@ -81,12 +65,11 @@ public class AppFileManager {
         return file.getName().contains(fileType);
     }
 
-    private String read() {
+    public String read() {
         String ret = "";
         try {
             String nameToRead = nameWithType();
             InputStream inputStream = context.openFileInput(nameToRead);
-            IO.print("reading from " + nameToRead);
 
             if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -100,6 +83,7 @@ public class AppFileManager {
 
                 inputStream.close();
                 ret = stringBuilder.toString();
+                Log.i("READ", "filename: " + nameToRead + ", content: " + ret);
             }
         } catch (FileNotFoundException e) {
             Log.e("login activity", "File not found: " + e.toString());
@@ -165,22 +149,30 @@ public class AppFileManager {
         write(s);
     }
 
-    public void writeBalade(Balade b){
+    private void writeBalade(Balade b){
         String s = b.getId()
                 + separator + b.getName()
                 + separator + b.getTheme();
-        ArrayList points = b.getPoints();
-        for(Object o: points){
-            s +=  separator + ((Point)o).getId();
+        ArrayList<Point> points = b.getPoints();
+        for(Point p: points){
+            s +=  separator + p.getId();
         }
 
         this.setName(balade_prefix + b.getId() + fileType);
         write(s);
     }
 
+    public void writeBaladeAndPoints(Balade b){
+        writeBalade(b);
+
+        for(Point p: b.getPoints()){
+            writePoint(p);
+        }
+    }
+
     private File[] getFiles(){
         String path = this.context.getFilesDir().getAbsolutePath();
-        IO.print("Path: " + path);
+        Log.i("getFiles", "Path: " + path);
         File directory = new File(path);
         File[] files = directory.listFiles();
         return files;
@@ -206,7 +198,7 @@ public class AppFileManager {
         boolean deleted = true;
         for (File file : files) {
             if (formatIsCSV(file)) {
-                IO.print("deleting " + file.getName());
+                Log.i("DELETE", "filename: " + file.getName());
                 deleted = file.delete() && deleted;
             }
         }
@@ -220,7 +212,7 @@ public class AppFileManager {
         for (File file : files) {
             String nameToDelete = nameWithType();
             if (nameToDelete.equals(file.getName()) && formatIsCSV(file)) {
-                IO.print("deleting " + file.getName());
+                Log.i("DELETE", "filename: " + file.getName());
                 deleted = file.delete();
             }
         }
