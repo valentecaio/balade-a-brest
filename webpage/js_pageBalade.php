@@ -94,7 +94,7 @@ function setup_click_listener() {
 function onClickMarker(feature) {
 	// select or unselect marker
 	set_marker_selected(markersVectorLayer, feature, !feature.attributes.selected);
-		
+	console.log(feature);	
 	if(feature.attributes.selected) {
 		// get clicked point and add to destinations
 		destinations.push(feature.attributes.point);
@@ -105,6 +105,7 @@ function onClickMarker(feature) {
 
 	// refresh balades table and marker color
 	refresh_balades_table();
+	document.getElementById("form_list").value = JSON.stringify(destinations);
 }
 
 function main() {
@@ -126,6 +127,7 @@ function main() {
 
 	// add click listener to markers
 	setup_click_listener();
+	console.log(destinations);
 }
 
 </script>
