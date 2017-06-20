@@ -101,7 +101,7 @@
 							        	<h4 class="modal-title">Message enregistrée</h4>
 									</div>
 							        <div class="modal-body">
-							        	<h4 >Votre message sera annalisé par le gestionnaire du site.</h4>
+							        	<h4 >Votre message sera analisé par le gestionnaire du site.</h4>
 									</div>
 							        <div class="modal-footer">
 							        	<button type="button" class="btn btn-default" onclick="location.href = 'pageMain.php';">OK</button>

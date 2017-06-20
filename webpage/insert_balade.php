@@ -24,35 +24,43 @@ if ($resultat['id_point']){
     exit();
 }
 $req->closeCursor();*/
-
+echo $_POST['form_name'];
 if(strcmp($_SESSION['permission'], "admin") == 0 ){
 
 // Insertion du message à l'aide d'une requête préparée
-    $req = $bdd->prepare('INSERT INTO balade (nom, theme, status) VALUES (:nom, :theme, \'accepte\')');
+    $req = $bdd->prepare('INSERT INTO balade (nom, theme, description, status) VALUES (:nom, :theme, :description, \'accepte\')');
     $req->execute(array(
         'nom' => $_POST['form_name'],
-        'theme' => $_POST['form_latitude']));
+        'theme' => $_POST['form_theme'],
+        'description' => $_POST['form_comment']));
 
 }else{
 
    // Insertion du message à l'aide d'une requête préparée
-    $req = $bdd->prepare('INSERT INTO balade (nom, theme) VALUES (:nom, :theme)');
+    $req = $bdd->prepare('INSERT INTO balade (nom, theme, description) VALUES (:nom, :theme, :description)');
     $req->execute(array(
         'nom' => $_POST['form_name'],
-        'theme' => $_POST['form_latitude']));
+        'theme' => $_POST['form_theme'],
+        'description' => $_POST['form_comment']));
 }
-$markers = json_decode($_POST['markers']);
+$points = json_decode($_POST['form_list']);
 
-foreach ($markers as $value) {
-    $id_point = $value->id_p;
-    $id_balade =
-    $ordre =
-    $req = $bdd->prepare('INSERT INTO contenu_parcours (id_p, id_b, ordre) VALUES (:nom, :theme, :ordre)');
+$id_balade = $bdd->lastInsertId();
+echo $id_balade;
+foreach ($points as $value) {
+    $id_point = $value->id;
+    //$ordre =
+    $req = $bdd->prepare('INSERT INTO contenu_parcours (id_p, id_b) VALUES (:id_p, :id_b)');
         $req->execute(array(
-            'id_p' => $_POST['id_point'],
-            'id_b' => $_POST['id_balade']));
+            'id_p' => $id_point,
+            'id_b' => $id_balade ));
 }
 
     //$req->closeCursor();
-    header('Location: pagePoint.php?modal=2');
+   
+if(strcmp($_SESSION['permission'], "admin") == 0 ){
+	header('Location: pageMain.php');
+}else{
+	header('Location: pagePoint.php?modal=2');
+}
 ?>
