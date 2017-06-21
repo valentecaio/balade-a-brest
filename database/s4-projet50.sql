@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `s4-projet50`
+-- Base de données :  `web18_main`
 --
 
 -- --------------------------------------------------------
@@ -93,7 +93,6 @@ CREATE TABLE `usagers` (
   `nom` varchar(255) NOT NULL,
   `prenom` varchar(255) NOT NULL,
   `mot_de_passe` varchar(255) NOT NULL,
-  `date_inscription` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `email` varchar(255) NOT NULL,
   `permission` enum('admin','user') NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -102,10 +101,10 @@ CREATE TABLE `usagers` (
 -- Contenu de la table `usagers`
 --
 
-INSERT INTO `usagers` (`id_usager`, `nom`, `prenom`, `mot_de_passe`, `date_inscription`, `email`, `permission`) VALUES
-(19, 'Cardador', 'Jean', 'fddecb6a9fb5324cab83d2c9d4ec6f3492ee1df4', '2017-05-26 19:10:33', 'jony@tb', 'admin'),
-(20, 'Marin', 'Yan', 'b1b3773a05c0ed0176787a4f1574ff0075f7521e', '2017-05-26 22:05:59', 'yan@tb', 'user'),
-(21, '123', 'Elnatan', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '2017-05-31 15:43:57', '1@2', 'user');
+INSERT INTO `usagers` (`id_usager`, `nom`, `prenom`, `mot_de_passe`, `email`, `permission`) VALUES
+(19, 'Cardador', 'Jean', 'fddecb6a9fb5324cab83d2c9d4ec6f3492ee1df4', 'jony@tb', 'admin'),
+(20, 'Marin', 'Yan', 'b1b3773a05c0ed0176787a4f1574ff0075f7521e', 'yan@tb', 'user'),
+(21, '123', 'Elnatan', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '1@2', 'user');
 
 --
 -- Index pour les tables exportées

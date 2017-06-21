@@ -1,0 +1,2 @@
+## Default .htaccess file
+DirectoryIndex ./pageInitial.php
