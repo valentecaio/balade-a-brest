@@ -7,8 +7,8 @@
 <script type="text/javascript">
 
 // global variables
-var map, markersVectorLayer, points, destinations, zoom=16;
-destinations = [];
+var map, markersVectorLayer, points, destination_markers, zoom=16;
+destination_markers = [];
 
 // remove repeated values from an array
 // found at https://stackoverflow.com/questions/1584370/how-to-merge-two-arrays-in-javascript-and-de-duplicate-items
@@ -49,8 +49,8 @@ function refresh_balades_table() {
 		table.removeChild(table.firstChild);
 	}
 
-	for (i=0; destinations && i < destinations.length; i++) {
-		var point = destinations[i].attributes.point;
+	for (i=0; destination_markers && i < destination_markers.length; i++) {
+		var point = destination_markers[i].attributes.point;
 		
 		// create new row
 		var new_row = document.createElement('div');
@@ -58,7 +58,7 @@ function refresh_balades_table() {
 		new_row.style = "width:100%";
 		
 		// add point as an attribute in this new row
-		new_row.destination = destinations[i];
+		new_row.destination = destination_markers[i];
 
 		// create button with point name
 		var but1 = document.createElement('button');
@@ -103,20 +103,20 @@ function onClickMarker(feature) {
 	set_marker_selected(markersVectorLayer, feature, !feature.attributes.selected);
 
 	if(feature.attributes.selected) {
-		// get clicked point and add to destinations
-		destinations.push(feature);
+		// get clicked marker and add to destination_markers
+		destination_markers.push(feature);
 	} else {
-		// remove clicked point from destinations
-		destinations.remove(destinations.indexOf(feature));
+		// remove clicked marker from destination_markers
+		destination_markers.remove(destination_markers.indexOf(feature));
 	}
 
 	// refresh balades table and marker color
 	refresh_balades_table();
 	
-	// refresh JSON form with new destinations
+	// refresh JSON form with new destination_markers
 	dest_points = [];
-	for (i=0; destinations && i < destinations.length; i++) {
-		dest_points.push(destinations[i].attributes.point);
+	for (i=0; destination_markers && i < destination_markers.length; i++) {
+		dest_points.push(destination_markers[i].attributes.point);
 	}
 	document.getElementById("form_list").value = JSON.stringify(dest_points);
 }
