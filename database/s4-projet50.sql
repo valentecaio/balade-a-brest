@@ -52,12 +52,9 @@ CREATE TABLE `contenu_parcours` (
 
 CREATE TABLE `media` (
   `id_media` int(11) NOT NULL,
-  `nom` varchar(255) NOT NULL,
-  `texte` text NOT NULL,
-  `type` enum('audio','image','video') NOT NULL,
   `chemin` varchar(255) NOT NULL,
-  `status` enum('accepte','refuse','en_attente') NOT NULL DEFAULT 'en_attente',
-  `id_point_ref` int(11) NOT NULL
+  `id_point_ref` int(11) NOT NULL,
+  `status` enum('accepte','refuse','en_attente') NOT NULL DEFAULT 'en_attente'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
