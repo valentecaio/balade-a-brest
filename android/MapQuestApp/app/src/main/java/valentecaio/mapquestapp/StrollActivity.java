@@ -13,7 +13,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class StrollActivity extends AppCompatActivity {
-    private ListView scrolls_LV;
+    private ListView balades_listView;
     private ArrayList<Balade> balades = new ArrayList<Balade>();
 
     @Override
@@ -30,8 +30,8 @@ public class StrollActivity extends AppCompatActivity {
     }
 
     public void configureListView(){
-        scrolls_LV = (ListView)findViewById(R.id.scrolls_list_view);
-        scrolls_LV.setOnItemClickListener(new ListView.OnItemClickListener() {
+        balades_listView = (ListView)findViewById(R.id.scrolls_list_view);
+        balades_listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
@@ -52,7 +52,7 @@ public class StrollActivity extends AppCompatActivity {
 
         // populate listView
         BaladesAdapter adapter = new BaladesAdapter(this, balades, this);
-        scrolls_LV.setAdapter(adapter);
+        balades_listView.setAdapter(adapter);
     }
 
     private void verify_permissions(){
