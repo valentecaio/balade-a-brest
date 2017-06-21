@@ -31,10 +31,13 @@ Array.prototype.remove = function(from, to) {
 	return this.push.apply(this, rest);
 };
 
-function delete_confirmation(id) {
+function delete_confirmation(index) {
+	// get points table
 	table = document.getElementById('points_list');
-	table.removeChild(table.childNodes[id]);
-	destinations.splice( id, 1 );
+	// get point in the table
+	chosen_marker = table.childNodes[index].destination;
+	// remove point
+	onClickMarker(chosen_marker);
 }
 
 function refresh_balades_table() {
@@ -47,32 +50,36 @@ function refresh_balades_table() {
 	}
 
 	for (i=0; destinations && i < destinations.length; i++) {
+		var point = destinations[i].attributes.point;
+		
 		// create new row
 		var new_row = document.createElement('div');
 		new_row.className = "btn-group";
 		new_row.style = "width:100%";
+		
+		// add point as an attribute in this new row
+		new_row.destination = destinations[i];
 
+		// create button with point name
 		var but1 = document.createElement('button');
 		but1.style = "width:90%;height: 40px; text-align: left; color: black;";
 		but1.className = "btn btn-default";
-		but1.innerHTML = destinations[i].name + ' (' + destinations[i].lon + ', ' + destinations[i].lat + ')';
+		but1.innerHTML = point.name + ' (' + point.lon + ', ' + point.lat + ')';
+		new_row.appendChild(but1);
 
+		// create delete button for this point
 		var but_edit = document.createElement('button');
 		but_edit.style = "width:10%;height: 40px;";
 		but_edit.className = "btn btn-default";
-		but_edit.id = i;
-		//but_edit.setAttribute('data-toggle' , "modal");
-		//but_edit.setAttribute('data-target' , "#deleteConfirmation");
-		but_edit.setAttribute('onclick', "delete_confirmation" + "('" + but_edit.id + "')");
+		but_edit.setAttribute('onclick', "delete_confirmation" + "('" + i + "')");
+		new_row.appendChild(but_edit);
 		
+		// add trash icon to delete button
 		var span = document.createElement('span');
 		span.className = "glyphicon glyphicon-trash";
 		span.style = "color: black";
-		
 		but_edit.appendChild(span);
-		new_row.appendChild(but1);
-		new_row.appendChild(but_edit);
-
+		
 		// add new row to table
 		table.appendChild(new_row);
 	}
@@ -94,18 +101,24 @@ function setup_click_listener() {
 function onClickMarker(feature) {
 	// select or unselect marker
 	set_marker_selected(markersVectorLayer, feature, !feature.attributes.selected);
-	console.log(feature);	
+
 	if(feature.attributes.selected) {
 		// get clicked point and add to destinations
-		destinations.push(feature.attributes.point);
+		destinations.push(feature);
 	} else {
 		// remove clicked point from destinations
-		destinations.remove(destinations.indexOf(feature.attributes.point));			
+		destinations.remove(destinations.indexOf(feature));
 	}
 
 	// refresh balades table and marker color
 	refresh_balades_table();
-	document.getElementById("form_list").value = JSON.stringify(destinations);
+	
+	// refresh JSON form with new destinations
+	dest_points = [];
+	for (i=0; destinations && i < destinations.length; i++) {
+		dest_points.push(destinations[i].attributes.point);
+	}
+	document.getElementById("form_list").value = JSON.stringify(dest_points);
 }
 
 function main() {
@@ -127,7 +140,6 @@ function main() {
 
 	// add click listener to markers
 	setup_click_listener();
-	console.log(destinations);
 }
 
 </script>
