@@ -6,7 +6,7 @@
 <script type="text/javascript">
 
 // global variables
-var map, points, balades, markersVectorLayer;
+var map, points, balades, markersVectorLayer, zoom=14;
 
 // search by name in global variables
 function search_by_name(name, data) {
@@ -22,6 +22,9 @@ function search_by_name(name, data) {
 function show_point(name) {
 	var point_to_show = search_by_name(name, points);
 	refresh_markers(map, markersVectorLayer, [point_to_show]);
+	
+	// recenter map
+	set_center(map, point_to_show, zoom);
 }
 
 // draw a balade in the map
@@ -156,7 +159,7 @@ function main() {
 			center = {
 				lon: -4.50010299,
 				lat: 48.38423089
-			}, zoom = 14);
+			}, zoom = zoom);
 
 	add_control_to_map();
 

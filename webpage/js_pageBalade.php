@@ -7,7 +7,7 @@
 <script type="text/javascript">
 
 // global variables
-var map, markersVectorLayer, points, destinations;
+var map, markersVectorLayer, points, destinations, zoom=16;
 destinations = [];
 
 // remove repeated values from an array
@@ -115,7 +115,7 @@ function main() {
 			center = {
 				lon: -4.496798,
 				lat: 48.38423089
-			}, zoom = 16);
+			}, zoom = zoom);
 			
 	// load points from database
 	$.ajax({url: "get_points.php", success: function(result){
