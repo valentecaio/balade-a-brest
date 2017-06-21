@@ -6,7 +6,7 @@
 <script type="text/javascript">
 
 // global variables
-var map, markersVectorLayer, point;
+var map, markersVectorLayer, point, zoom=16;
 
 // add click listener to map
 function setup_click_listener() {
@@ -99,7 +99,7 @@ function main() {
 			center = {
 				lon: -4.496798,
 				lat: 48.38423089
-			}, zoom = 16);
+			}, zoom = zoom);
 	
 	setup_click_listener();
 	
@@ -117,6 +117,9 @@ function main() {
 		
 		// set point data
 		setPointClicked(pointLon, pointLat, pointName, pointId, pointDescript);
+		
+		// recenter map
+		center_map(map, point, zoom);
 	} else if(pageType == 'creation') {
 		console.log("creation page");
 		

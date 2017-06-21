@@ -24,7 +24,7 @@ function show_point(name) {
 	refresh_markers(map, markersVectorLayer, [point_to_show]);
 	
 	// recenter map
-	set_center(map, point_to_show, zoom);
+	center_map(map, point_to_show, zoom);
 }
 
 // draw a balade in the map

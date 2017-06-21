@@ -6,12 +6,12 @@ function setup_map(center, zoom) {
 	var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
 	map.addLayer(vectorLayer);
 	
-	set_center(map, center, zoom);
+	center_map(map, center, zoom);
 
 	return map, vectorLayer;
 }
 
-function set_center(map, center, zoom) {
+function center_map(map, center, zoom) {
 	var fromProjection = new OpenLayers.Projection("EPSG:4326");
 	var toProjection = new OpenLayers.Projection("EPSG:900913");
 
