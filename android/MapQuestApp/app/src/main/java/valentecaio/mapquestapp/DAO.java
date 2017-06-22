@@ -1,6 +1,5 @@
 package valentecaio.mapquestapp;
 
-import android.app.Activity;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -24,9 +23,9 @@ public class DAO {
     private static int BALADE = 2;
     private int state = NONE;
 
-    Activity delegate;
+    StrollActivity delegate;
 
-    public DAO(Activity delegate) {
+    public DAO(StrollActivity delegate) {
         this.delegate = delegate;
     }
 
@@ -78,7 +77,7 @@ public class DAO {
 
     // may be called by the BackgroundTask when the query result is received from database
     public void parseResult(String result){
-        Log.i("Query_result", result);
+        Log.i("query_result", result);
         try {
             if(this.state == ALL_POINTS){
                 ArrayList<Point> points = new ArrayList<>();
@@ -91,11 +90,17 @@ public class DAO {
                     String descript = array.getJSONObject(i).getString("txt");
                     points.add(new Point(id, lat, lon, name, descript));
                 }
-                for(Point p: points){
-                    Log.d("point", p.toString());
-                }
             } else if (this.state == ALL_BALADES){
-
+                ArrayList<Balade> balades = new ArrayList<>();
+                JSONArray array = new JSONArray(result);
+                for(int i=0; i<array.length(); i++){
+                    String id = array.getJSONObject(i).getString("id");
+                    String name = array.getJSONObject(i).getString("name");
+                    String theme = array.getJSONObject(i).getString("theme");
+                    String descript = array.getJSONObject(i).getString("description");
+                    balades.add(new Balade(id, name, theme, descript));
+                }
+                delegate.setBaladesArray(balades);
             } else if (this.state == BALADE){
 
             }

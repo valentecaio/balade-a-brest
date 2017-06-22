@@ -29,7 +29,7 @@ public class StrollActivity extends AppCompatActivity {
         // read all balades and points (useful to debug)
         new AppFileManager(this).readAll();
 
-        database.readAllPoints();
+        database.readAllBalades();
     }
 
     public void configureListView(){
@@ -50,12 +50,14 @@ public class StrollActivity extends AppCompatActivity {
             }
         });
 
-        // get balades from database
-        balades = DAO.fake_readAllBalades();
-
         // populate listView
         BaladesAdapter adapter = new BaladesAdapter(this, balades, this);
         balades_listView.setAdapter(adapter);
+    }
+
+    public void setBaladesArray(ArrayList<Balade> balades){
+        this.balades = balades;
+        configureListView();
     }
 
     private void verify_permissions(){
