@@ -2,9 +2,10 @@ package valentecaio.mapquestapp;
 
 import android.util.Log;
 
-import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
 
-import org.json.*;
+import java.util.ArrayList;
 
 /**
  * Created by caio on 19/6/2017.
@@ -21,6 +22,7 @@ public class DAO {
     private static int ALL_BALADES = 0;
     private static int ALL_POINTS = 1;
     private static int BALADE = 2;
+    private static int MEDIA = 3;
     private int state = NONE;
 
     StrollActivity delegate;
@@ -63,7 +65,7 @@ public class DAO {
 
     // read functions
     // the read methods trigger asynchronous tasks (DatabaseBackgroundTask),
-    // which will send querys to the database and call the method parseResult sending the answer
+    // which will send querys to the database and call the method parseQueryResult sending the answer
 
     public void readAllBalades(){
         this.state = ALL_BALADES;
@@ -75,8 +77,19 @@ public class DAO {
         new DatabaseBackgroundTask(this, "query_read_points.php", hostname).execute();
     }
 
+    public void downloadBalade(){
+        // 1) request all points from this balade
+        // 2) request all medias from each point
+        // 3) make a queue with all these medias
+        // 4) start to download medias
+
+        // download a media as example:
+        this.state = MEDIA;
+        new DownloadMediasAsync(this, hostname + "uploads/", "mtb.mp4").execute();
+    }
+
     // may be called by the DatabaseBackgroundTask when the query result is received from database
-    public void parseResult(String result){
+    public void parseQueryResult(String result){
         Log.i("query_result", result);
         try {
             if(this.state == ALL_POINTS){

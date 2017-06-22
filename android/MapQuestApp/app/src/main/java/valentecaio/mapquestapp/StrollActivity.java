@@ -30,6 +30,8 @@ public class StrollActivity extends AppCompatActivity {
         new AppFileManager(this).readAll();
 
         database.readAllBalades();
+
+        database.downloadBalade();
     }
 
     public void configureListView(){
