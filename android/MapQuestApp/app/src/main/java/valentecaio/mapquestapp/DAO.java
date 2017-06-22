@@ -62,12 +62,12 @@ public class DAO {
 
     public void readAllBalades(){
         this.state = ALL_BALADES;
-        new BackgroundTask(this, "get_balades.php", hostname).execute();
+        new BackgroundTask(this, "query_read_balades.php", hostname).execute();
     }
 
     public void readAllPoints(){
         this.state = ALL_POINTS;
-        new BackgroundTask(this, "get_points.php", hostname).execute();
+        new BackgroundTask(this, "query_read_points.php", hostname).execute();
     }
 
     public void parseResult(String result){
