@@ -163,7 +163,7 @@ function main() {
 
 	add_control_to_map();
 
-	$.ajax({url: "get_points.php", success: function(result){
+	$.ajax({url: "query_read_points.php", success: function(result){
         points = JSON.parse(result);
         add_rows("points_list", points, "show_point", "onclick_button_edit_point");
         //add_rows("balades_list", points, "show_point", "onclick_button_edit_point");

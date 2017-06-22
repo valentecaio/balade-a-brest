@@ -38,7 +38,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-4">
-					<form class="form-horizontal" id="createb" action="insert_balade.php" method="post">
+					<form class="form-horizontal" id="createb" action="query_insert_balade.php" method="post">
   						<div class="form-group">
     						<label class="control-label col-sm-3" for="form_name" style="text-align: right;">Nom:</label>
     						<div class="col-sm-9">

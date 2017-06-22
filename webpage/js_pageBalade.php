@@ -131,7 +131,7 @@ function main() {
 			}, zoom = zoom);
 			
 	// load points from database
-	$.ajax({url: "get_points.php", success: function(result){
+	$.ajax({url: "query_read_points", success: function(result){
         points = JSON.parse(result);
 
 		// plot all points on map

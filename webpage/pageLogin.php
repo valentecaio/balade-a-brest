@@ -30,7 +30,7 @@
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-			<link rel='stylesheet' type='text/css' href="login_s4.css">
+			<link rel='stylesheet' type='text/css' href="style_pageLogin.css">
 			<script src="lib/jquery.min.js"></script>
 			<script src="lib/bootstrap.min.js"></script>
 		</head>
@@ -43,7 +43,7 @@
 				<div class="row">
 					<div class="col-sm-6">
 						
-						<form class="form-signin" id="signin" action="login_script.php" method="post">
+						<form class="form-signin" id="signin" action="session_login.php" method="post">
 							<h2 class="form-signin-heading">Se connecter</h2>
 							<label for="inputEmail" class="sr-only">Addresse e-mail</label>
 							<input type="email" name="inputEmail" id="inputEmail" class="form-control" value="<?php if(isset($_COOKIE["member_login"])) { echo $_COOKIE["member_login"]; } ?>" placeholder="Addresse e-mail" required autofocus>
@@ -59,7 +59,7 @@
 					
 					
 					<div class="col-sm-6">
-						<form class="form-signin" id="signup" action="signup_script.php" method="post">
+						<form class="form-signin" id="signup" action="query_insert_user.php" method="post">
 							<h2 class="form-signin-heading">Inscription</h2>
 							<label for="inscriptionName" class="sr-only">Prénom</label>
 							<input type="text" name="inscriptionName" id="inscriptionName" class="form-control" placeholder="Prénom" required>

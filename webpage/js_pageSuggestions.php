@@ -55,7 +55,7 @@ function onclick_button_approve_point(name) {
 
 function main() {
 
-	$.ajax({url: "get_points.php?status=1", success: function(result){
+	$.ajax({url: "query_read_points?status=1", success: function(result){
         points = JSON.parse(result);
         add_rows("list_points", points, "onclick_button_approve_point");
         //add_rows("balades_list", points, "show_point", "onclick_button_edit_point");
