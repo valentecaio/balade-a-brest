@@ -15,7 +15,6 @@
 	<?php
 		if (!empty($_SESSION['error'])){
 			echo '<script type="text/javascript">alert("'.$_SESSION['error'].'");</script>';
-			//echo $_SESSION['error'];
 			unset($_SESSION['error']);
 		}
 		if(isset($_GET['modal']) && $_GET['modal']==2){ ?>
@@ -38,8 +37,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-4">
-					<form class="form-horizontal" enctype="multipart/form-data" id="createp" action="" method="post">
-						
+					<form class="form-horizontal" enctype="multipart/form-data" id="form_point" action="" method="post">
 						<div class="form-group">
     						<div class="col-sm-9">
       							<input type="hidden" class="form-control" name="form_id" id="form_id">
@@ -70,7 +68,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-sm-3" for="form_longitude" style="text-align: right;">Télécharger média:</label>
+							<label class="control-label col-sm-3" for="form_media" style="text-align: right;">Télécharger média:</label>
 							<div class="col-sm-8">
    								<input id="file_upload" name="file_upload" type="file">
 							</div>
@@ -87,10 +85,6 @@
 					</form>
 					
 			  		<div class="row"> 
-			    		<!--<div class="col-sm-6 pull-right">
-			    			<button type="submit" class="btn btn-default">Supprimer</button>
-			    			<button type="submit" class="btn" data-toggle="modal" data-target="#sendModal">Envoyer</button>
-						</div>-->
 			    		<!-- Modal -->
 						<div class="modal fade" id="sendModal" role="dialog">
 						    <div class="modal-dialog">

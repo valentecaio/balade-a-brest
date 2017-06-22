@@ -121,6 +121,26 @@ function onClickMarker(feature) {
 	document.getElementById("form_list").value = JSON.stringify(dest_points);
 }
 
+function onClickSendButton(action) {
+	document.getElementById("form_balade").setAttribute('action', action);
+}
+
+function add_buttons(){
+	var pageType = sessionStorage.getItem('pageType');
+	var send_button = document.getElementById("send_button");
+	if(pageType == 'creation') {
+		document.getElementById("delete_button").style.display = 'none';
+		send_button.innerHTML = 'Envoyer';
+		send_button.setAttribute('onclick', "onClickSendButton('query_insert_balade.php')");
+	} else if(pageType == 'approval'){
+		send_button.innerHTML = 'Approuver';
+		send_button.setAttribute('onclick', "onClickSendButton('query_approve_balade.php')");
+	} else if(pageType == 'edition'){
+		send_button.innerHTML = 'Envoyer';
+		send_button.setAttribute('onclick', "onClickSendButton('query_edition_balade.php')");
+	}
+}
+
 function main() {
 	// load map without points
 	map,
@@ -140,6 +160,8 @@ function main() {
 
 	// add click listener to markers
 	setup_click_listener();
+	
+	add_buttons();
 }
 
 </script>
