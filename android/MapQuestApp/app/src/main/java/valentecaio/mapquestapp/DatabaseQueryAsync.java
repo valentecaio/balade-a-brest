@@ -13,27 +13,22 @@ import java.net.URL;
  * Created by caio on 21/6/2017.
  */
 
-public class DatabaseBackgroundTask extends AsyncTask<Void, Void, String> {
-    private String JSON_URL;
-
+public class DatabaseQueryAsync extends AsyncTask<Void, Void, String> {
     private DAO delegate;
-    private String query_filename;
     private String hostname;
+    private String query_filename;
 
-    public DatabaseBackgroundTask(DAO delegate, String query_filename, String hostname) {
+    public DatabaseQueryAsync(DAO delegate, String hostname, String query_filename) {
         super();
         this.delegate = delegate;
-        this.query_filename = query_filename;
         this.hostname = hostname;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        JSON_URL = hostname + query_filename;
+        this.query_filename = query_filename;
     }
 
     @Override
     protected String doInBackground(Void... params) {
+        String JSON_URL = hostname + query_filename;
+        Log.d("QUERY", "created a query from file: " + JSON_URL);
         try {
             StringBuilder JSON_DATA = new StringBuilder();
             URL url = new URL(JSON_URL);
@@ -51,12 +46,18 @@ public class DatabaseBackgroundTask extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected void onProgressUpdate(Void... values) {
-        super.onProgressUpdate(values);
+    protected void onPostExecute(String result) {
+        Log.d("QUERY", "query returned: " + result);
+        delegate.parseQueryResult(result);
     }
 
     @Override
-    protected void onPostExecute(String result) {
-        delegate.parseResult(result);
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {
+        super.onProgressUpdate(values);
     }
 }

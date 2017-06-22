@@ -31,7 +31,7 @@ public class StrollActivity extends AppCompatActivity {
 
         database.readAllBalades();
 
-        database.downloadBalade();
+        //database.downloadBalade();
     }
 
     public void configureListView(){
@@ -58,6 +58,11 @@ public class StrollActivity extends AppCompatActivity {
     }
 
     public void setBaladesArray(ArrayList<Balade> balades){
+        // useful information for debug
+        for(Balade b: balades){
+            Log.i("BALADE", b.toString());
+        }
+
         this.balades = balades;
         configureListView();
     }

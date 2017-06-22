@@ -1,5 +1,6 @@
 package valentecaio.mapquestapp;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -26,6 +27,8 @@ public class DAO {
     private int state = NONE;
 
     StrollActivity delegate;
+
+    //ArrayList<AsyncTask> queue = new ArrayList<>();
 
     public DAO(StrollActivity delegate) {
         this.delegate = delegate;
@@ -64,17 +67,17 @@ public class DAO {
     }
 
     // read functions
-    // the read methods trigger asynchronous tasks (DatabaseBackgroundTask),
+    // the read methods trigger asynchronous tasks (DatabaseQueryAsync),
     // which will send querys to the database and call the method parseQueryResult sending the answer
 
     public void readAllBalades(){
         this.state = ALL_BALADES;
-        new DatabaseBackgroundTask(this, "query_read_balades.php", hostname).execute();
+        new DatabaseQueryAsync(this, hostname, "query_read_balades.php").execute();
     }
 
     public void readAllPoints(){
         this.state = ALL_POINTS;
-        new DatabaseBackgroundTask(this, "query_read_points.php", hostname).execute();
+        new DatabaseQueryAsync(this, hostname, "query_read_points.php").execute();
     }
 
     public void downloadBalade(){
@@ -85,10 +88,11 @@ public class DAO {
 
         // download a media as example:
         this.state = MEDIA;
-        new DownloadMediasAsync(this, hostname + "uploads/", "mtb.mp4").execute();
+        //new DownloadMediasAsync(this, hostname + "uploads/", "mtb.mp4").execute();
+        new DownloadMediasAsync(this, hostname + "uploads/", "danilo.png").execute();
     }
 
-    // may be called by the DatabaseBackgroundTask when the query result is received from database
+    // may be called by the DatabaseQueryAsync when the query result is received from database
     public void parseQueryResult(String result){
         Log.i("query_result", result);
         try {
