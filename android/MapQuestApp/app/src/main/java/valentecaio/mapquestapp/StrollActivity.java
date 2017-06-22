@@ -31,7 +31,7 @@ public class StrollActivity extends AppCompatActivity {
 
         database.readAllBalades();
 
-        //database.downloadBalade();
+        database.downloadBalade();
     }
 
     public void configureListView(){

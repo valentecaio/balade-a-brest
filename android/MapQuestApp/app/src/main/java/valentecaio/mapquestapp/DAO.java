@@ -28,7 +28,8 @@ public class DAO {
 
     StrollActivity delegate;
 
-    //ArrayList<AsyncTask> queue = new ArrayList<>();
+    ArrayList<AsyncTask> queue = new ArrayList<>();
+    QueueThread triggerThread = new QueueThread();
 
     public DAO(StrollActivity delegate) {
         this.delegate = delegate;
@@ -57,14 +58,15 @@ public class DAO {
     }
 
     // return an array of balades without any point or medias attached
-    public static ArrayList<Balade> fake_readAllBalades(){
+    public static ArrayList<Balade> fake_readAllBalades() {
         ArrayList<Balade> list = new ArrayList<Balade>();
-        for(int id=0; id<10; id++){
+        for (int id = 0; id < 10; id++) {
             Balade b = new Balade(String.valueOf(id), "balade " + id, "Medieval");
             list.add(b);
         }
         return list;
     }
+
 
     // read functions
     // the read methods trigger asynchronous tasks (DatabaseQueryAsync),
@@ -72,12 +74,12 @@ public class DAO {
 
     public void readAllBalades(){
         this.state = ALL_BALADES;
-        new DatabaseQueryAsync(this, hostname, "query_read_balades.php").execute();
+        addToQueue(new DatabaseQueryAsync(this, hostname, "query_read_balades.php").execute());
     }
 
     public void readAllPoints(){
         this.state = ALL_POINTS;
-        new DatabaseQueryAsync(this, hostname, "query_read_points.php").execute();
+        addToQueue(new DatabaseQueryAsync(this, hostname, "query_read_points.php").execute());
     }
 
     public void downloadBalade(){
@@ -89,7 +91,7 @@ public class DAO {
         // download a media as example:
         this.state = MEDIA;
         //new DownloadMediasAsync(this, hostname + "uploads/", "mtb.mp4").execute();
-        new DownloadMediasAsync(this, hostname + "uploads/", "danilo.png").execute();
+        addToQueue(new DownloadMediasAsync(this, hostname + "uploads/", "danilo.png").execute());
     }
 
     // may be called by the DatabaseQueryAsync when the query result is received from database
@@ -123,6 +125,39 @@ public class DAO {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+        // pop the task from the queue since it is done
+        popFromQueue();
+    }
+
+    private void addToQueue(AsyncTask task){
+        // start thread if this is the first task
+        if(queue.isEmpty()){
+            triggerThread.start();
+        }
+        queue.add(task);
+    }
+
+    private void popFromQueue(){
+        queue.remove(0);
+        // stop thread if there are no tasks
+        if(queue.isEmpty()){
+            triggerThread.stop();
+        }
+    }
+
+    private class QueueThread extends Thread {
+        AsyncTask runningTask;
+
+        public void run() {
+            // get first element of the queue
+            AsyncTask task = queue.get(0);
+
+            // if it's a new task, execute it
+            if(runningTask!=null && task!=null && runningTask!=task){
+                task.execute();
+                runningTask = task;
+            }
         }
     }
 }
