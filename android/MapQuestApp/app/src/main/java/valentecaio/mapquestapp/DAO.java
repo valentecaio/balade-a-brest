@@ -17,10 +17,12 @@ public class DAO {
     private static String hostname = "http://s4-projet-50.labs1.web.telecom-bretagne.eu/";
 
     // state machine variables and constants
-    private int state;
+
+    private static int NONE = -1;
     private static int ALL_BALADES = 0;
     private static int ALL_POINTS = 1;
     private static int BALADE = 2;
+    private int state = NONE;
 
     Activity delegate;
 
@@ -60,6 +62,10 @@ public class DAO {
         return list;
     }
 
+    // read functions
+    // the read methods trigger asynchronous tasks (BackgroundTask),
+    // which will send querys to the database and call the method parseResult sending the answer
+
     public void readAllBalades(){
         this.state = ALL_BALADES;
         new BackgroundTask(this, "query_read_balades.php", hostname).execute();
@@ -70,6 +76,7 @@ public class DAO {
         new BackgroundTask(this, "query_read_points.php", hostname).execute();
     }
 
+    // may be called by the BackgroundTask when the query result is received from database
     public void parseResult(String result){
         Log.i("Query_result", result);
         try {
