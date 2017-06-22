@@ -30,6 +30,7 @@ CREATE TABLE `balade` (
   `id_balade` int(11) NOT NULL,
   `nom` varchar(255) NOT NULL,
   `theme` varchar(255) DEFAULT NULL,
+  `description` text,
   `status` enum('accepte','refuse','en_attente') NOT NULL DEFAULT 'en_attente'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
