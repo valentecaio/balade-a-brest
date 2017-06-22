@@ -19,18 +19,22 @@ function search_by_name(name, data) {
 }
 
 // draw a point in the map
-function show_point(name) {
-	var point_to_show = search_by_name(name, points);
-	refresh_markers(map, markersVectorLayer, [point_to_show]);
+function show_point(id) {
+	var clicked_row = document.getElementById("row_" + id);
+	var point = clicked_row.delegate;
+	
+	refresh_markers(map, markersVectorLayer, [point]);
 	
 	// recenter map
-	center_map(map, point_to_show, zoom);
+	center_map(map, point, zoom);
 }
 
 // draw a balade in the map
-function show_balade(name) {
-	var balade_to_show = search_by_name(name, balades);
-	refresh_markers(map, markersVectorLayer, balade_to_show.points);
+function show_balade(id) {
+	var clicked_row = document.getElementById("row_" + id);
+	var balade = clicked_row.delegate;
+	
+	refresh_markers(map, markersVectorLayer, balade.points);
 }
 
 // draw all points in the map
@@ -40,49 +44,46 @@ function show_all_points() {
 
 // dinamically add rows to table
 // data must be an iterable object where each entry has an attribute name
-function add_rows(table_id, data, onclick_but1, onclick_but_edit) {
+function add_rows(table_id, data, onclick_but_name, onclick_but_edit) {
 	for (i = 0; i < data.length; i++) {
+		// create row for this data
 		var new_row = document.createElement('div');
 		new_row.className = "btn-group";
 		new_row.style = "width:100%";
-		<?php if(isset($_SESSION['id_usager'])&&(strcmp($_SESSION['permission'], "admin") == 0)){ ?>
-				var but1 = document.createElement('button');
-				but1.style = "width:90%;height: 40px; text-align: left; color: black;";
-				but1.className = "btn btn-default";
-				but1.innerHTML = data[i].name;
-				but1.setAttribute('onclick', onclick_but1 + "('" + data[i].name + "')");
-
-				var but_edit = document.createElement('button');
-				but_edit.style = "width:10%;height: 40px;";
-				but_edit.className = "btn btn-default";
-				but_edit.setAttribute('onclick', onclick_but_edit + "('" + data[i].name + "')");
-				//but_edit.setAttribute('data-toggle', 'modal');
-				//but_edit.setAttribute('data-target', '#modalEdition');
-
-				var span = document.createElement('span');
-				span.className = "glyphicon glyphicon-wrench";
-				span.style = "color: black";
-
-				but_edit.appendChild(span);
-				new_row.appendChild(but1);
-				new_row.appendChild(but_edit);
-
-				table = document.getElementById(table_id);
-				table.appendChild(new_row);
-
-		<?php } else { ?>
-				var but1 = document.createElement('button');
-				but1.style = "width:100%;height: 40px; text-align: left; color: black;";
-				but1.className = "btn btn-default";
-				but1.innerHTML = data[i].name;
-				but1.setAttribute('onclick', onclick_but1 + "('" + data[i].name + "')");
 		
-				new_row.appendChild(but1);
+		// add data itself as delegate of this row, to use it in onclick functions
+		new_row.delegate = data[i];
+		new_row.id = "row_" + data[i].id;
+		
+		// append data name to row
+		var but_name = document.createElement('button');
+		but_name.style = "width: 100%; height: 40px; text-align: left; color: black;";
+		but_name.className = "btn btn-default";
+		but_name.innerHTML = data[i].name;
+		but_name.setAttribute('onclick', onclick_but_name + "('" + data[i].id + "')");
 
-				table = document.getElementById(table_id);
-				table.appendChild(new_row);
+		// append row on the table
+		new_row.appendChild(but_name);
+		table = document.getElementById(table_id);
+		table.appendChild(new_row);
+		
+		// if user is admin, also add edit button to this row
+		<?php if(isset($_SESSION['id_usager'])&&(strcmp($_SESSION['permission'], "admin") == 0)){ ?>
+				but_name.style = "width: 90%; height: 40px; text-align: left; color: black;";
+		
+				var but_edit = document.createElement('button');
+				but_edit.style = "width: 10%; height: 40px;";
+				but_edit.className = "btn btn-default";
+				but_edit.setAttribute('onclick', onclick_but_edit + "('" + data[i].id + "')");
+				new_row.appendChild(but_edit);
+				
+				var icon = document.createElement('span');
+				icon.className = "glyphicon glyphicon-wrench";
+				icon.style = "color: black";
+				but_edit.appendChild(icon);
 		<?php } ?>
 	}
+		
 }
 
 // add popup to markers
@@ -119,6 +120,7 @@ function add_control_to_map() {
 }
 
 // onclick functions
+
 function onclick_button_add_point(){
 	sessionStorage.setItem('pageType', "creation");
 	window.location = "pagePoint.php";
@@ -130,8 +132,9 @@ function onclick_button_add_balade(){
 }
 
 // save point and go to editPoint
-function onclick_button_edit_point(name) {
-	var point_to_save = search_by_name(name, points);
+function onclick_button_edit_point(id) {
+	var clicked_row = document.getElementById("row_" + id);
+	var point_to_save = clicked_row.delegate;
 	
 	sessionStorage.setItem("pointName", point_to_save.name);
 	sessionStorage.setItem("pointLon", point_to_save.lon);
@@ -144,8 +147,9 @@ function onclick_button_edit_point(name) {
 }
 
 // save balade and go to editBalade
-function onclick_button_edit_balade(name) {
-	var balade_to_save = search_by_name(name, balades);
+function onclick_button_edit_balade(id) {
+	var clicked_row = document.getElementById("row_" + id);
+	var balade_to_save = clicked_row.delegate;
 	//TODO: finish this method
 
 	sessionStorage.setItem('pageType', "edition");
@@ -163,14 +167,15 @@ function main() {
 
 	add_control_to_map();
 
+	// add points and balades to tables
 	$.ajax({url: "query_read_points.php", success: function(result){
         points = JSON.parse(result);
         add_rows("points_list", points, "show_point", "onclick_button_edit_point");
-        //add_rows("balades_list", points, "show_point", "onclick_button_edit_point");
     }});
-	//yourContainer.innerHTML = JSON.stringify(points);
-	// add points and balades to tables
-	//add_rows("balades_list", balades, "show_balade", "onclick_button_edit_balade");
+	$.ajax({url: "query_read_balades.php", success: function(result){
+        balades = JSON.parse(result);
+		add_rows("balades_list", balades, "show_balade", "onclick_button_edit_balade");
+    }});
 }
 
 </script>

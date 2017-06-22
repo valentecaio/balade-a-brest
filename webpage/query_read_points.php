@@ -1,5 +1,4 @@
 <?php
-   
     try{
         $bdd = new PDO('mysql:host=localhost;dbname=web18_main;charset=utf8', 'root', '');
     }catch(Exception $e){
@@ -8,8 +7,7 @@
 
     if (!isset($_GET['status'])) {
         $req = $bdd->query('SELECT id_point, nom, latitude, longitude, description FROM point WHERE status = \'accepte\'');
-    }
-    else{
+    } else {
         $req = $bdd->query('SELECT id_point, nom, latitude, longitude, description FROM point WHERE status = \'en_attente\'');   
     }
     
@@ -24,7 +22,4 @@
     }
     $req->closeCursor(); 
     echo json_encode($list);
-
 ?>
-
-
