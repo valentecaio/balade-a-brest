@@ -1,12 +1,33 @@
 package valentecaio.mapquestapp;
 
+import android.app.Activity;
+import android.util.Log;
+
 import java.util.ArrayList;
+
+import org.json.*;
 
 /**
  * Created by caio on 19/6/2017.
  */
 
 public class DAO {
+    // JSON variables and constants
+    public String JSON_STRING;
+    private static String hostname = "http://s4-projet-50.labs1.web.telecom-bretagne.eu/";
+
+    // state machine variables and constants
+    private int state;
+    private static int ALL_BALADES = 0;
+    private static int ALL_POINTS = 1;
+    private static int BALADE = 2;
+
+    Activity delegate;
+
+    public DAO(Activity delegate) {
+        this.delegate = delegate;
+    }
+
     // return a balade with all information (points and medias)
     public static Balade fake_downloadBalade(String id){
         Balade b = new Balade(id, "balade " + id, "Medieval");
@@ -37,5 +58,42 @@ public class DAO {
             list.add(b);
         }
         return list;
+    }
+
+    public void readAllBalades(){
+        this.state = ALL_BALADES;
+        new BackgroundTask(this, "get_balades.php", hostname).execute();
+    }
+
+    public void readAllPoints(){
+        this.state = ALL_POINTS;
+        new BackgroundTask(this, "get_points.php", hostname).execute();
+    }
+
+    public void parseResult(String result){
+        Log.i("Query_result", result);
+        try {
+            if(this.state == ALL_POINTS){
+                ArrayList<Point> points = new ArrayList<>();
+                JSONArray array = new JSONArray(result);
+                for(int i=0; i<array.length(); i++){
+                    String id = array.getJSONObject(i).getString("id");
+                    String name = array.getJSONObject(i).getString("name");
+                    Double lon = array.getJSONObject(i).getDouble("lon");
+                    Double lat = array.getJSONObject(i).getDouble("lat");
+                    String descript = array.getJSONObject(i).getString("txt");
+                    points.add(new Point(id, lat, lon, name, descript));
+                }
+                for(Point p: points){
+                    Log.d("point", p.toString());
+                }
+            } else if (this.state == ALL_BALADES){
+
+            } else if (this.state == BALADE){
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class StrollActivity extends AppCompatActivity {
     private ListView balades_listView;
     private ArrayList<Balade> balades = new ArrayList<Balade>();
+    private DAO database = new DAO(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,8 @@ public class StrollActivity extends AppCompatActivity {
 
         // read all balades and points (useful to debug)
         new AppFileManager(this).readAll();
+
+        database.readAllPoints();
     }
 
     public void configureListView(){
