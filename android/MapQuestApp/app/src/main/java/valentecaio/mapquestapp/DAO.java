@@ -62,20 +62,20 @@ public class DAO {
     }
 
     // read functions
-    // the read methods trigger asynchronous tasks (BackgroundTask),
+    // the read methods trigger asynchronous tasks (DatabaseBackgroundTask),
     // which will send querys to the database and call the method parseResult sending the answer
 
     public void readAllBalades(){
         this.state = ALL_BALADES;
-        new BackgroundTask(this, "query_read_balades.php", hostname).execute();
+        new DatabaseBackgroundTask(this, "query_read_balades.php", hostname).execute();
     }
 
     public void readAllPoints(){
         this.state = ALL_POINTS;
-        new BackgroundTask(this, "query_read_points.php", hostname).execute();
+        new DatabaseBackgroundTask(this, "query_read_points.php", hostname).execute();
     }
 
-    // may be called by the BackgroundTask when the query result is received from database
+    // may be called by the DatabaseBackgroundTask when the query result is received from database
     public void parseResult(String result){
         Log.i("query_result", result);
         try {

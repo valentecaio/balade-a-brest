@@ -13,14 +13,14 @@ import java.net.URL;
  * Created by caio on 21/6/2017.
  */
 
-public class BackgroundTask extends AsyncTask<Void, Void, String> {
+public class DatabaseBackgroundTask extends AsyncTask<Void, Void, String> {
     private String JSON_URL;
 
     private DAO delegate;
     private String query_filename;
     private String hostname;
 
-    public BackgroundTask(DAO delegate, String query_filename, String hostname) {
+    public DatabaseBackgroundTask(DAO delegate, String query_filename, String hostname) {
         super();
         this.delegate = delegate;
         this.query_filename = query_filename;
