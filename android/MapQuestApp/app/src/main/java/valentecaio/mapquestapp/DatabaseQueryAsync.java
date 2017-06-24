@@ -48,7 +48,7 @@ public class DatabaseQueryAsync extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         Log.d("QUERY", "query returned: " + result);
-        delegate.parseQueryResult(result);
+        delegate.parseQueryResult(result, query_filename);
     }
 
     @Override
