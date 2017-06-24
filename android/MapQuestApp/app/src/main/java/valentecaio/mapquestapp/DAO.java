@@ -1,6 +1,5 @@
 package valentecaio.mapquestapp;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -20,12 +19,16 @@ public class DAO {
     // query constants
     private static String QUERY_BALADES = "query_read_balades.php";
     private static String QUERY_POINTS = "query_read_points.php";
-    private static String QUERY_MEDIAS = "";
+    private static String QUERY_MEDIAS = "query_read_medias.php";
 
     StrollActivity delegate;
+    ArrayList<Balade> balades;
+    ArrayList<Point> points;
+    ArrayList<Media> medias;
 
     public DAO(StrollActivity delegate) {
         this.delegate = delegate;
+        this.loadDatabase();
     }
 
     // return a balade with all information (points and medias)
@@ -60,12 +63,13 @@ public class DAO {
         return list;
     }
 
-
     // read functions
     // the read methods trigger asynchronous tasks (DatabaseQueryAsync),
     // which will send querys to the database and call the method parseQueryResult sending the answer
 
-    public void readAllBalades(){
+    private void loadDatabase(){
+        new DatabaseQueryAsync(this, hostname, QUERY_POINTS).execute();
+        new DatabaseQueryAsync(this, hostname, QUERY_MEDIAS).execute();
         new DatabaseQueryAsync(this, hostname, QUERY_BALADES).execute();
     }
 
@@ -73,15 +77,25 @@ public class DAO {
         new DatabaseQueryAsync(this, hostname, QUERY_POINTS).execute();
     }
 
-    public void downloadBalade(){
-        // 1) request all points from this balade
-        // 2) request all medias from each point
-        // 3) make a queue with all these medias
-        // 4) start to download medias
+    // steps to download balade:
+    // 0) request all points and medias => the constructor does it
+    // 1) request all points from this balade => downloadBalade() => parseQueryResult()
+    // 2) request all medias from each point => requestMedias()
+    // 3) make a queue with all these medias =>
+    // 4) start to download medias =>
+    public void downloadBalade(Balade b){
+        ArrayList<Point> points_in_balade = new ArrayList<>();
+        for(Point p: points){
+            //if(b.getId()==p.)
+        }
+    }
 
-        // download a media as example:
-        new DownloadMediasAsync(this, hostname, "mtb.mp4").execute();
-        new DownloadMediasAsync(this, hostname, "danilo.png").execute();
+    private void requestMedias(){
+        new DatabaseQueryAsync(this, hostname, QUERY_MEDIAS);
+    }
+
+    private void downloadMedia(String filename){
+        new DownloadMediasAsync(this, hostname, filename).execute();
     }
 
     // may be called by the DatabaseQueryAsync when the query result is received from database
@@ -89,7 +103,7 @@ public class DAO {
         Log.i("query_result", result);
         try {
             if(query == QUERY_POINTS){
-                ArrayList<Point> points = new ArrayList<>();
+                this.points = new ArrayList<>();
                 JSONArray array = new JSONArray(result);
                 for(int i=0; i<array.length(); i++){
                     String id = array.getJSONObject(i).getString("id");
@@ -109,12 +123,31 @@ public class DAO {
                     String descript = array.getJSONObject(i).getString("description");
                     balades.add(new Balade(id, name, theme, descript));
                 }
-                delegate.setBaladesArray(balades);
+                this.setBalades(balades);
             } else if (query == QUERY_MEDIAS){
-
+                this.medias = new ArrayList<>();
+                JSONArray array = new JSONArray(result);
+                for(int i=0; i<array.length(); i++){
+                    String id = array.getJSONObject(i).getString("id_media");
+                    String id_point = array.getJSONObject(i).getString("id_point_ref");
+                    String filename = array.getJSONObject(i).getString("filepath");
+                    medias.add(new Media(id, id_point, filename));
+                }
             }
+            enableButtonsInDelegate();
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setBalades(ArrayList<Balade> balades) {
+        this.balades = balades;
+        delegate.setBaladesArray(balades);
+    }
+
+    private void enableButtonsInDelegate(){
+        if(this.points!=null && this.balades!=null && this.medias!=null){
+            delegate.enableButtons(true);
         }
     }
 }

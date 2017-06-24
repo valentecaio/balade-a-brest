@@ -26,12 +26,8 @@ public class StrollActivity extends AppCompatActivity {
 
         verify_permissions();
 
-        // read all balades and points (useful to debug)
+        // read all balades and points from internal database (useful to debug)
         new AppFileManager(this).readAll();
-
-        database.readAllBalades();
-
-        database.downloadBalade();
     }
 
     public void configureListView(){
@@ -65,6 +61,10 @@ public class StrollActivity extends AppCompatActivity {
 
         this.balades = balades;
         configureListView();
+    }
+
+    public void enableButtons(boolean enabled) {
+        Log.i("ENABLE_BUTTONS", "" + enabled);
     }
 
     private void verify_permissions(){
