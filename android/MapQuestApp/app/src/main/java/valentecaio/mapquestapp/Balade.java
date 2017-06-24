@@ -57,6 +57,10 @@ public class Balade {
         return theme;
     }
 
+    public void setPoints(ArrayList<Point> points) {
+        this.points = points;
+    }
+
     @Override
     public String toString() {
         return getName() + " (" + getPoints().size() + " points)";

@@ -26,4 +26,9 @@ public class Media {
     public String getFilename() {
         return filename;
     }
+
+    @Override
+    public String toString() {
+        return this.getFilename();
+    }
 }

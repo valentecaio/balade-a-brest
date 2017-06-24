@@ -11,16 +11,17 @@ import android.view.View;
 public class DownloadButtonListener implements View.OnClickListener {
     Balade balade;
     AppFileManager afm;
+    StrollActivity delegate;
 
-    public DownloadButtonListener(Balade balade, Activity delegate) {
+    public DownloadButtonListener(Balade balade, StrollActivity delegate) {
         this.balade = balade;
-        afm = new AppFileManager(delegate.getApplication().getApplicationContext());
+        this.delegate = delegate;
+        this.afm = new AppFileManager(delegate.getApplication().getApplicationContext());
     }
 
     @Override
     public void onClick(View view) {
-        Log.i("onClick", "Downloading balade: " + balade.toString());
-        Balade b = DAO.fake_downloadBalade(this.balade.getId());
-        afm.writeBaladeAndPoints(b);
+        Log.i("ONCLICK", "Downloading balade: " + balade.toString());
+        delegate.database.downloadBalade(this.balade);
     }
 }

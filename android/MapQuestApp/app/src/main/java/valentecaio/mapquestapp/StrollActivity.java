@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class StrollActivity extends AppCompatActivity {
     private ListView balades_listView;
     private ArrayList<Balade> balades = new ArrayList<Balade>();
-    private DAO database = new DAO(this);
+    public DAO database = new DAO(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

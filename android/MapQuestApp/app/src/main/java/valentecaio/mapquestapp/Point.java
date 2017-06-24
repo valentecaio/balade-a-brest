@@ -78,21 +78,8 @@ public class Point {
         return new LatLng(getLatitude(), getLongitude());
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-
-        if (!Point.class.isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-        final Point other = (Point) obj;
-
-        if ((this.getName() == null) ? (other.getName() != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        return true;
+    public void setMedias(ArrayList medias) {
+        this.medias = medias;
     }
 
     @Override

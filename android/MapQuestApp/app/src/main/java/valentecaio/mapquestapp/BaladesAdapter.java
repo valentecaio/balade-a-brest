@@ -17,9 +17,9 @@ import java.util.ArrayList;
  */
 
 public class BaladesAdapter extends ArrayAdapter<Balade> {
-    Activity delegate;
+    StrollActivity delegate;
 
-    public BaladesAdapter(Context context, ArrayList<Balade> balades, Activity delegate) {
+    public BaladesAdapter(Context context, ArrayList<Balade> balades, StrollActivity delegate) {
         super(context, 0, balades);
         this.delegate = delegate;
     }
