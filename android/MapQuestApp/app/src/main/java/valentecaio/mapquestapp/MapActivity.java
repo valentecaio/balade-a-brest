@@ -74,6 +74,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
                 for(Point p: GlobalVariables.getInstance().balade.getPoints()){
                     addMarker(mMapboxMap, p.getLocation(), p.getName(), "");
                 }
+
                 // initialize nearest_marker
                 nearest_marker = mMapboxMap.getMarkers().get(0);
 
@@ -109,11 +110,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
     }
 
     private void addMarker(MapboxMap mapboxMap, LatLng position, String title, String snippet) {
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(position);
-        markerOptions.title(title);
-        markerOptions.snippet(snippet);
-        mapboxMap.addMarker(markerOptions);
+        MarkerOptions marker = new MarkerOptions();
+        marker.position(position);
+        marker.title(title);
+        marker.snippet(snippet);
+        mapboxMap.addMarker(marker);
     }
 
     @Override

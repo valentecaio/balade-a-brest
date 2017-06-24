@@ -13,10 +13,10 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class StrollActivity extends AppCompatActivity {
-    private ListView balades_listView;
     private ArrayList<Balade> serverBalades = new ArrayList<>();
     private ArrayList<String> localBalades = new ArrayList<>();
     public DAO database = new DAO(this);
+    public AppFileManager afm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,23 +27,32 @@ public class StrollActivity extends AppCompatActivity {
 
         verify_permissions();
 
+        afm = new AppFileManager(getApplicationContext());
+
         // read all serverBalades and points from internal database (useful to debug)
-        localBalades = new AppFileManager(this).listDownloadedBalades();
+        localBalades = afm.listDownloadedBalades();
         for(String s: localBalades){
             Log.i("LOCAL_BALADE", s);
         }
+
+        //afm.deleteAll();
     }
 
     public void configureListView(){
-        balades_listView = (ListView)findViewById(R.id.scrolls_list_view);
+        final ListView balades_listView = (ListView)findViewById(R.id.scrolls_list_view);
+        balades_listView.setItemsCanFocus(false);
+
         balades_listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Log.i("debug", "Click ListItem Number " + position);
+                Log.i("ONCLICK_CELL", "Click ListItem Number " + position);
 
                 // stock clicked balade as global variables
                 Balade chosen_balade = serverBalades.get(position);
+
+                // load balade points/medias before performing intent
+                chosen_balade = afm.readBalade(chosen_balade.getId());
                 GlobalVariables.getInstance().balade = chosen_balade;
 
                 // go to mapActivity

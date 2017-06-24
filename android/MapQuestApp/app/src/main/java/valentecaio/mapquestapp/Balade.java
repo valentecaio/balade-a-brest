@@ -39,12 +39,6 @@ public class Balade {
         this.points.add(p);
     }
 
-    public void addPoint(String id) {
-        // TODO: this function may find the point using its id and add the Point to this.points
-        // Point p = fundById(id);
-        // addPoint(p);
-    }
-
     public int getId() {
         return id;
     }

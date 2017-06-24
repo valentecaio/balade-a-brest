@@ -23,7 +23,7 @@ public class AppFileManager {
     private Context context;
 
     private static String fileType = ".csv";
-    private static String separator = " $$$ ";
+    private static String separator = "&&&";
     private static String point_prefix = "point_";
     private static String balade_prefix = "balade_";
 
@@ -91,6 +91,7 @@ public class AppFileManager {
             Log.e("login activity", "Can not read file: " + e.toString());
         }
 
+        Log.i("CSV", ret);
         return ret;
     }
 
@@ -121,7 +122,20 @@ public class AppFileManager {
         String csv = read();
 
         // split read data
+        Log.i("CSV", "received csv: " + csv);
+        // TODO: ERROR IS HERE
+        // at java.util.regex.Pattern.compileImpl(Native Method)
+        // at java.util.regex.Pattern.compile(Pattern.java:411)
+        // at java.util.regex.Pattern.<init>(Pattern.java:394)
+        // at java.util.regex.Pattern.compile(Pattern.java:381)
+        // at java.lang.String.split(String.java:1411)
+        // at java.lang.String.split(String.java:1392)
+        // at valentecaio.mapquestapp.AppFileManager.readBa
         String[] data = csv.split(separator);
+        Log.i("CSV", "separator: " + separator + ", data length: " + data.length);
+        for(int i=0; i<data.length; i++){
+            Log.i("CSV", "entry " + i + ": " + data[i]);
+        }
         String name = data[1];
         String theme = data[2];
 

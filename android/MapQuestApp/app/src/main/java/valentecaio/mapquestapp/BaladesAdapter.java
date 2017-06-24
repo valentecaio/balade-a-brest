@@ -41,6 +41,9 @@ public class BaladesAdapter extends ArrayAdapter<Balade> {
         DownloadButtonListener listener = new DownloadButtonListener(balade, this.delegate);
         butDownload.setOnClickListener(listener);
 
+        butDownload.setFocusable(false);
+        butDownload.setFocusableInTouchMode(false);
+
         // Return the completed view to render on screen
         return convertView;
     }
