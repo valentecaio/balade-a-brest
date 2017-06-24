@@ -78,18 +78,18 @@ public class DAO {
     // return all points of a Balade, searching in the global array points
     private ArrayList<Point> pointsInBalade(Balade b){
         // find IDs in balade
-        ArrayList<String> point_ids_in_balade = new ArrayList<>();
+        ArrayList<Integer> point_ids_in_balade = new ArrayList<>();
         for(Parcours parc: this.parcours){
-            if(parc.getId_balade().equals(b.getId())){
+            if(parc.getId_balade() == b.getId()){
                 point_ids_in_balade.add(parc.getId_point());
             }
         }
 
         // find points with matching IDs
         ArrayList<Point> points_in_balade = new ArrayList<>();
-        for(String id: point_ids_in_balade) {
+        for(int id: point_ids_in_balade) {
             for (Point p : this.points) {
-                if (p.getId().equals(id)) {
+                if (p.getId() == id) {
                     points_in_balade.add(p);
                 }
             }
@@ -104,7 +104,7 @@ public class DAO {
         for(Point p: b.getPoints()){
             ArrayList<Media> medias_of_point = new ArrayList<>();
             for(Media m: this.medias){
-                if(m.getPoint_id().equals(p.getId())){
+                if(m.getPoint_id() == p.getId()){
                     medias_of_point.add(m);
                 }
             }
@@ -150,7 +150,7 @@ public class DAO {
                 this.points = new ArrayList<>();
                 JSONArray array = new JSONArray(result);
                 for(int i=0; i<array.length(); i++){
-                    String id = array.getJSONObject(i).getString("id");
+                    int id = array.getJSONObject(i).getInt("id");
                     String name = array.getJSONObject(i).getString("name");
                     Double lon = array.getJSONObject(i).getDouble("lon");
                     Double lat = array.getJSONObject(i).getDouble("lat");
@@ -161,7 +161,7 @@ public class DAO {
                 ArrayList<Balade> balades = new ArrayList<>();
                 JSONArray array = new JSONArray(result);
                 for(int i=0; i<array.length(); i++){
-                    String id = array.getJSONObject(i).getString("id");
+                    int id = array.getJSONObject(i).getInt("id");
                     String name = array.getJSONObject(i).getString("name");
                     String theme = array.getJSONObject(i).getString("theme");
                     String descript = array.getJSONObject(i).getString("description");
@@ -172,8 +172,8 @@ public class DAO {
                 this.medias = new ArrayList<>();
                 JSONArray array = new JSONArray(result);
                 for(int i=0; i<array.length(); i++){
-                    String id = array.getJSONObject(i).getString("id_media");
-                    String id_point = array.getJSONObject(i).getString("id_point_ref");
+                    int id = array.getJSONObject(i).getInt("id_media");
+                    int id_point = array.getJSONObject(i).getInt("id_point_ref");
                     String filename = array.getJSONObject(i).getString("filepath");
                     medias.add(new Media(id, id_point, filename));
                 }
@@ -181,8 +181,8 @@ public class DAO {
                 this.parcours = new ArrayList<>();
                 JSONArray array = new JSONArray(result);
                 for(int i=0; i<array.length(); i++){
-                    String id_balade = array.getJSONObject(i).getString("id_b");
-                    String id_point = array.getJSONObject(i).getString("id_p");
+                    int id_balade = array.getJSONObject(i).getInt("id_b");
+                    int id_point = array.getJSONObject(i).getInt("id_p");
                     parcours.add(new Parcours(id_point, id_balade));
                 }
             }

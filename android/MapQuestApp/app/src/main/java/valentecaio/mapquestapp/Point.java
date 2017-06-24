@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 
 public class Point {
-    private String id;
+    private int id;
     private double latitude;
     private double longitude;
     private String name;
@@ -22,7 +22,7 @@ public class Point {
         this.longitude = longitude;
     }
 
-    public Point(String id, double latitude, double longitude, String name, String description) {
+    public Point(int id, double latitude, double longitude, String name, String description) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -30,7 +30,7 @@ public class Point {
         this.description = description;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

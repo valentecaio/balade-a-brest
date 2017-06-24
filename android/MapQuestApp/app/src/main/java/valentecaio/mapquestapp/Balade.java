@@ -7,20 +7,20 @@ import java.util.ArrayList;
  */
 
 public class Balade {
-    private String id;
+    private int id;
     private String name;
     private String theme;
     private String description;
     private ArrayList<Point> points = new ArrayList<Point>();
 
-    public Balade(String id, String name, String theme, String description) {
+    public Balade(int id, String name, String theme, String description) {
         this.id = id;
         this.name = name;
         this.theme = theme;
         this.description = description;
     }
 
-    public Balade(String id, String name, String theme) {
+    public Balade(int id, String name, String theme) {
         this.id = id;
         this.name = name;
         this.theme = theme;
@@ -45,7 +45,7 @@ public class Balade {
         // addPoint(p);
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 

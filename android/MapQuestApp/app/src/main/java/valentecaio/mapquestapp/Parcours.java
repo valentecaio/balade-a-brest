@@ -5,19 +5,19 @@ package valentecaio.mapquestapp;
  */
 
 public class Parcours {
-    private String id_point;
-    private String id_balade;
+    private int id_point;
+    private int id_balade;
 
-    public Parcours(String id_point, String id_balade) {
+    public Parcours(int id_point, int id_balade) {
         this.id_point = id_point;
         this.id_balade = id_balade;
     }
 
-    public String getId_point() {
+    public int getId_point() {
         return id_point;
     }
 
-    public String getId_balade() {
+    public int getId_balade() {
         return id_balade;
     }
 }

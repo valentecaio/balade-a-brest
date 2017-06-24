@@ -94,21 +94,20 @@ public class AppFileManager {
         return ret;
     }
 
-    public Point readPoint(String id){
+    public Point readPoint(int id){
         // read csv file
         this.setName(point_prefix + id + fileType);
         String csv = read();
 
         // split read data
         String[] data = csv.split(separator);
-        String id_str = data[0];
         String name = data[1];
         String description = data[2];
         Double longitude = new Double(data[3]);
         Double latitude = new Double(data[4]);
 
         // transform string data in Point object
-        Point p = new Point(id_str, longitude, latitude, name, description);
+        Point p = new Point(id, longitude, latitude, name, description);
         for(int i=5; i<data.length; i++){
             p.addMedia(data[i]);
         }
@@ -116,21 +115,20 @@ public class AppFileManager {
     }
 
     // read balade and load points and medias
-    public Balade readBalade(String id){
+    public Balade readBalade(int id){
         // read csv file
         this.setName(balade_prefix + id + fileType);
         String csv = read();
 
         // split read data
         String[] data = csv.split(separator);
-        String id_str = data[0];
         String name = data[1];
         String theme = data[2];
 
         // transform string data in Balade object
-        Balade b = new Balade(id_str, name, theme);
+        Balade b = new Balade(id, name, theme);
         for(int i=3; i<data.length; i++){
-            b.addPoint(readPoint(data[i]));
+            b.addPoint(readPoint(Integer.parseInt(data[i])));
         }
         return b;
     }
