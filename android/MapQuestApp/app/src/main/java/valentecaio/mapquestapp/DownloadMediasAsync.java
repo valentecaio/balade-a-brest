@@ -41,7 +41,7 @@ public class DownloadMediasAsync extends AsyncTask<String, String, String> {
             connection.connect();
 
             int lengthOfFile = connection.getContentLength();
-            Log.i("DOWNLOAD_MEDIA", "LENGTH OF FILE : " + lengthOfFile);
+            Log.i("DOWNLOAD_MEDIA", "length of " + filename + " : " + lengthOfFile);
 
             resp = filename;
 
@@ -69,11 +69,12 @@ public class DownloadMediasAsync extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String filename) {
         Log.i("DOWNLOAD_MEDIA", "finished the download of " + filename);
+        delegate.onFinishMediaDownload(filename);
     }
 
     @Override
     protected void onProgressUpdate(String... values) {
-        Log.i("DOWNLOAD_MEDIA", values[0] + "% done");
+        Log.d("DOWNLOAD_MEDIA", values[0] + "% done");
     }
 
     @Override

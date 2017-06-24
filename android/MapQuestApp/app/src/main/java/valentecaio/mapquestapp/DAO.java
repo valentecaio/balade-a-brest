@@ -28,6 +28,10 @@ public class DAO {
     ArrayList<Media> medias;
     ArrayList<Parcours> parcours;
 
+    Balade baladeBeingDownloaded;
+
+    private int remainingAcks = 0;
+
     public DAO(StrollActivity delegate) {
         this.delegate = delegate;
         this.loadDatabase();
@@ -51,6 +55,9 @@ public class DAO {
     // 3) download medias
     // 4) write data in internal database
     public void downloadBalade(Balade b){
+        // before start, disable download buttons
+        enableButtonsInDelegate(false);
+
         // step 1
         ArrayList<Point> points_in_balade = pointsInBalade(b);
         b.setPoints(points_in_balade);
@@ -61,12 +68,11 @@ public class DAO {
         // step 3
         for(Media m: medias_in_balade){
             Log.i("DOWNLOAD_BALADE", "media " + m.getFilename());
-            new DownloadMediasAsync(this, hostname, m.getFilename()).execute();
+            downloadMedia(m);
         }
 
-        // step 4
-        AppFileManager afm = new AppFileManager(this.delegate.getApplicationContext());
-        afm.writeBaladeAndPoints(b);
+        // step 4 is triggered by onFinishMediaDownload
+        this.baladeBeingDownloaded = b;
     }
 
     // return all points of a Balade, searching in the global array points
@@ -107,6 +113,33 @@ public class DAO {
         }
 
         return medias_of_balade;
+    }
+
+    private void downloadMedia(Media m){
+        // trigger download async task
+        new DownloadMediasAsync(this, hostname, m.getFilename()).execute();
+        // wait for acknowledgement
+        remainingAcks++;
+
+        Log.i("DOWNLOAD_MEDIA", "waiting ack for file " + m.getFilename() + ", remaining acks: " + remainingAcks);
+    }
+
+    // may be called by the DownloadMediasAsync when the download is finished
+    public void onFinishMediaDownload(String filename){
+        // count received acknowledgement
+        remainingAcks--;
+
+        // if it was the last acknowledgement, do step 4 of download balade
+        if(remainingAcks == 0) {
+            // step 4: write balade and points informations
+            AppFileManager afm = new AppFileManager(this.delegate.getApplicationContext());
+            afm.writeBaladeAndPoints(baladeBeingDownloaded);
+
+            // when finishing task enable download buttons again
+            enableButtonsInDelegate(true);
+        }
+
+        Log.i("DOWNLOAD_MEDIA", "receivec ack for file " + filename + ", remaining acks: " + remainingAcks);
     }
 
     // may be called by the DatabaseQueryAsync when the query result is received from database
@@ -153,7 +186,7 @@ public class DAO {
                     parcours.add(new Parcours(id_point, id_balade));
                 }
             }
-            enableButtonsInDelegate();
+            enableButtonsInDelegate(true);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -164,10 +197,9 @@ public class DAO {
         delegate.setBaladesArray(balades);
     }
 
-    private void enableButtonsInDelegate(){
-        if(this.points!=null && this.balades!=null &&
-                this.medias!=null && this.parcours!=null){
-            delegate.enableButtons(true);
-        }
+    private void enableButtonsInDelegate(boolean state){
+        state = state && (this.points!=null && this.balades!=null
+                && this.medias!=null && this.parcours!=null);
+        delegate.enableButtons(state);
     }
 }
