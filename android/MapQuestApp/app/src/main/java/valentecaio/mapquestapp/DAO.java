@@ -65,11 +65,8 @@ public class DAO {
         }
 
         // step 4
-        // TODO: step 4 is not done, its just printing information
-        for(Point p: b.getPoints()){
-            Log.i("DOWNLOAD_BALADE", "point " + p.toString());
-        }
-        Log.i("DOWNLOAD_BALADE", "balade " + b.toString());
+        AppFileManager afm = new AppFileManager(this.delegate.getApplicationContext());
+        afm.writeBaladeAndPoints(b);
     }
 
     // return all points of a Balade, searching in the global array points

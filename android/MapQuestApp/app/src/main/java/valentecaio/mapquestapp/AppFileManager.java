@@ -55,7 +55,7 @@ public class AppFileManager {
                     context.openFileOutput(nameToWrite, Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
-            Log.i("WRITE", "filename: " + nameToWrite + ", content: " + data);
+            Log.i("AFM", "WRITE filename: " + nameToWrite + ", content: " + data);
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
@@ -83,7 +83,7 @@ public class AppFileManager {
 
                 inputStream.close();
                 ret = stringBuilder.toString();
-                Log.i("READ", "filename: " + nameToRead + ", content: " + ret);
+                Log.i("AFM", "READ filename: " + nameToRead + ", content: " + ret);
             }
         } catch (FileNotFoundException e) {
             Log.e("login activity", "File not found: " + e.toString());
@@ -172,7 +172,7 @@ public class AppFileManager {
 
     private File[] getFiles(){
         String path = this.context.getFilesDir().getAbsolutePath();
-        Log.i("getFiles", "Path: " + path);
+        Log.i("AFM", "getFiles Path: " + path);
         File directory = new File(path);
         File[] files = directory.listFiles();
         return files;
@@ -198,7 +198,7 @@ public class AppFileManager {
         boolean deleted = true;
         for (File file : files) {
             if (formatIsCSV(file)) {
-                Log.i("DELETE", "filename: " + file.getName());
+                Log.i("AFM", "DELETE filename: " + file.getName());
                 deleted = file.delete() && deleted;
             }
         }
@@ -212,7 +212,7 @@ public class AppFileManager {
         for (File file : files) {
             String nameToDelete = nameWithType();
             if (nameToDelete.equals(file.getName()) && formatIsCSV(file)) {
-                Log.i("DELETE", "filename: " + file.getName());
+                Log.i("AFM", "DELETE filename: " + file.getName());
                 deleted = file.delete();
             }
         }
