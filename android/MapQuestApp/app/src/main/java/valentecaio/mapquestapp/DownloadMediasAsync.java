@@ -13,7 +13,7 @@ import java.net.URLConnection;
 public class DownloadMediasAsync extends AsyncTask<String, String, String> {
     Boolean isSDPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 
-    private static String filesDir = "sdcard/balade_a_brest/";
+    private static String filesDir;
     private static String databaseFilesDir = "uploads/";
 
     private DAO delegate;
@@ -24,6 +24,7 @@ public class DownloadMediasAsync extends AsyncTask<String, String, String> {
         this.delegate = delegate;
         this.hostname = hostname;
         this.filename = filename;
+        this.filesDir = delegate.delegate.getApplicationContext().getFilesDir().getAbsolutePath();
     }
 
     private String resp;
@@ -40,7 +41,7 @@ public class DownloadMediasAsync extends AsyncTask<String, String, String> {
             connection.connect();
 
             int lengthOfFile = connection.getContentLength();
-            Log.d("DOWNLOAD_MEDIA", "LENGTH OF FILE : " + lengthOfFile);
+            Log.i("DOWNLOAD_MEDIA", "LENGTH OF FILE : " + lengthOfFile);
 
             resp = filename;
 
@@ -67,12 +68,12 @@ public class DownloadMediasAsync extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String filename) {
-        Log.d("DOWNLOAD_MEDIA", "finished the download of " + filename);
+        Log.i("DOWNLOAD_MEDIA", "finished the download of " + filename);
     }
 
     @Override
     protected void onProgressUpdate(String... values) {
-        Log.d("DOWNLOAD_MEDIA", values[0] + "% done");
+        Log.i("DOWNLOAD_MEDIA", values[0] + "% done");
     }
 
     @Override
