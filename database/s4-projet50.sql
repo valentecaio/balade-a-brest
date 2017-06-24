@@ -73,16 +73,6 @@ CREATE TABLE `point` (
   `status` enum('accepte','refuse','en_attente') NOT NULL DEFAULT 'en_attente'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Contenu de la table `point`
---
-
-INSERT INTO `point` (`id_point`, `nom`, `latitude`, `longitude`, `description`, `status`) VALUES
-(1, 'Point1', '48.38434', '-4.49755', NULL, 'en_attente'),
-(2, 'Point 2', '48.38536', '-4.50003', NULL, 'en_attente'),
-(3, '123', '48.38522', '-4.50089', NULL, 'en_attente'),
-(4, 'Point 55', '48.38462', '-4.49373', NULL, 'en_attente');
-
 -- --------------------------------------------------------
 
 --
@@ -97,15 +87,6 @@ CREATE TABLE `usagers` (
   `email` varchar(255) NOT NULL,
   `permission` enum('admin','user') NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Contenu de la table `usagers`
---
-
-INSERT INTO `usagers` (`id_usager`, `nom`, `prenom`, `mot_de_passe`, `email`, `permission`) VALUES
-(19, 'Cardador', 'Jean', 'fddecb6a9fb5324cab83d2c9d4ec6f3492ee1df4', 'jony@tb', 'admin'),
-(20, 'Marin', 'Yan', 'b1b3773a05c0ed0176787a4f1574ff0075f7521e', 'yan@tb', 'user'),
-(21, '123', 'Elnatan', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', '1@2', 'user');
 
 --
 -- Index pour les tables exportées
@@ -152,22 +133,22 @@ ALTER TABLE `usagers`
 -- AUTO_INCREMENT pour la table `balade`
 --
 ALTER TABLE `balade`
-  MODIFY `id_balade` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_balade` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 --
 -- AUTO_INCREMENT pour la table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id_media` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_media` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 --
 -- AUTO_INCREMENT pour la table `point`
 --
 ALTER TABLE `point`
-  MODIFY `id_point` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_point` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 --
 -- AUTO_INCREMENT pour la table `usagers`
 --
 ALTER TABLE `usagers`
-  MODIFY `id_usager` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_usager` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 --
 -- Contraintes pour les tables exportées
 --
