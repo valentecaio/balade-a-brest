@@ -14,6 +14,7 @@ public class DownloadMediasAsync extends AsyncTask<String, String, String> {
     Boolean isSDPresent = android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 
     private static String filesDir = "sdcard/balade_a_brest/";
+    private static String databaseFilesDir = "uploads/";
 
     private DAO delegate;
     private String hostname;
@@ -31,7 +32,7 @@ public class DownloadMediasAsync extends AsyncTask<String, String, String> {
     protected String doInBackground(String... params) {
         int count;
 
-        String url_str = hostname + filename;
+        String url_str = hostname + databaseFilesDir + filename;
         Log.i("DOWNLOAD_MEDIA", "downloading from " + url_str);
         try {
             URL url = new URL(url_str);
@@ -71,7 +72,7 @@ public class DownloadMediasAsync extends AsyncTask<String, String, String> {
 
     @Override
     protected void onProgressUpdate(String... values) {
-        Log.d("DOWNLOAD_MEDIA", values[0]);
+        Log.d("DOWNLOAD_MEDIA", values[0] + "% done");
     }
 
     @Override

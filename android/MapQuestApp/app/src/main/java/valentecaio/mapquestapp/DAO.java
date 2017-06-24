@@ -17,19 +17,12 @@ public class DAO {
     public String JSON_STRING;
     private static String hostname = "http://s4-projet-50.labs1.web.telecom-bretagne.eu/";
 
-    // state machine variables and constants
-
-    private static int NONE = -1;
-    private static int ALL_BALADES = 0;
-    private static int ALL_POINTS = 1;
-    private static int BALADE = 2;
-    private static int MEDIA = 3;
-    private int state = NONE;
+    // query constants
+    private static String QUERY_BALADES = "query_read_balades.php";
+    private static String QUERY_POINTS = "query_read_points.php";
+    private static String QUERY_MEDIAS = "";
 
     StrollActivity delegate;
-
-    ArrayList<AsyncTask> queue = new ArrayList<>();
-    QueueThread triggerThread = new QueueThread();
 
     public DAO(StrollActivity delegate) {
         this.delegate = delegate;
@@ -73,13 +66,11 @@ public class DAO {
     // which will send querys to the database and call the method parseQueryResult sending the answer
 
     public void readAllBalades(){
-        this.state = ALL_BALADES;
-        addToQueue(new DatabaseQueryAsync(this, hostname, "query_read_balades.php").execute());
+        new DatabaseQueryAsync(this, hostname, QUERY_BALADES).execute();
     }
 
     public void readAllPoints(){
-        this.state = ALL_POINTS;
-        addToQueue(new DatabaseQueryAsync(this, hostname, "query_read_points.php").execute());
+        new DatabaseQueryAsync(this, hostname, QUERY_POINTS).execute();
     }
 
     public void downloadBalade(){
@@ -89,16 +80,15 @@ public class DAO {
         // 4) start to download medias
 
         // download a media as example:
-        this.state = MEDIA;
-        //new DownloadMediasAsync(this, hostname + "uploads/", "mtb.mp4").execute();
-        addToQueue(new DownloadMediasAsync(this, hostname + "uploads/", "danilo.png").execute());
+        new DownloadMediasAsync(this, hostname, "mtb.mp4").execute();
+        new DownloadMediasAsync(this, hostname, "danilo.png").execute();
     }
 
     // may be called by the DatabaseQueryAsync when the query result is received from database
-    public void parseQueryResult(String result){
+    public void parseQueryResult(String result, String query){
         Log.i("query_result", result);
         try {
-            if(this.state == ALL_POINTS){
+            if(query == QUERY_POINTS){
                 ArrayList<Point> points = new ArrayList<>();
                 JSONArray array = new JSONArray(result);
                 for(int i=0; i<array.length(); i++){
@@ -109,7 +99,7 @@ public class DAO {
                     String descript = array.getJSONObject(i).getString("txt");
                     points.add(new Point(id, lat, lon, name, descript));
                 }
-            } else if (this.state == ALL_BALADES){
+            } else if (query == QUERY_BALADES){
                 ArrayList<Balade> balades = new ArrayList<>();
                 JSONArray array = new JSONArray(result);
                 for(int i=0; i<array.length(); i++){
@@ -120,44 +110,11 @@ public class DAO {
                     balades.add(new Balade(id, name, theme, descript));
                 }
                 delegate.setBaladesArray(balades);
-            } else if (this.state == BALADE){
+            } else if (query == QUERY_MEDIAS){
 
             }
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-        // pop the task from the queue since it is done
-        popFromQueue();
-    }
-
-    private void addToQueue(AsyncTask task){
-        // start thread if this is the first task
-        if(queue.isEmpty()){
-            triggerThread.start();
-        }
-        queue.add(task);
-    }
-
-    private void popFromQueue(){
-        queue.remove(0);
-        // stop thread if there are no tasks
-        if(queue.isEmpty()){
-            triggerThread.stop();
-        }
-    }
-
-    private class QueueThread extends Thread {
-        AsyncTask runningTask;
-
-        public void run() {
-            // get first element of the queue
-            AsyncTask task = queue.get(0);
-
-            // if it's a new task, execute it
-            if(runningTask!=null && task!=null && runningTask!=task){
-                task.execute();
-                runningTask = task;
-            }
         }
     }
 }
