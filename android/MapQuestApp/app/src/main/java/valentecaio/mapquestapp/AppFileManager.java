@@ -115,6 +115,7 @@ public class AppFileManager {
         return p;
     }
 
+    // read balade and load points and medias
     public Balade readBalade(String id){
         // read csv file
         this.setName(balade_prefix + id + fileType);
@@ -129,9 +130,22 @@ public class AppFileManager {
         // transform string data in Balade object
         Balade b = new Balade(id_str, name, theme);
         for(int i=3; i<data.length; i++){
-            b.addPoint(data[i]);
+            b.addPoint(readPoint(data[i]));
         }
         return b;
+    }
+
+    public ArrayList<String> listDownloadedBalades(){
+        ArrayList<String> balades = new ArrayList<>();
+        File[] files = this.getFiles();
+        for(File f: files){
+            if(f.getName().contains(balade_prefix)){
+                int start = balade_prefix.length();
+                int end = f.getName().length() - fileType.length();
+                balades.add(f.getName().substring(start, end));
+            }
+        }
+        return balades;
     }
 
     public void writePoint(Point p){

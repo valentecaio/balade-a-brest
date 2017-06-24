@@ -14,7 +14,8 @@ import java.util.ArrayList;
 
 public class StrollActivity extends AppCompatActivity {
     private ListView balades_listView;
-    private ArrayList<Balade> balades = new ArrayList<Balade>();
+    private ArrayList<Balade> serverBalades = new ArrayList<>();
+    private ArrayList<String> localBalades = new ArrayList<>();
     public DAO database = new DAO(this);
 
     @Override
@@ -26,8 +27,11 @@ public class StrollActivity extends AppCompatActivity {
 
         verify_permissions();
 
-        // read all balades and points from internal database (useful to debug)
-        new AppFileManager(this).readAll();
+        // read all serverBalades and points from internal database (useful to debug)
+        localBalades = new AppFileManager(this).listDownloadedBalades();
+        for(String s: localBalades){
+            Log.i("LOCAL_BALADE", s);
+        }
     }
 
     public void configureListView(){
@@ -39,7 +43,7 @@ public class StrollActivity extends AppCompatActivity {
                 Log.i("debug", "Click ListItem Number " + position);
 
                 // stock clicked balade as global variables
-                Balade chosen_balade = balades.get(position);
+                Balade chosen_balade = serverBalades.get(position);
                 GlobalVariables.getInstance().balade = chosen_balade;
 
                 // go to mapActivity
@@ -49,7 +53,7 @@ public class StrollActivity extends AppCompatActivity {
         });
 
         // populate listView
-        BaladesAdapter adapter = new BaladesAdapter(this, balades, this);
+        BaladesAdapter adapter = new BaladesAdapter(this, serverBalades, this);
         balades_listView.setAdapter(adapter);
     }
 
@@ -59,7 +63,7 @@ public class StrollActivity extends AppCompatActivity {
             Log.i("BALADE", b.toString());
         }
 
-        this.balades = balades;
+        this.serverBalades = balades;
         configureListView();
     }
 
