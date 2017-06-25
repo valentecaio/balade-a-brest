@@ -34,8 +34,9 @@ INSERT INTO `contenu_parcours` (`id_p`, `id_b`) VALUES
 (5, 34);
 
 INSERT INTO `media` (`id_media`, `chemin`, `id_point_ref`, `status`) VALUES
-(41, 'mtb.mp4', 6, 'accepte'),
+(41, 'mtb.mp4', 3, 'accepte'),
 (42, 'danilo.jpg', 6, 'accepte'),
-(43, 'danilo.jpg', 5, 'accepte'),
-(44, 'mtb.mp4', 5, 'accepte');
+(43, 'dede.jpg', 6, 'accepte'),
+(44, 'guinther.png', 6, 'accepte'),
+(45, 'danilo.jpg', 5, 'accepte');
 
