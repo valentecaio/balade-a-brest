@@ -31,7 +31,7 @@ public class StrollActivity extends AppCompatActivity {
         afm = new AppFileManager(getApplicationContext());
         localBalades = afm.listDownloadedBalades();
 
-        // uncomment following line to delete all csv files when loading application
+        // uncomment following line to delete all data when loading application
         //afm.deleteAll();
     }
 

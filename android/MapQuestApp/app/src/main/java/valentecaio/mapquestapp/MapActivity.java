@@ -93,7 +93,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
                         MyMarker clicked_marker = mapMarkers.get(marker_index);
                         Log.i("ONCLICK", "marker index: " + marker_index + ", point: " + clicked_marker.point);
 
-                        // put clickec point in global variables
+                        // put clicked point in global variables
                         GlobalVariables.getInstance().target = clicked_marker.point;
 
                         // start intent

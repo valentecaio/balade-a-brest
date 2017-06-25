@@ -1,5 +1,6 @@
 package valentecaio.mapquestapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 
 public class AppFileManager {
     private String name;
-    private FileOutputStream outputStream;
     private Context context;
 
     private static String fileType = ".csv";
@@ -53,6 +53,7 @@ public class AppFileManager {
 
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
                     context.openFileOutput(nameToWrite, Context.MODE_PRIVATE));
+                    //context.openFileOutput(nameToWrite, Activity.MODE_WORLD_READABLE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
             Log.i("AFM", "WRITE filename: " + nameToWrite + ", content: " + data);
@@ -181,12 +182,25 @@ public class AppFileManager {
         }
     }
 
-    private File[] getFiles(){
+    public File[] getFiles(){
         String path = this.context.getFilesDir().getAbsolutePath();
         Log.i("AFM", "getFiles Path: " + path);
         File directory = new File(path);
         File[] files = directory.listFiles();
+        for(File f: files) {
+            Log.i("GET_FILES", f.getAbsolutePath());
+        }
         return files;
+    }
+
+    public File getFile(String filename){
+        File[] files = getFiles();
+        for(File f: files){
+            if(f.getName().equals(filename)){
+                return f;
+            }
+        }
+        return null;
     }
 
     public ArrayList<String> readAll() {
@@ -203,12 +217,26 @@ public class AppFileManager {
         return results;
     }
 
-    public boolean deleteAll() {
+    public boolean deleteAllCSVData() {
         File[] files = this.getFiles();
 
         boolean deleted = true;
         for (File file : files) {
             if (formatIsCSV(file)) {
+                Log.i("AFM", "DELETE filename: " + file.getName());
+                deleted = file.delete() && deleted;
+            }
+        }
+        return deleted;
+    }
+
+    public boolean deleteAll() {
+        File[] files = this.getFiles();
+
+        boolean deleted = true;
+        for (File file : files) {
+            String db_extension = ".db";
+            if (!file.getName().contains(db_extension)) {
                 Log.i("AFM", "DELETE filename: " + file.getName());
                 deleted = file.delete() && deleted;
             }

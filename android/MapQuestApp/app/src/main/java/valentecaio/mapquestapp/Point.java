@@ -48,16 +48,8 @@ public class Point {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
     public double getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
 
     public String getName() {
@@ -72,7 +64,7 @@ public class Point {
         return new LatLng(getLatitude(), getLongitude());
     }
 
-    public void setMedias(ArrayList medias) {
+    public void setMedias(ArrayList<String> medias) {
         this.medias = medias;
     }
 

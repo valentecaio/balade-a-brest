@@ -24,7 +24,8 @@ public class DownloadMediasAsync extends AsyncTask<String, String, String> {
         this.delegate = delegate;
         this.hostname = hostname;
         this.filename = filename;
-        this.filesDir = delegate.delegate.getApplicationContext().getFilesDir().getAbsolutePath();
+        this.filesDir = GlobalVariables.getInstance().MEDIAS_FILEPATH;
+        //this.filesDir = delegate.delegate.getApplicationContext().getFilesDir().getAbsolutePath() + "/";
     }
 
     private String resp;
@@ -41,11 +42,13 @@ public class DownloadMediasAsync extends AsyncTask<String, String, String> {
             connection.connect();
 
             int lengthOfFile = connection.getContentLength();
+            String fullpath = filesDir + filename;
             Log.i("DOWNLOAD_MEDIA", "length of " + filename + " : " + lengthOfFile);
+            Log.i("DOWNLOAD_MEDIA", "saving at " + fullpath);
 
             resp = filename;
 
-            OutputStream outputStream = new FileOutputStream(filesDir + filename);
+            OutputStream outputStream = new FileOutputStream(fullpath);
             InputStream inputStream = new BufferedInputStream(url.openStream());
             byte data[] = new byte[1024];
             long total = 0;
@@ -58,8 +61,6 @@ public class DownloadMediasAsync extends AsyncTask<String, String, String> {
             outputStream.flush();
             outputStream.close();
             inputStream.close();
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

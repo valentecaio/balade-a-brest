@@ -63,12 +63,12 @@ public class DAO {
         b.setPoints(points_in_balade);
 
         // step 2
-        ArrayList<Media> medias_in_balade = mediasInBalade(b);
+        ArrayList<String> medias_in_balade = mediasInBalade(b);
 
         // step 3
-        for(Media m: medias_in_balade){
-            Log.i("DOWNLOAD_BALADE", "media " + m.getFilename());
-            downloadMedia(m);
+        for(String media_name: medias_in_balade){
+            Log.i("DOWNLOAD_BALADE", "media " + media_name);
+            downloadMedia(media_name);
         }
 
         // step 4 is triggered by onFinishMediaDownload
@@ -98,14 +98,14 @@ public class DAO {
     }
 
     // return all medias of a Balade, searching in the global array medias
-    private ArrayList<Media> mediasInBalade(Balade b){
-        ArrayList<Media> medias_of_balade = new ArrayList<>();
+    private ArrayList<String> mediasInBalade(Balade b){
+        ArrayList<String> medias_of_balade = new ArrayList<>();
 
         for(Point p: b.getPoints()){
-            ArrayList<Media> medias_of_point = new ArrayList<>();
+            ArrayList<String> medias_of_point = new ArrayList<>();
             for(Media m: this.medias){
                 if(m.getPoint_id() == p.getId()){
-                    medias_of_point.add(m);
+                    medias_of_point.add(m.getFilename());
                 }
             }
             p.setMedias(medias_of_point);
@@ -115,13 +115,13 @@ public class DAO {
         return medias_of_balade;
     }
 
-    private void downloadMedia(Media m){
+    private void downloadMedia(String media_name){
         // trigger download async task
-        new DownloadMediasAsync(this, hostname, m.getFilename()).execute();
+        new DownloadMediasAsync(this, hostname, media_name).execute();
         // wait for acknowledgement
         remainingAcks++;
 
-        Log.i("DOWNLOAD_MEDIA", "waiting ack for file " + m.getFilename() + ", remaining acks: " + remainingAcks);
+        Log.i("DOWNLOAD_MEDIA", "waiting ack for file " + media_name + ", remaining acks: " + remainingAcks);
     }
 
     // may be called by the DownloadMediasAsync when the download is finished

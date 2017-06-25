@@ -9,6 +9,7 @@ public class GlobalVariables {
 
     public static Balade balade;
     public static Point target;
+    public static String MEDIAS_FILEPATH = "sdcard/balade_a_brest/";
 
     protected GlobalVariables(){}
 
