@@ -106,7 +106,7 @@ public class AppFileManager {
         Double latitude = new Double(data[4]);
 
         // transform string data in Point object
-        Point p = new Point(id, longitude, latitude, name, description);
+        Point p = new Point(id, latitude, longitude, name, description);
         for(int i=5; i<data.length; i++){
             p.addMedia(data[i]);
         }
