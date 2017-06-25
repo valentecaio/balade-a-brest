@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class InfoActivity extends AppCompatActivity {
-    ImageView photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,7 +14,8 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
 
         Point target = GlobalVariables.getInstance().target;
-        //photo.setVisibility(View.VISIBLE);
+        TextView descript_tv = (TextView) findViewById(R.id.description_textView);
+        descript_tv.setText(target.toString() + "\n" + target.getDescription());
     }
 
 }

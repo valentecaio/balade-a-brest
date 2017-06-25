@@ -26,11 +26,6 @@ public class Balade {
         this.theme = theme;
     }
 
-    public Balade(String name, String theme) {
-        this.name = name;
-        this.theme = theme;
-    }
-
     public ArrayList<Point> getPoints() {
         return points;
     }

@@ -16,18 +16,12 @@ public class Point {
     private String description;
     private ArrayList medias = new ArrayList();
 
-    public Point(String name, double latitude, double longitude) {
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
     public Point(int id, double latitude, double longitude, String name, String description) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
-        this.description = description;
+        this.setDescription(description);
     }
 
     public int getId() {
@@ -43,11 +37,11 @@ public class Point {
     }
 
     public String getDescription() {
-        return description;
+        return description!=null ? description : "";
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = description.equals("null") ? null : description;
     }
 
     public double getLatitude() {

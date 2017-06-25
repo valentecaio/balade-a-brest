@@ -78,7 +78,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         });
 
         // config camera
-        SurfaceView surfaceView = (SurfaceView) findViewById(camera_view);
+        SurfaceView surfaceView = (SurfaceView) findViewById(R.id.camera_view);
         mSurfaceHolder = surfaceView.getHolder();
         mSurfaceHolder.addCallback(this);
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
