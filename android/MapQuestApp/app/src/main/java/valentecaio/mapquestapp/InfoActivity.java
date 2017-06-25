@@ -14,7 +14,7 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
 
         Point target = GlobalVariables.getInstance().target;
-        photo.setVisibility(View.VISIBLE);
+        //photo.setVisibility(View.VISIBLE);
     }
 
 }

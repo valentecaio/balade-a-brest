@@ -88,9 +88,16 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
                 mMapboxMap.setOnInfoWindowClickListener(new MapboxMap.OnInfoWindowClickListener() {
                     @Override
                     public boolean onInfoWindowClick(@NonNull Marker marker) {
-                        Log.i("info", marker.getTitle());
+                        // get clicked point
+                        int marker_index = mMapboxMap.getMarkers().indexOf(marker);
+                        MyMarker clicked_marker = mapMarkers.get(marker_index);
+                        Log.i("ONCLICK", "marker index: " + marker_index + ", point: " + clicked_marker.point);
+
+                        // put clickec point in global variables
+                        GlobalVariables.getInstance().target = clicked_marker.point;
+
+                        // start intent
                         Intent i = new Intent(MapActivity.this, InfoActivity.class);
-                        i.putExtra("id", marker.getTitle());
                         startActivity(i);
                         return true;
                     }
@@ -122,7 +129,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
             markeroptions = new MarkerOptions();
             markeroptions.position(p.getLocation());
             markeroptions.title(p.getName());
-            markeroptions.snippet(p.getDescription());
+            //markeroptions.snippet(p.getDescription());
             this.point = p;
         }
     }
