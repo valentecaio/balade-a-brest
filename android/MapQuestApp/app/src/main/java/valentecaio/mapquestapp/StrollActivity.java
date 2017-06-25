@@ -27,14 +27,11 @@ public class StrollActivity extends AppCompatActivity {
 
         verify_permissions();
 
+        // read all serverBalades from internal database
         afm = new AppFileManager(getApplicationContext());
-
-        // read all serverBalades and points from internal database (useful to debug)
         localBalades = afm.listDownloadedBalades();
-        for(String s: localBalades){
-            Log.i("LOCAL_BALADE", s);
-        }
 
+        // uncomment following line to delete all csv files when loading application
         //afm.deleteAll();
     }
 

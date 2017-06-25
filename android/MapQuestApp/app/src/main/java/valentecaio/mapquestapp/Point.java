@@ -14,7 +14,7 @@ public class Point {
     private double longitude;
     private String name;
     private String description;
-    private ArrayList medias = new ArrayList();
+    private ArrayList<String> medias = new ArrayList();
 
     public Point(int id, double latitude, double longitude, String name, String description) {
         this.id = id;
@@ -28,7 +28,7 @@ public class Point {
         return id;
     }
 
-    public ArrayList getMedias() {
+    public ArrayList<String> getMedias() {
         return medias;
     }
 
