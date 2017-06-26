@@ -33,8 +33,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
     private Location myLocation;
     private LocationManager locationManager;
-    private MyMarker target_marker;
-    private ArrayList<MyMarker> mapMarkers = new ArrayList<>();
+    private Marker target_marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +72,12 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
                 // put points on the map
                 for(Point p: GlobalVariables.getInstance().balade.getPoints()){
-                    addMarker(p);
+                    addMarker(mMapboxMap, p.getLocation(), p.getName(), "");
                 }
 
                 // set first user location and first target
                 myLocation = getLastBestLocation();
-                target_marker = sortMarkersbyDistance(mapMarkers, myLocation).get(0);
+                target_marker = sortMarkersbyDistance(mMapboxMap.getMarkers(), myLocation).get(0);
 
                 // center map in user's location
                 LatLng center = new LatLng(myLocation);
@@ -88,13 +87,9 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
                 mMapboxMap.setOnInfoWindowClickListener(new MapboxMap.OnInfoWindowClickListener() {
                     @Override
                     public boolean onInfoWindowClick(@NonNull Marker marker) {
-                        // get clicked point
-                        int marker_index = mMapboxMap.getMarkers().indexOf(marker);
-                        MyMarker clicked_marker = mapMarkers.get(marker_index);
-                        Log.i("ONCLICK", "marker index: " + marker_index + ", point: " + clicked_marker.point);
-
                         // put clicked point in global variables
-                        GlobalVariables.getInstance().target = clicked_marker.point;
+                        GlobalVariables.getInstance().target = findPointByName(marker.getTitle());
+                        Log.i("MAP_ACTIVITY", "new target: " + GlobalVariables.getInstance().target);
 
                         // start intent
                         Intent i = new Intent(MapActivity.this, InfoActivity.class);
@@ -115,41 +110,31 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
         }
     }
 
-    private void addMarker(Point p) {
-        MyMarker marker = new MyMarker(p);
-        mMapboxMap.addMarker(marker.markeroptions);
-        this.mapMarkers.add(marker);
-    }
-
-    private class MyMarker {
-        MarkerOptions markeroptions;
-        Point point;
-
-        public MyMarker(Point p) {
-            markeroptions = new MarkerOptions();
-            markeroptions.position(p.getLocation());
-            markeroptions.title(p.getName());
-            //markeroptions.snippet(p.getDescription());
-            this.point = p;
-        }
+    private void addMarker(MapboxMap mapboxMap, LatLng position, String title, String snippet) {
+        MarkerOptions marker = new MarkerOptions();
+        marker.position(position);
+        marker.title(title);
+        marker.snippet(snippet);
+        mapboxMap.addMarker(marker);
     }
 
     @Override
     public void onClick(View view) {
         Intent i = new Intent(this, CameraActivity.class);
 
-        // stock target in global variables
-        GlobalVariables.getInstance().target = target_marker.point;
+        // get target and stock it in global variables
+        GlobalVariables.getInstance().target = findPointByName(target_marker.getTitle());
+        Log.i("MAP_ACTIVITY", "new target: " + GlobalVariables.getInstance().target);
 
         startActivity(i);
     }
 
-    public static List<MyMarker> sortMarkersbyDistance(List<MyMarker> markers, final Location location){
-        Collections.sort(markers, new Comparator<MyMarker>() {
+    public static List<Marker> sortMarkersbyDistance(List<Marker> markers, final Location location){
+        Collections.sort(markers, new Comparator<Marker>() {
             @Override
-            public int compare(MyMarker marker2, MyMarker marker1) {
-                if(getDistanceBetweenPoints(marker1.markeroptions.getPosition(), location) >
-                        getDistanceBetweenPoints(marker2.markeroptions.getPosition(),location)){
+            public int compare(Marker marker2, Marker marker1) {
+                if(getDistanceBetweenPoints(marker1.getPosition(), location) >
+                        getDistanceBetweenPoints(marker2.getPosition(),location)){
                     return -1;
                 } else {
                     return 1;
@@ -168,8 +153,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
     @Override
     public void onLocationChanged(Location location) {
         myLocation = location;
-        target_marker = sortMarkersbyDistance(this.mapMarkers, location).get(0);
-        Log.i("SORTED", "sorted markers by distance, new target: " + target_marker);
+        target_marker = sortMarkersbyDistance(mMapboxMap.getMarkers(), location).get(0);
+        Log.i("SORTED", "sorted markers by distance, new target: " + target_marker.getTitle());
     }
 
     /**
@@ -195,6 +180,15 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
         } else {
             return locationNet;
         }
+    }
+
+    private Point findPointByName(String name){
+        for(Point p: GlobalVariables.getInstance().balade.getPoints()){
+            if(p.getName().equals(name)){
+                return p;
+            }
+        }
+        return null;
     }
 
     @Override
