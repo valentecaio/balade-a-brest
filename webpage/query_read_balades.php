@@ -38,21 +38,27 @@
         $req_balade = $bdd->query('SELECT id_balade, nom, theme, description FROM balade WHERE status = \'en_attente\'');   
     }
     
-    $listpoints = array();
-    while ($data = $req_balade->fetch()) {
-        $req_points = $bdd->prepare('SELECT id_point, p.nom, latitude, longitude, p.description FROM point as p, balade as b, contenu_parcours as c WHERE/* b.status = \' accepte\' and*/ p.id_point=c.id_p and b.id_balade=c.id_b and b.id_balade = :id_balade');
+    $listbalades = array();
+	// for each balade
+    while ($data_balade = $req_balade->fetch()) {
+		// get array of points
+        $req_points = $bdd->prepare('SELECT id_point, p.nom, latitude, longitude, p.description FROM point as p, balade as b, contenu_parcours as c WHERE b.status = \'accepte\' and p.id_point=c.id_p and b.id_balade=c.id_b and b.id_balade = :id_balade');
         $req_points->execute(array(
-            'id_balade' => $data['id_balade']));
-        while ($data_1 = $req_points->fetch()) {
-            $listpoints[] = array('id' => $data_1['id_point'], 'name' => $data_1['nom'], 'lat' => $data_1['latitude'], 'lon' => $data_1['longitude']);
+            'id_balade' => $data_balade['id_balade']));
+		
+		// fetch array of points
+		$listpoints = array();
+        while ($data_point = $req_points->fetch()) {
+            $listpoints[] = array('id' => $data_point['id_point'], 'name' => $data_point['nom'], 'lat' => $data_point['latitude'], 'lon' => $data_point['longitude']);
         }
         $req_points->closeCursor();
-        $listbalades[] = array('id' => $data['id_balade'], 'name' => $data['nom'], 'theme' => $data['theme'], 'txt' => $data['description'], 'points' => $listpoints);
+		
+		// generate new entry to array of balades
+        $listbalades[] = array('id' => $data_balade['id_balade'], 'name' => $data_balade['nom'], 'theme' => $data_balade['theme'], 'txt' => $data_balade['description'], 'points' => $listpoints);
     }
     $req_balade->closeCursor(); 
     //echo json_encode($list);
     //return json_encode($list);
-
 
     echo json_encode($listbalades); //$list;
 ?>

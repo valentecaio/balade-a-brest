@@ -35,7 +35,8 @@ function show_point(id) {
 function show_balade(id) {
 	var clicked_row = document.getElementById("row_" + id);
 	var balade = clicked_row.delegate;
-	console.log(balade.points);
+	
+	console.log(balade);
 	refresh_markers(map, markersVectorLayer, balade.points);
 }
 
