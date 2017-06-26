@@ -103,9 +103,8 @@ function main() {
 	
 	// load data according to page function
 	var pageType = sessionStorage.getItem('pageType');
+	console.log(pageType);
 	if(pageType == 'edition' || pageType == 'approval') {
-		console.log(pageType);
-
 		// load point data
 		var pointName = sessionStorage.getItem('pointName');
 		var pointLat = sessionStorage.getItem('pointLat');
@@ -119,8 +118,6 @@ function main() {
 		// recenter map
 		center_map(map, point, zoom);
 	} else if(pageType == 'creation') {
-		console.log("creation page");
-		
 		// init global variable to avoid losing clicked points
 		setPointClicked(null, null);
 	}
