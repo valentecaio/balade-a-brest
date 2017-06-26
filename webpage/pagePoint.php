@@ -5,11 +5,12 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>Create Point</title>
+		<title>Balade à Brest</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel='stylesheet' type='text/css' href="style_pageMain.css">
+		<link rel="shortcut icon" type="image/x-icon" href="./images/blue_marker2.png">
 	</head>
 	
 	<?php
@@ -75,7 +76,7 @@
 						</div>
 						<div class="row">
 							<div class="container-fluid">
-								<button id="delete_button" type="submit" class="btn btn-default" style="color: red" onclick="button_action('query_delete_point.php')">Supprimer</button>
+								<button id="delete_button" type="submit" class="btn btn-default" style="color: red" onclick="onClickSendButton('query_delete_point.php')">Supprimer</button>
 								<div class="pull-right">
 			    					<button type="button" class="btn btn-default" onclick="location.href = 'pageMain.php';">Annuler</button>
 				    				<button id="send_button" type="submit" class="btn" name="submit"></button>

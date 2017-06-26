@@ -1,13 +1,11 @@
 package valentecaio.mapquestapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -133,14 +131,15 @@ public class AppFileManager {
         return b;
     }
 
-    public ArrayList<String> listDownloadedBalades(){
-        ArrayList<String> balades = new ArrayList<>();
+    public ArrayList<Balade> listDownloadedBalades(){
+        ArrayList<Balade> balades = new ArrayList<>();
         File[] files = this.getFiles();
         for(File f: files){
             if(f.getName().contains(balade_prefix)){
                 int start = balade_prefix.length();
                 int end = f.getName().length() - fileType.length();
-                balades.add(f.getName().substring(start, end));
+                int id = Integer.parseInt(f.getName().substring(start, end));
+                balades.add(readBalade(id));
             }
         }
         return balades;

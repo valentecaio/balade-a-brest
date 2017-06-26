@@ -157,14 +157,14 @@ ALTER TABLE `usagers`
 -- Contraintes pour la table `contenu_parcours`
 --
 ALTER TABLE `contenu_parcours`
-  ADD CONSTRAINT `balade` FOREIGN KEY (`id_b`) REFERENCES `balade` (`id_balade`),
-  ADD CONSTRAINT `point` FOREIGN KEY (`id_p`) REFERENCES `point` (`id_point`);
+  ADD CONSTRAINT `balade` FOREIGN KEY (`id_b`) REFERENCES `balade` (`id_balade`) ON DELETE CASCADE,
+  ADD CONSTRAINT `point` FOREIGN KEY (`id_p`) REFERENCES `point` (`id_point`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `media`
 --
 ALTER TABLE `media`
-  ADD CONSTRAINT `media` FOREIGN KEY (`id_point_ref`) REFERENCES `point` (`id_point`);
+  ADD CONSTRAINT `media` FOREIGN KEY (`id_point_ref`) REFERENCES `point` (`id_point`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

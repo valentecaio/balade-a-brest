@@ -34,14 +34,13 @@ public class DAO {
 
     public DAO(StrollActivity delegate) {
         this.delegate = delegate;
-        this.loadDatabase();
     }
 
     // read functions
     // the read methods trigger asynchronous tasks (DatabaseQueryAsync),
     // which will send querys to the database and call the method parseQueryResult sending the answer
 
-    private void loadDatabase(){
+    public void loadDatabase(){
         new DatabaseQueryAsync(this, hostname, QUERY_POINTS).execute();
         new DatabaseQueryAsync(this, hostname, QUERY_MEDIAS).execute();
         new DatabaseQueryAsync(this, hostname, QUERY_BALADES).execute();
@@ -55,9 +54,6 @@ public class DAO {
     // 3) download medias
     // 4) write data in internal database
     public void downloadBalade(Balade b){
-        // before start, disable download buttons
-        enableButtonsInDelegate(false);
-
         // step 1
         ArrayList<Point> points_in_balade = pointsInBalade(b);
         b.setPoints(points_in_balade);
@@ -136,7 +132,8 @@ public class DAO {
             afm.writeBaladeAndPoints(baladeBeingDownloaded);
 
             // when finishing task enable download buttons again
-            enableButtonsInDelegate(true);
+            // sendSignalBaladeDownloaded
+            delegate.signalBaladeDownloadFinished(baladeBeingDownloaded);
         }
 
         Log.i("DOWNLOAD_MEDIA", "receivec ack for file " + filename + ", remaining acks: " + remainingAcks);
@@ -144,7 +141,10 @@ public class DAO {
 
     // may be called by the DatabaseQueryAsync when the query result is received from database
     public void parseQueryResult(String result, String query){
+        // avoid errors when receiving null results
+        result = result==null ? "" : result;
         Log.i("query_result", result);
+
         try {
             if(query == QUERY_POINTS){
                 this.points = new ArrayList<>();
