@@ -2,6 +2,7 @@ package valentecaio.mapquestapp;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +55,8 @@ public class StrollActivity extends AppCompatActivity {
                 // stock clicked balade as global variables
                 Balade chosen_balade = lv_source.get(position);
 
+                //parent.getChildAt(position).setBackgroundColor(Color.BLUE);
+
                 // try/catch to avoid error when clicking in not downloaded balade
                 try {
                     // load balade points/medias before performing intent
@@ -86,6 +89,10 @@ public class StrollActivity extends AppCompatActivity {
 
     public void enableButtons(boolean enabled) {
         Log.i("ENABLE_BUTTONS", "" + enabled);
+    }
+
+    public ArrayList<Balade> getLocalBalades() {
+        return localBalades;
     }
 
     private void verify_permissions(){

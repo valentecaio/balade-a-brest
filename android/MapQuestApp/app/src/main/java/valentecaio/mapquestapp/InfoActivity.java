@@ -1,6 +1,5 @@
 package valentecaio.mapquestapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,13 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.common.io.ByteStreams;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class InfoActivity extends AppCompatActivity {

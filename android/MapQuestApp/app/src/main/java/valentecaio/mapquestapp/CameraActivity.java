@@ -25,8 +25,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static valentecaio.mapquestapp.R.id.camera_view;
-
 public class CameraActivity extends AppCompatActivity implements LocationListener, SurfaceHolder.Callback, SensorEventListener {
     boolean DEBUG = false;
     private static double DISTANCE_SAFETY_MARGIN = 300;
