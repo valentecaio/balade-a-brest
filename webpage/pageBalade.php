@@ -59,14 +59,14 @@
 						<div class="form-group">
 	  						<label class="control-label col-sm-3" for="form_list" style="text-align: right;"></label>
 	  						<div class="col-sm-9">
-	  							<input type="hidden" class="form-control" name="form_list" id="form_list"></input>
+	  							<input type="hidden" class="form-control" name="form_list" id="form_list">
 							</div>
 						</div>
 						<div class="form-group" id="points_list"></div>
 						<div class="row">
 							<div class="container-fluid">
 								<button id="delete_button" type="submit" class="btn btn-default" style="color: red" onclick="button_action('query_delete_balade.php')">Supprimer</button>
-								<div class="container-fluid">
+								<div class="pull-right">
 									<button type="button" class="btn btn-default" onclick="location.href = 'pageMain.php';">Annuler</button>
 									<button id="send_button" type="submit" class="btn" name="submit"></button>
 								</div>
@@ -92,12 +92,10 @@
 							</div>
 						</div>							      	
 					</div>
-				</div>
-				<div class="col-sm-8">
-					<div style="width:100%; height:550px" id='mapdiv'></div>
-				</div>
+					<div class="col-sm-8">
+						<div style="width:100%; height:550px" id='mapdiv'></div>
+					</div>
 			</div>
 		</div>
 	</body>
-	
 </html>
