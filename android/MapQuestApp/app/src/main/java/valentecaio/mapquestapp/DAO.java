@@ -34,14 +34,13 @@ public class DAO {
 
     public DAO(StrollActivity delegate) {
         this.delegate = delegate;
-        this.loadDatabase();
     }
 
     // read functions
     // the read methods trigger asynchronous tasks (DatabaseQueryAsync),
     // which will send querys to the database and call the method parseQueryResult sending the answer
 
-    private void loadDatabase(){
+    public void loadDatabase(){
         new DatabaseQueryAsync(this, hostname, QUERY_POINTS).execute();
         new DatabaseQueryAsync(this, hostname, QUERY_MEDIAS).execute();
         new DatabaseQueryAsync(this, hostname, QUERY_BALADES).execute();
@@ -144,7 +143,10 @@ public class DAO {
 
     // may be called by the DatabaseQueryAsync when the query result is received from database
     public void parseQueryResult(String result, String query){
+        // avoid errors when receiving null results
+        result = result==null ? "" : result;
         Log.i("query_result", result);
+
         try {
             if(query == QUERY_POINTS){
                 this.points = new ArrayList<>();

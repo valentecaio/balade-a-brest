@@ -133,14 +133,15 @@ public class AppFileManager {
         return b;
     }
 
-    public ArrayList<String> listDownloadedBalades(){
-        ArrayList<String> balades = new ArrayList<>();
+    public ArrayList<Balade> listDownloadedBalades(){
+        ArrayList<Balade> balades = new ArrayList<>();
         File[] files = this.getFiles();
         for(File f: files){
             if(f.getName().contains(balade_prefix)){
                 int start = balade_prefix.length();
                 int end = f.getName().length() - fileType.length();
-                balades.add(f.getName().substring(start, end));
+                int id = Integer.parseInt(f.getName().substring(start, end));
+                balades.add(readBalade(id));
             }
         }
         return balades;

@@ -13,8 +13,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class StrollActivity extends AppCompatActivity {
-    private ArrayList<Balade> serverBalades = new ArrayList<>();
-    private ArrayList<String> localBalades = new ArrayList<>();
+    private ArrayList<Balade> serverBalades;
+    private ArrayList<Balade> localBalades = new ArrayList<>();
     public DAO database = new DAO(this);
     public AppFileManager afm;
 
@@ -23,13 +23,16 @@ public class StrollActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stroll);
 
-        configureListView();
-
         verify_permissions();
 
-        // read all serverBalades from internal database
+        // load database to populate listView
+        this.database.loadDatabase();
+
+        // read all balades from internal database
         afm = new AppFileManager(getApplicationContext());
         localBalades = afm.listDownloadedBalades();
+
+        configureListView();
 
         // uncomment following line to delete all data when loading application
         //afm.deleteAll();
@@ -39,6 +42,9 @@ public class StrollActivity extends AppCompatActivity {
         final ListView balades_listView = (ListView)findViewById(R.id.scrolls_list_view);
         balades_listView.setItemsCanFocus(false);
 
+        // if cant load serverBalades, show only localBalades
+        final ArrayList<Balade> lv_source =  serverBalades!=null ? serverBalades : localBalades;
+
         balades_listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -46,27 +52,32 @@ public class StrollActivity extends AppCompatActivity {
                 Log.i("ONCLICK_CELL", "Click ListItem Number " + position);
 
                 // stock clicked balade as global variables
-                Balade chosen_balade = serverBalades.get(position);
+                Balade chosen_balade = lv_source.get(position);
 
-                // load balade points/medias before performing intent
-                chosen_balade = afm.readBalade(chosen_balade.getId());
-                GlobalVariables.getInstance().balade = chosen_balade;
+                // try/catch to avoid error when clicking in not downloaded balade
+                try {
+                    // load balade points/medias before performing intent
+                    chosen_balade = afm.readBalade(chosen_balade.getId());
+                    GlobalVariables.getInstance().balade = chosen_balade;
 
-                // go to mapActivity
-                Intent i = new Intent(StrollActivity.this, MapActivity.class);
-                startActivity(i);
+                    // go to mapActivity
+                    Intent i = new Intent(StrollActivity.this, MapActivity.class);
+                    startActivity(i);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         // populate listView
-        BaladesAdapter adapter = new BaladesAdapter(this, serverBalades, this);
+        BaladesAdapter adapter = new BaladesAdapter(this, lv_source, this);
         balades_listView.setAdapter(adapter);
     }
 
     public void setBaladesArray(ArrayList<Balade> balades){
         // useful information for debug
         for(Balade b: balades){
-            Log.i("BALADE", b.toString());
+            Log.i("STROLL_ACTIVITY", b.toString());
         }
 
         this.serverBalades = balades;
