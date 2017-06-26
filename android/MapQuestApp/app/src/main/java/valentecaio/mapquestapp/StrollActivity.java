@@ -28,19 +28,19 @@ public class StrollActivity extends AppCompatActivity {
 
         verify_permissions();
 
+        // read all balades from internal database
+        afm = new AppFileManager(getApplicationContext());
+        localBalades = afm.listDownloadedBalades();
+
+        // uncomment following line to delete all data when loading application
+        //afm.deleteAll();
+
         // disable buttons before requesting data to database
         this.enableButtons(false);
         // load database to populate listView
         this.database.loadDatabase();
 
-        // read all balades from internal database
-        afm = new AppFileManager(getApplicationContext());
-        localBalades = afm.listDownloadedBalades();
-
         configureListView();
-
-        // uncomment following line to delete all data when loading application
-        //afm.deleteAll();
     }
 
     public void configureListView(){
