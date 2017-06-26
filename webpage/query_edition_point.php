@@ -46,13 +46,19 @@ catch(Exception $e)
 	}else{
 	    echo "File doesn't have a compatible extension";
 	} 
-	$req = $bdd->prepare('INSERT INTO media (type, chemin, id_point_ref) VALUES (:type, :chemin, :id_point_ref)');
+	$req = $bdd->query('SELECT id_media FROM media INNER JOIN point ON point.id_point = media.id_point_ref');
+	$req->execute(array(
+	    'id_point_ref' => $id_point_ref,
+		'id_point' => $id_point_ref));
+	$result = $req -> fetch();
+	$req = $bdd->prepare('UPDATE media SET type = :type, chemin = :chemin, id_point_ref = :id_point_ref WHERE id_media = $result[\'id_media\']');
 	$req->execute(array(
 	    'type' => $type,
 	    'chemin' => $target_file,
 	    'id_point_ref' => $id_point_ref));
 
-	
-	header('Location: pageMain.php');
+	echo $target_file;
+	echo $result['id_media'];
+	//header('Location: pageMain.php');
 	exit();
 ?>
