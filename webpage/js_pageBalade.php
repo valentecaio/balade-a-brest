@@ -7,8 +7,8 @@
 <script type="text/javascript">
 
 // global variables
-var map, markersVectorLayer, points, destinations;
-destinations = [];
+var map, markersVectorLayer, points, destination_markers, zoom=16;
+destination_markers = [];
 
 // remove repeated values from an array
 // found at https://stackoverflow.com/questions/1584370/how-to-merge-two-arrays-in-javascript-and-de-duplicate-items
@@ -31,10 +31,13 @@ Array.prototype.remove = function(from, to) {
 	return this.push.apply(this, rest);
 };
 
-function delete_confirmation(id) {
+function delete_confirmation(index) {
+	// get points table
 	table = document.getElementById('points_list');
-	table.removeChild(table.childNodes[id]);
-	destinations.splice( id, 1 );
+	// get point in the table
+	chosen_marker = table.childNodes[index].destination;
+	// remove point
+	onClickMarker(chosen_marker);
 }
 
 function refresh_balades_table() {
@@ -46,33 +49,37 @@ function refresh_balades_table() {
 		table.removeChild(table.firstChild);
 	}
 
-	for (i=0; destinations && i < destinations.length; i++) {
+	for (i=0; destination_markers && i < destination_markers.length; i++) {
+		var point = destination_markers[i].attributes.point;
+		
 		// create new row
 		var new_row = document.createElement('div');
 		new_row.className = "btn-group";
 		new_row.style = "width:100%";
+		
+		// add point as an attribute in this new row
+		new_row.destination = destination_markers[i];
 
+		// create button with point name
 		var but1 = document.createElement('button');
 		but1.style = "width:90%;height: 40px; text-align: left; color: black;";
 		but1.className = "btn btn-default";
-		but1.innerHTML = destinations[i].name + ' (' + destinations[i].lon + ', ' + destinations[i].lat + ')';
+		but1.innerHTML = point.name + ' (' + point.lon + ', ' + point.lat + ')';
+		new_row.appendChild(but1);
 
+		// create delete button for this point
 		var but_edit = document.createElement('button');
 		but_edit.style = "width:10%;height: 40px;";
 		but_edit.className = "btn btn-default";
-		but_edit.id = i;
-		//but_edit.setAttribute('data-toggle' , "modal");
-		//but_edit.setAttribute('data-target' , "#deleteConfirmation");
-		but_edit.setAttribute('onclick', "delete_confirmation" + "('" + but_edit.id + "')");
+		but_edit.setAttribute('onclick', "delete_confirmation" + "('" + i + "')");
+		new_row.appendChild(but_edit);
 		
+		// add trash icon to delete button
 		var span = document.createElement('span');
 		span.className = "glyphicon glyphicon-trash";
 		span.style = "color: black";
-		
 		but_edit.appendChild(span);
-		new_row.appendChild(but1);
-		new_row.appendChild(but_edit);
-
+		
 		// add new row to table
 		table.appendChild(new_row);
 	}
@@ -94,17 +101,44 @@ function setup_click_listener() {
 function onClickMarker(feature) {
 	// select or unselect marker
 	set_marker_selected(markersVectorLayer, feature, !feature.attributes.selected);
-		
+
 	if(feature.attributes.selected) {
-		// get clicked point and add to destinations
-		destinations.push(feature.attributes.point);
+		// get clicked marker and add to destination_markers
+		destination_markers.push(feature);
 	} else {
-		// remove clicked point from destinations
-		destinations.remove(destinations.indexOf(feature.attributes.point));			
+		// remove clicked marker from destination_markers
+		destination_markers.remove(destination_markers.indexOf(feature));
 	}
 
 	// refresh balades table and marker color
 	refresh_balades_table();
+	
+	// refresh JSON form with new destination_markers
+	dest_points = [];
+	for (i=0; destination_markers && i < destination_markers.length; i++) {
+		dest_points.push(destination_markers[i].attributes.point);
+	}
+	document.getElementById("form_list").value = JSON.stringify(dest_points);
+}
+
+function onClickSendButton(action) {
+	document.getElementById("form_balade").setAttribute('action', action);
+}
+
+function add_buttons(){
+	var pageType = sessionStorage.getItem('pageType');
+	var send_button = document.getElementById("send_button");
+	if(pageType == 'creation') {
+		document.getElementById("delete_button").style.display = 'none';
+		send_button.innerHTML = 'Envoyer';
+		send_button.setAttribute('onclick', "onClickSendButton('query_insert_balade.php')");
+	} else if(pageType == 'approval'){
+		send_button.innerHTML = 'Approuver';
+		send_button.setAttribute('onclick', "onClickSendButton('query_approve_balade.php')");
+	} else if(pageType == 'edition'){
+		send_button.innerHTML = 'Envoyer';
+		send_button.setAttribute('onclick', "onClickSendButton('query_edition_balade.php')");
+	}
 }
 
 function main() {
@@ -114,10 +148,10 @@ function main() {
 			center = {
 				lon: -4.496798,
 				lat: 48.38423089
-			}, zoom = 16);
+			}, zoom = zoom);
 			
 	// load points from database
-	$.ajax({url: "get_points.php", success: function(result){
+	$.ajax({url: "query_read_points.php", success: function(result){
         points = JSON.parse(result);
 
 		// plot all points on map
@@ -126,6 +160,8 @@ function main() {
 
 	// add click listener to markers
 	setup_click_listener();
+	
+	add_buttons();
 }
 
 </script>

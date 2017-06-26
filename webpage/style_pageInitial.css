@@ -1,0 +1,18 @@
+body {
+	background-image: url("./images/background-initial.jpg");
+	background-size: cover;
+}
+
+.wb {
+	text-align: center;
+	margin-top: 20px;
+	padding: 10px;
+	color: black;
+}
+
+.wb .btn {
+	margin-top: 50px;
+	padding: 15px 24px;
+	font-size: 21px;
+	color: black;
+}

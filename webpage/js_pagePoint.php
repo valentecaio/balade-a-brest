@@ -6,7 +6,7 @@
 <script type="text/javascript">
 
 // global variables
-var map, markersVectorLayer, point;
+var map, markersVectorLayer, point, zoom=16;
 
 // add click listener to map
 function setup_click_listener() {
@@ -70,25 +70,23 @@ function setPointClicked(lon, lat, name="", id="", descript=""){
 	refresh_markers(map, markersVectorLayer, [point])
 }
 
-function button_action(action) {
-	document.getElementById("createp").setAttribute('action', action);
+function onClickSendButton(action) {
+	document.getElementById("form_point").setAttribute('action', action);
 }
 
 function add_buttons(){
 	var pageType = sessionStorage.getItem('pageType');
+	var send_button = document.getElementById("send_button");
 	if(pageType == 'creation') {
 		document.getElementById("delete_button").style.display = 'none';
-		var send_button = document.getElementById("send_button");
 		send_button.innerHTML = 'Envoyer';
-		send_button.setAttribute('onclick', "button_action('query_insert_point.php')");
+		send_button.setAttribute('onclick', "onClickSendButton('query_insert_point.php')");
 	} else if(pageType == 'approval'){
-		var send_button = document.getElementById("send_button");
 		send_button.innerHTML = 'Approuver';
-		send_button.setAttribute('onclick', "button_action('query_approve_point.php')");
+		send_button.setAttribute('onclick', "onClickSendButton('query_approve_point.php')");
 	} else if(pageType == 'edition'){
-		var send_button = document.getElementById("send_button");
 		send_button.innerHTML = 'Envoyer';
-		send_button.setAttribute('onclick', "button_action('query_edition_point.php')");
+		send_button.setAttribute('onclick', "onClickSendButton('query_edition_point.php')");
 	}
 }
 
@@ -99,7 +97,7 @@ function main() {
 			center = {
 				lon: -4.496798,
 				lat: 48.38423089
-			}, zoom = 16);
+			}, zoom = zoom);
 	
 	setup_click_listener();
 	
@@ -117,6 +115,9 @@ function main() {
 		
 		// set point data
 		setPointClicked(pointLon, pointLat, pointName, pointId, pointDescript);
+		
+		// recenter map
+		center_map(map, point, zoom);
 	} else if(pageType == 'creation') {
 		console.log("creation page");
 		
@@ -125,7 +126,6 @@ function main() {
 	}
 
 	add_buttons();
-	//button_action();
 }
 
 </script>

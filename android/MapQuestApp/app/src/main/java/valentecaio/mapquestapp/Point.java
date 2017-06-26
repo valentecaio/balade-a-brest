@@ -9,32 +9,26 @@ import java.util.ArrayList;
  */
 
 public class Point {
-    private String id;
+    private int id;
     private double latitude;
     private double longitude;
     private String name;
     private String description;
-    private ArrayList medias = new ArrayList();
+    private ArrayList<String> medias = new ArrayList();
 
-    public Point(String name, double latitude, double longitude) {
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    public Point(String id, double latitude, double longitude, String name, String description) {
+    public Point(int id, double latitude, double longitude, String name, String description) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.name = name;
-        this.description = description;
+        this.setDescription(description);
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public ArrayList getMedias() {
+    public ArrayList<String> getMedias() {
         return medias;
     }
 
@@ -43,27 +37,19 @@ public class Point {
     }
 
     public String getDescription() {
-        return description;
+        return description!=null ? description : "";
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = description.equals("null") ? null : description;
     }
 
     public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
     public double getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
 
     public String getName() {
@@ -78,21 +64,8 @@ public class Point {
         return new LatLng(getLatitude(), getLongitude());
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-
-        if (!Point.class.isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-        final Point other = (Point) obj;
-
-        if ((this.getName() == null) ? (other.getName() != null) : !this.name.equals(other.name)) {
-            return false;
-        }
-        return true;
+    public void setMedias(ArrayList<String> medias) {
+        this.medias = medias;
     }
 
     @Override

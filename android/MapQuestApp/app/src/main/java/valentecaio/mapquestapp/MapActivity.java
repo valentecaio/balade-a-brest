@@ -22,7 +22,6 @@ import com.mapquest.mapping.maps.MapboxMap;
 import com.mapquest.mapping.maps.OnMapReadyCallback;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -34,9 +33,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
     private Location myLocation;
     private LocationManager locationManager;
-    private Marker nearest_marker;
-
-    ArrayList<Point> points = new ArrayList<Point>();
+    private MyMarker target_marker;
+    private ArrayList<MyMarker> mapMarkers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +43,11 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
         setContentView(R.layout.activity_map);
 
+        // config camera bucton
         camera = (Button) findViewById(R.id.camera_button);
         camera.setOnClickListener(this);
 
+        // config map
         mMapView = (MapView) findViewById(R.id.mapquestMapView);
         mMapView.onCreate(savedInstanceState);
         configureMap();
@@ -71,45 +71,37 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
                 enableUserTracking(mMapboxMap);
 
-                // create points
-                Point tour = new Point("tour", 48.383421, -4.497139);
-                Point jardin = new Point("jardin", 48.381615, -4.499135);
-                Point tram = new Point("tram", 48.384105, -4.499425);
-                Point laverie = new Point("laverie", 48.357061, -4.570031);
-                Point cv = new Point("centre vie", 48.358906, -4.570013);
-                Point imt_statue = new Point("imt statue", 48.360124, -4.570747);
-                Point cv4 = new Point("departement des langues", 48.358974, -4.569635);
-                Point cv5 = new Point("departement informatique", 48.358899, -4.570263);
-                Point cv6 = new Point("salle meridianne", 48.358823, -4.570081);
-
-                // put points in array
-                Point[] array = new Point[] { tour, jardin, tram, laverie, cv, imt_statue, cv4, cv5, cv6 };
-                points = new ArrayList<Point>(Arrays.asList(array));
-
                 // put points on the map
-                for(Point p: points){
-                    addMarker(mMapboxMap, p.getLocation(), p.getName(), "");
+                for(Point p: GlobalVariables.getInstance().balade.getPoints()){
+                    addMarker(p);
                 }
-                // initialize nearest_marker
-                nearest_marker = mMapboxMap.getMarkers().get(0);
 
-                // center map
-                mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cv.getLocation(), 17));
+                // set first user location and first target
+                myLocation = getLastBestLocation();
+                target_marker = sortMarkersbyDistance(mapMarkers, myLocation).get(0);
+
+                // center map in user's location
+                LatLng center = new LatLng(myLocation);
+                mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 17));
 
                 // set listener to markers
                 mMapboxMap.setOnInfoWindowClickListener(new MapboxMap.OnInfoWindowClickListener() {
                     @Override
                     public boolean onInfoWindowClick(@NonNull Marker marker) {
-                        Log.i("info", marker.getTitle());
+                        // get clicked point
+                        int marker_index = mMapboxMap.getMarkers().indexOf(marker);
+                        MyMarker clicked_marker = mapMarkers.get(marker_index);
+                        Log.i("ONCLICK", "marker index: " + marker_index + ", point: " + clicked_marker.point);
+
+                        // put clicked point in global variables
+                        GlobalVariables.getInstance().target = clicked_marker.point;
+
+                        // start intent
                         Intent i = new Intent(MapActivity.this, InfoActivity.class);
-                        i.putExtra("id", marker.getTitle());
                         startActivity(i);
                         return true;
                     }
                 });
-                
-                myLocation = getLastBestLocation();
-                nearest_marker = sortMarkersbyDistance(mMapboxMap.getMarkers(), myLocation).get(0);
             }
         });
 
@@ -123,50 +115,41 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
         }
     }
 
-    private void addMarker(MapboxMap mapboxMap, LatLng position, String title, String snippet) {
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(position);
-        markerOptions.title(title);
-        markerOptions.snippet(snippet);
-        mapboxMap.addMarker(markerOptions);
+    private void addMarker(Point p) {
+        MyMarker marker = new MyMarker(p);
+        mMapboxMap.addMarker(marker.markeroptions);
+        this.mapMarkers.add(marker);
     }
 
-    @Override
-    public void onResume()
-    { super.onResume(); mMapView.onResume(); }
+    private class MyMarker {
+        MarkerOptions markeroptions;
+        Point point;
 
-    @Override
-    public void onPause()
-    { super.onPause(); mMapView.onPause(); }
-
-    @Override
-    protected void onDestroy()
-    { super.onDestroy(); mMapView.onDestroy(); }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState)
-    { super.onSaveInstanceState(outState); mMapView.onSaveInstanceState(outState); }
+        public MyMarker(Point p) {
+            markeroptions = new MarkerOptions();
+            markeroptions.position(p.getLocation());
+            markeroptions.title(p.getName());
+            //markeroptions.snippet(p.getDescription());
+            this.point = p;
+        }
+    }
 
     @Override
     public void onClick(View view) {
         Intent i = new Intent(this, CameraActivity.class);
 
-        String marker_name = nearest_marker.getTitle();
-        Log.e("points", points.toString());
-        Point point = points.get(points.indexOf(new Point(marker_name, 0 ,0)));
-
-        i.putExtra("target_name", point.getName());
-        i.putExtra("target_longitude", point.getLongitude());
-        i.putExtra("target_latitude", point.getLatitude());
+        // stock target in global variables
+        GlobalVariables.getInstance().target = target_marker.point;
 
         startActivity(i);
     }
 
-    public static List<Marker> sortMarkersbyDistance(List<Marker> markers, final Location location){
-        Collections.sort(markers, new Comparator<Marker>() {
+    public static List<MyMarker> sortMarkersbyDistance(List<MyMarker> markers, final Location location){
+        Collections.sort(markers, new Comparator<MyMarker>() {
             @Override
-            public int compare(Marker marker2, Marker marker1) {
-                if(getDistanceBetweenPoints(marker1.getPosition(), location)>getDistanceBetweenPoints(marker2.getPosition(),location)){
+            public int compare(MyMarker marker2, MyMarker marker1) {
+                if(getDistanceBetweenPoints(marker1.markeroptions.getPosition(), location) >
+                        getDistanceBetweenPoints(marker2.markeroptions.getPosition(),location)){
                     return -1;
                 } else {
                     return 1;
@@ -185,8 +168,8 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
     @Override
     public void onLocationChanged(Location location) {
         myLocation = location;
-        nearest_marker = sortMarkersbyDistance(mMapboxMap.getMarkers(), location).get(0);
-        Log.e("SORTED", "sorted markers by distance, " + nearest_marker);
+        target_marker = sortMarkersbyDistance(this.mapMarkers, location).get(0);
+        Log.i("SORTED", "sorted markers by distance, new target: " + target_marker);
     }
 
     /**
@@ -213,6 +196,22 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
             return locationNet;
         }
     }
+
+    @Override
+    public void onResume()
+    { super.onResume(); mMapView.onResume(); }
+
+    @Override
+    public void onPause()
+    { super.onPause(); mMapView.onPause(); }
+
+    @Override
+    protected void onDestroy()
+    { super.onDestroy(); mMapView.onDestroy(); }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    { super.onSaveInstanceState(outState); mMapView.onSaveInstanceState(outState); }
 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {  }

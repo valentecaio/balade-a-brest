@@ -2,6 +2,7 @@ package valentecaio.mapquestapp;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,41 +14,85 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class StrollActivity extends AppCompatActivity {
-    private ListView scrolls_LV;
-    private ArrayList<Balade> balades = new ArrayList<Balade>();
+    private ArrayList<Balade> serverBalades;
+    private ArrayList<Balade> localBalades = new ArrayList<>();
+    public DAO database = new DAO(this);
+    public AppFileManager afm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stroll);
 
-        configureListView();
-
         verify_permissions();
 
-        // read all data (useful to debug)
-        new AppFileManager(this).readAll();
+        // load database to populate listView
+        this.database.loadDatabase();
+
+        // read all balades from internal database
+        afm = new AppFileManager(getApplicationContext());
+        localBalades = afm.listDownloadedBalades();
+
+        configureListView();
+
+        // uncomment following line to delete all data when loading application
+        //afm.deleteAll();
     }
 
     public void configureListView(){
-        scrolls_LV = (ListView)findViewById(R.id.scrolls_list_view);
-        scrolls_LV.setOnItemClickListener(new ListView.OnItemClickListener() {
+        final ListView balades_listView = (ListView)findViewById(R.id.scrolls_list_view);
+        balades_listView.setItemsCanFocus(false);
+
+        // if cant load serverBalades, show only localBalades
+        final ArrayList<Balade> lv_source =  serverBalades!=null ? serverBalades : localBalades;
+
+        balades_listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Log.i("debug", "Click ListItem Number " + position);
+                Log.i("ONCLICK_CELL", "Click ListItem Number " + position);
 
-                Balade chosen_balade = balades.get(position);
-                Intent i = new Intent(StrollActivity.this, MapActivity.class);
-                startActivity(i);
+                // stock clicked balade as global variables
+                Balade chosen_balade = lv_source.get(position);
+
+                //parent.getChildAt(position).setBackgroundColor(Color.BLUE);
+
+                // try/catch to avoid error when clicking in not downloaded balade
+                try {
+                    // load balade points/medias before performing intent
+                    chosen_balade = afm.readBalade(chosen_balade.getId());
+                    GlobalVariables.getInstance().balade = chosen_balade;
+
+                    // go to mapActivity
+                    Intent i = new Intent(StrollActivity.this, MapActivity.class);
+                    startActivity(i);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        // get balades from database
-        balades = DAO.fake_readAllBalades();
+        // populate listView
+        BaladesAdapter adapter = new BaladesAdapter(this, lv_source, this);
+        balades_listView.setAdapter(adapter);
+    }
 
-        BaladesAdapter adapter = new BaladesAdapter(this, balades, this);
-        scrolls_LV.setAdapter(adapter);
+    public void setBaladesArray(ArrayList<Balade> balades){
+        // useful information for debug
+        for(Balade b: balades){
+            Log.i("STROLL_ACTIVITY", b.toString());
+        }
+
+        this.serverBalades = balades;
+        configureListView();
+    }
+
+    public void enableButtons(boolean enabled) {
+        Log.i("ENABLE_BUTTONS", "" + enabled);
+    }
+
+    public ArrayList<Balade> getLocalBalades() {
+        return localBalades;
     }
 
     private void verify_permissions(){

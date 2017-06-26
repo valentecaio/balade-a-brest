@@ -7,18 +7,21 @@ import java.util.ArrayList;
  */
 
 public class Balade {
-    private String id;
+    private int id;
     private String name;
     private String theme;
+    private String description;
     private ArrayList<Point> points = new ArrayList<Point>();
 
-    public Balade(String id, String name, String theme) {
+    public Balade(int id, String name, String theme, String description) {
         this.id = id;
         this.name = name;
         this.theme = theme;
+        this.description = description;
     }
 
-    public Balade(String name, String theme) {
+    public Balade(int id, String name, String theme) {
+        this.id = id;
         this.name = name;
         this.theme = theme;
     }
@@ -31,13 +34,7 @@ public class Balade {
         this.points.add(p);
     }
 
-    public void addPoint(String id) {
-        // TODO: this function may find the point using its id and add the Point to this.points
-        // Point p = fundById(id);
-        // addPoint(p);
-    }
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -47,6 +44,10 @@ public class Balade {
 
     public String getTheme() {
         return theme;
+    }
+
+    public void setPoints(ArrayList<Point> points) {
+        this.points = points;
     }
 
     @Override

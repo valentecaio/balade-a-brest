@@ -6,7 +6,6 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,11 +18,10 @@ import java.util.ArrayList;
 
 public class AppFileManager {
     private String name;
-    private FileOutputStream outputStream;
     private Context context;
 
     private static String fileType = ".csv";
-    private static String separator = " $$$ ";
+    private static String separator = "&&&";
     private static String point_prefix = "point_";
     private static String balade_prefix = "balade_";
 
@@ -53,9 +51,10 @@ public class AppFileManager {
 
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
                     context.openFileOutput(nameToWrite, Context.MODE_PRIVATE));
+                    //context.openFileOutput(nameToWrite, Activity.MODE_WORLD_READABLE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
-            Log.i("WRITE", "filename: " + nameToWrite + ", content: " + data);
+            Log.i("AFM", "WRITE filename: " + nameToWrite + ", content: " + data);
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
@@ -83,55 +82,67 @@ public class AppFileManager {
 
                 inputStream.close();
                 ret = stringBuilder.toString();
-                Log.i("READ", "filename: " + nameToRead + ", content: " + ret);
+                Log.i("AFM", "READ filename: " + nameToRead + ", content: " + ret);
             }
         } catch (FileNotFoundException e) {
             Log.e("login activity", "File not found: " + e.toString());
         } catch (IOException e) {
             Log.e("login activity", "Can not read file: " + e.toString());
         }
-
         return ret;
     }
 
-    public Point readPoint(String id){
+    public Point readPoint(int id){
         // read csv file
         this.setName(point_prefix + id + fileType);
         String csv = read();
 
         // split read data
         String[] data = csv.split(separator);
-        String id_str = data[0];
         String name = data[1];
         String description = data[2];
         Double longitude = new Double(data[3]);
         Double latitude = new Double(data[4]);
 
         // transform string data in Point object
-        Point p = new Point(id_str, longitude, latitude, name, description);
+        Point p = new Point(id, latitude, longitude, name, description);
         for(int i=5; i<data.length; i++){
             p.addMedia(data[i]);
         }
         return p;
     }
 
-    public Balade readBalade(String id){
+    // read balade and load points and medias
+    public Balade readBalade(int id){
         // read csv file
         this.setName(balade_prefix + id + fileType);
         String csv = read();
 
         // split read data
         String[] data = csv.split(separator);
-        String id_str = data[0];
         String name = data[1];
         String theme = data[2];
 
         // transform string data in Balade object
-        Balade b = new Balade(id_str, name, theme);
+        Balade b = new Balade(id, name, theme);
         for(int i=3; i<data.length; i++){
-            b.addPoint(data[i]);
+            b.addPoint(readPoint(Integer.parseInt(data[i])));
         }
         return b;
+    }
+
+    public ArrayList<Balade> listDownloadedBalades(){
+        ArrayList<Balade> balades = new ArrayList<>();
+        File[] files = this.getFiles();
+        for(File f: files){
+            if(f.getName().contains(balade_prefix)){
+                int start = balade_prefix.length();
+                int end = f.getName().length() - fileType.length();
+                int id = Integer.parseInt(f.getName().substring(start, end));
+                balades.add(readBalade(id));
+            }
+        }
+        return balades;
     }
 
     public void writePoint(Point p){
@@ -170,12 +181,25 @@ public class AppFileManager {
         }
     }
 
-    private File[] getFiles(){
+    public File[] getFiles(){
         String path = this.context.getFilesDir().getAbsolutePath();
-        Log.i("getFiles", "Path: " + path);
+        Log.i("AFM", "getFiles Path: " + path);
         File directory = new File(path);
         File[] files = directory.listFiles();
+        for(File f: files) {
+            Log.i("GET_FILES", f.getAbsolutePath());
+        }
         return files;
+    }
+
+    public File getFile(String filename){
+        File[] files = getFiles();
+        for(File f: files){
+            if(f.getName().equals(filename)){
+                return f;
+            }
+        }
+        return null;
     }
 
     public ArrayList<String> readAll() {
@@ -192,13 +216,27 @@ public class AppFileManager {
         return results;
     }
 
-    public boolean deleteAll() {
+    public boolean deleteAllCSVData() {
         File[] files = this.getFiles();
 
         boolean deleted = true;
         for (File file : files) {
             if (formatIsCSV(file)) {
-                Log.i("DELETE", "filename: " + file.getName());
+                Log.i("AFM", "DELETE filename: " + file.getName());
+                deleted = file.delete() && deleted;
+            }
+        }
+        return deleted;
+    }
+
+    public boolean deleteAll() {
+        File[] files = this.getFiles();
+
+        boolean deleted = true;
+        for (File file : files) {
+            String db_extension = ".db";
+            if (!file.getName().contains(db_extension)) {
+                Log.i("AFM", "DELETE filename: " + file.getName());
                 deleted = file.delete() && deleted;
             }
         }
@@ -212,7 +250,7 @@ public class AppFileManager {
         for (File file : files) {
             String nameToDelete = nameWithType();
             if (nameToDelete.equals(file.getName()) && formatIsCSV(file)) {
-                Log.i("DELETE", "filename: " + file.getName());
+                Log.i("AFM", "DELETE filename: " + file.getName());
                 deleted = file.delete();
             }
         }

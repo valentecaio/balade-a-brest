@@ -1,4 +1,4 @@
-<script src="validateFormModUser.js"></script>
+<script src="js_navigationBar.js"></script>
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -25,7 +25,7 @@
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $_SESSION["prenom"]." ".$_SESSION["nom"]."  "?><span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<li><a data-target="#myModal" data-toggle="modal" class="MainNavText" id="MainNavHelp" href="#myModal"><span class="glyphicon glyphicon-cog"></span>  Paramètres</a></li>
-							<li><a href="logout_script.php"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
+							<li><a href="session_logout.php"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
 						</ul>
 					</li>
 					<?php }else{ ?>
@@ -42,7 +42,7 @@
 							<h4 class="modal-title">Modifier paramètres du compte</h4>
 						</div>
 						<div class="modal-body" id="modalText"></div>
-						<form class="form-horizontal" id="modif" action="mod_settings.php" method="post">
+						<form class="form-horizontal" id="modif" action="query_edit_logged_user" method="post">
 							<!--<div class="form-group">
 								<label class="control-label col-sm-4" for="email">Email:</label>
 								<label class="control-label col-sm-4" for="email"><?php echo $_SESSION["email"]?></label>

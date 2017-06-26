@@ -25,10 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static valentecaio.mapquestapp.R.id.camera_view;
-
 public class CameraActivity extends AppCompatActivity implements LocationListener, SurfaceHolder.Callback, SensorEventListener {
-
     boolean DEBUG = false;
     private static double DISTANCE_SAFETY_MARGIN = 300;
     private static double AZIMUTH_SAFETY_MARGIN = 90;
@@ -59,7 +56,8 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        setTargetLocation();
+        // set Target Location
+        this.target = GlobalVariables.getInstance().target;
 
         myLocation = new Location("hi");
 
@@ -69,18 +67,16 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         pointerIcon.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                //textView.setText("Touch coordinates : "
-                // + String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
                 Log.i("debug", "Touched on the icon");
+
                 Intent i = new Intent(CameraActivity.this, InfoActivity.class);
-                i.putExtra("id", target.getName());
                 startActivity(i);
                 return true;
             }
         });
 
         // config camera
-        SurfaceView surfaceView = (SurfaceView) findViewById(camera_view);
+        SurfaceView surfaceView = (SurfaceView) findViewById(R.id.camera_view);
         mSurfaceHolder = surfaceView.getHolder();
         mSurfaceHolder.addCallback(this);
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -102,14 +98,6 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
 
         myLocation = getLastBestLocation();
-    }
-
-    private void setTargetLocation(){
-        String target_name = getIntent().getStringExtra("target_name");
-        Double target_lng = getIntent().getDoubleExtra("target_longitude", 0);
-        Double target_lat = getIntent().getDoubleExtra("target_latitude", 0);
-        target = new Point(target_name, target_lat, target_lng);
-        Log.e("target: ", target.toString());
     }
 
     private void updateDescription() {
