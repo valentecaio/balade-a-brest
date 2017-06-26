@@ -57,8 +57,10 @@ function refresh_markers(map, markersVectorLayer, balade) {
 	// remove old markers
 	markersVectorLayer.destroyFeatures();
 
+
 	// add new markers
 	for (i = 0; balade && i < balade.length; i++) {
+		console.log(i);
 		add_marker(map, markersVectorLayer, balade[i]);
 	}
 }

@@ -24,6 +24,8 @@ function show_point(id) {
 	var point = clicked_row.delegate;
 	
 	refresh_markers(map, markersVectorLayer, [point]);
+
+	console.log(point);
 	
 	// recenter map
 	center_map(map, point, zoom);
@@ -33,7 +35,7 @@ function show_point(id) {
 function show_balade(id) {
 	var clicked_row = document.getElementById("row_" + id);
 	var balade = clicked_row.delegate;
-	
+	console.log(balade.points);
 	refresh_markers(map, markersVectorLayer, balade.points);
 }
 
