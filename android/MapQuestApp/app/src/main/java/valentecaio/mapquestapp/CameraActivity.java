@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CameraActivity extends AppCompatActivity implements LocationListener, SurfaceHolder.Callback, SensorEventListener {
-    boolean DEBUG = false;
     private static double DISTANCE_SAFETY_MARGIN = 300;
     private static double AZIMUTH_SAFETY_MARGIN = 90;
 
@@ -44,7 +43,6 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
     private SensorManager sensorManager;
 
     private Point target;
-    private Location myLocation;
     private LocationManager locationManager;
 
     private double currentAzimuth = 0;
@@ -58,8 +56,6 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
 
         // set Target Location
         this.target = GlobalVariables.getInstance().target;
-
-        myLocation = new Location("hi");
 
         descriptionTextView = (TextView) findViewById(R.id.cameraTextView);
         pointerIcon = (ImageView) findViewById(R.id.icon);
@@ -96,11 +92,10 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
-
-        myLocation = getLastBestLocation();
     }
 
     private void updateDescription() {
+        Location myLocation = GlobalVariables.getInstance().userLocation;
         String text = target.getName() + " location:"
                 + "\n latitude: " + target.getLatitude() + "  longitude: " + target.getLongitude()
                 + "\n Current location:"
@@ -114,6 +109,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
     }
 
     public void calculateTargetAzimuth() {
+        Location myLocation = GlobalVariables.getInstance().userLocation;
         double dX = target.getLatitude() - myLocation.getLatitude();
         double dY = target.getLongitude() - myLocation.getLongitude();
 
@@ -252,6 +248,7 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
     }
 
     public void calculateDistance() {
+        Location myLocation = GlobalVariables.getInstance().userLocation;
         double dX = target.getLatitude() - myLocation.getLatitude();
         double dY = target.getLongitude() - myLocation.getLongitude();
 
@@ -260,12 +257,10 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
 
     @Override
     public void onLocationChanged(Location location) {
-        if(!DEBUG) {
-            myLocation = location;
-            calculateDistance();
-            calculateTargetAzimuth();
-            updateDescription();
-        }
+        GlobalVariables.getInstance().userLocation = location;
+        calculateDistance();
+        calculateTargetAzimuth();
+        updateDescription();
     }
 
     @Override
@@ -276,31 +271,6 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
             mCamera.setDisplayOrientation(0);
         } else {
             mCamera.setDisplayOrientation(90);
-        }
-    }
-
-    /**
-     * @return the last know best location
-     */
-    private Location getLastBestLocation() throws SecurityException {
-        Location locationGPS = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        Location locationNet = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-        long GPSLocationTime = 0;
-        if (null != locationGPS) {
-            GPSLocationTime = locationGPS.getTime();
-        }
-
-        long NetLocationTime = 0;
-
-        if (null != locationNet) {
-            NetLocationTime = locationNet.getTime();
-        }
-
-        if (0 < GPSLocationTime - NetLocationTime) {
-            return locationGPS;
-        } else {
-            return locationNet;
         }
     }
 

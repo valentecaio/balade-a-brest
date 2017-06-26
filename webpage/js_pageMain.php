@@ -35,6 +35,10 @@ function show_balade(id) {
 	var balade = clicked_row.delegate;
 	
 	refresh_markers(map, markersVectorLayer, balade.points);
+	
+	// recenter map
+	center_map(map, balade.points[0], zoom);
+
 }
 
 // draw all points in the map

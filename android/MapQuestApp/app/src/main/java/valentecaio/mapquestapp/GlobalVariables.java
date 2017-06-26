@@ -1,5 +1,7 @@
 package valentecaio.mapquestapp;
 
+import android.location.Location;
+
 /**
  * Created by caio on 19/6/2017.
  */
@@ -9,6 +11,7 @@ public class GlobalVariables {
 
     public static Balade balade;
     public static Point target;
+    public static Location userLocation;
     public static String MEDIAS_FILEPATH = "sdcard/balade_a_brest/";
 
     protected GlobalVariables(){}

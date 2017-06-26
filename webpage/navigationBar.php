@@ -42,7 +42,7 @@
 							<h4 class="modal-title">Modifier paramètres du compte</h4>
 						</div>
 						<div class="modal-body" id="modalText"></div>
-						<form class="form-horizontal" id="modif" action="query_edit_logged_user" method="post">
+						<form class="form-horizontal" id="modif" action="query_edit_logged_user.php" method="post">
 							<!--<div class="form-group">
 								<label class="control-label col-sm-4" for="email">Email:</label>
 								<label class="control-label col-sm-4" for="email"><?php echo $_SESSION["email"]?></label>
