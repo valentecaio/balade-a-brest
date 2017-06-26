@@ -14,8 +14,10 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class StrollActivity extends AppCompatActivity {
+    private ListView balades_listView;
     private ArrayList<Balade> serverBalades;
     private ArrayList<Balade> localBalades = new ArrayList<>();
+    private ArrayList<Balade> lv_source;
     public DAO database = new DAO(this);
     public AppFileManager afm;
 
@@ -26,6 +28,8 @@ public class StrollActivity extends AppCompatActivity {
 
         verify_permissions();
 
+        // disable buttons before requesting data to database
+        this.enableButtons(false);
         // load database to populate listView
         this.database.loadDatabase();
 
@@ -40,11 +44,11 @@ public class StrollActivity extends AppCompatActivity {
     }
 
     public void configureListView(){
-        final ListView balades_listView = (ListView)findViewById(R.id.scrolls_list_view);
+        this.balades_listView = (ListView)findViewById(R.id.scrolls_list_view);
         balades_listView.setItemsCanFocus(false);
 
         // if cant load serverBalades, show only localBalades
-        final ArrayList<Balade> lv_source =  serverBalades!=null ? serverBalades : localBalades;
+        this.lv_source = serverBalades!=null ? serverBalades : localBalades;
 
         balades_listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
@@ -54,8 +58,6 @@ public class StrollActivity extends AppCompatActivity {
 
                 // stock clicked balade as global variables
                 Balade chosen_balade = lv_source.get(position);
-
-                //parent.getChildAt(position).setBackgroundColor(Color.BLUE);
 
                 // try/catch to avoid error when clicking in not downloaded balade
                 try {
@@ -89,6 +91,17 @@ public class StrollActivity extends AppCompatActivity {
 
     public void enableButtons(boolean enabled) {
         Log.i("ENABLE_BUTTONS", "" + enabled);
+    }
+
+    public void signalBaladeDownloadFinished(Balade b) {
+        changeCellColor(b, Color.GREEN);
+    }
+
+    public void changeCellColor(Balade balade, int color){
+        int cell_index = this.lv_source.indexOf(balade);
+        Log.i("STROLL_ACTIVITY", "changing color of cell index: " + cell_index);
+        if(cell_index >= 0)
+            this.balades_listView.getChildAt(cell_index).setBackgroundColor(color);
     }
 
     public ArrayList<Balade> getLocalBalades() {

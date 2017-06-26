@@ -54,9 +54,6 @@ public class DAO {
     // 3) download medias
     // 4) write data in internal database
     public void downloadBalade(Balade b){
-        // before start, disable download buttons
-        enableButtonsInDelegate(false);
-
         // step 1
         ArrayList<Point> points_in_balade = pointsInBalade(b);
         b.setPoints(points_in_balade);
@@ -135,7 +132,8 @@ public class DAO {
             afm.writeBaladeAndPoints(baladeBeingDownloaded);
 
             // when finishing task enable download buttons again
-            enableButtonsInDelegate(true);
+            // sendSignalBaladeDownloaded
+            delegate.signalBaladeDownloadFinished(baladeBeingDownloaded);
         }
 
         Log.i("DOWNLOAD_MEDIA", "receivec ack for file " + filename + ", remaining acks: " + remainingAcks);
