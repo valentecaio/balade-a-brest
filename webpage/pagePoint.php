@@ -76,7 +76,7 @@
 						</div>
 						<div class="row">
 							<div class="container-fluid">
-								<button id="delete_button" type="submit" class="btn btn-default" style="color: red" onclick="button_action('query_delete_point.php')">Supprimer</button>
+								<button id="delete_button" type="submit" class="btn btn-default" style="color: red" onclick="onClickSendButton('query_delete_point.php')">Supprimer</button>
 								<div class="pull-right">
 			    					<button type="button" class="btn btn-default" onclick="location.href = 'pageMain.php';">Annuler</button>
 				    				<button id="send_button" type="submit" class="btn" name="submit"></button>
