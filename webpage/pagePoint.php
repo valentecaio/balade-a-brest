@@ -74,6 +74,10 @@
    								<input id="file_upload" name="file_upload" type="file">
 							</div>
 						</div>
+						<div class="form-group">
+							<div class="row list-group" id="points_list"></div>
+							<a href="/uploads/dede.jpg" class="btn btn-primary" role="button" download>Download</a>
+						</div>
 						<div class="row">
 							<div class="container-fluid">
 								<button id="delete_button" type="submit" class="btn btn-default" style="color: red" onclick="onClickSendButton('query_delete_point.php')">Supprimer</button>
