@@ -31,7 +31,6 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
     private MapView mMapView;
     private Button camera;
 
-    private Location myLocation;
     private LocationManager locationManager;
     private Marker target_marker;
 
@@ -56,6 +55,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         try {
             locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 2000, 1, this);
+            GlobalVariables.getInstance().userLocation = getLastBestLocation();
         } catch (SecurityException ex){
             ex.printStackTrace();
         }
@@ -75,12 +75,13 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
                     addMarker(mMapboxMap, p.getLocation(), p.getName(), "");
                 }
 
+                Location userLocation = GlobalVariables.getInstance().userLocation;
+
                 // set first user location and first target
-                myLocation = getLastBestLocation();
-                target_marker = sortMarkersbyDistance(mMapboxMap.getMarkers(), myLocation).get(0);
+                target_marker = sortMarkersbyDistance(mMapboxMap.getMarkers(), userLocation).get(0);
 
                 // center map in user's location
-                LatLng center = new LatLng(myLocation);
+                LatLng center = new LatLng(userLocation);
                 mMapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(center, 17));
 
                 // set listener to markers
@@ -152,7 +153,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
     @Override
     public void onLocationChanged(Location location) {
-        myLocation = location;
+        GlobalVariables.getInstance().userLocation = location;
         target_marker = sortMarkersbyDistance(mMapboxMap.getMarkers(), location).get(0);
         Log.i("SORTED", "sorted markers by distance, new target: " + target_marker.getTitle());
     }
