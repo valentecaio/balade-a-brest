@@ -26,11 +26,12 @@
 		</script>
 		
 		<head>
-			<title>Login</title>
+			<title>Balade à Brest</title>
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 			<link rel='stylesheet' type='text/css' href="style_pageLogin.css">
+			<link rel="shortcut icon" type="image/x-icon" href="./images/blue_marker2.png">
 			<script src="lib/jquery.min.js"></script>
 			<script src="lib/bootstrap.min.js"></script>
 		</head>
@@ -49,10 +50,6 @@
 							<input type="email" name="inputEmail" id="inputEmail" class="form-control" value="<?php if(isset($_COOKIE["member_login"])) { echo $_COOKIE["member_login"]; } ?>" placeholder="Addresse e-mail" required autofocus>
 							<label for="inputPassword" class="sr-only">Mot de passe</label>
 							<input type="password" name="inputPassword" id="inputPassword" class="form-control"  value="<?php if(isset($_COOKIE["member_password"])) { echo $_COOKIE["member_password"]; } ?>" placeholder="Mot de passe">
-							<div class="checkbox">
-								<input type="checkbox" name="remember" id="remember" <?php if(isset($_COOKIE["member_login"])) { ?> checked <?php } ?> /><b>Se souvenir de moi</b>
-								<label for="remember-me">Remember me</label>
-							</div>
 							<button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
 						</form>
 					</div>
