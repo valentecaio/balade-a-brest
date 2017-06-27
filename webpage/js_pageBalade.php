@@ -155,6 +155,14 @@ function setPointClicked(name="", theme="", id="", descript=""){
 	document.getElementById("form_name").value = name;
 	document.getElementById("form_theme").value = theme;
 	document.getElementById("form_comment").value = descript;
+	
+	$.ajax({url: "query_read_balade.php?id="+id, success: function(result){
+        balade = JSON.parse(result);
+
+		// plot all points on map
+        refresh_markers(map, markersVectorLayer, balade.points);
+    }});
+
 }
 
 function main() {
