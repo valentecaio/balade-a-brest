@@ -42,7 +42,7 @@
   						<div class="form-group">
     						<label class="control-label col-sm-3" for="form_name" style="text-align: right;">Nom:</label>
     						<div class="col-sm-9">
-      							<input type="text" class="form-control" name="form_name" id="form_name" placeholder="Entrez le nom de la nouvelle balade ">
+      							<input type="text" class="form-control" name="form_name" id="form_name" placeholder="Entrez le nom de la nouvelle balade " required>
 							</div>
 						</div>
   						<div class="form-group">
@@ -63,10 +63,12 @@
 	  							<input type="hidden" class="form-control" name="form_list" id="form_list">
 							</div>
 						</div>
-						<div class="form-group" id="points_list"></div>
+						<div class="container-fluid">
+							<div class="form-group" id="points_list"></div>
+						</div>
 						<div class="row">
 							<div class="container-fluid">
-								<button id="delete_button" type="submit" class="btn btn-default" style="color: red" onclick="button_action('query_delete_balade.php')">Supprimer</button>
+								<button id="delete_button" type="submit" class="btn btn-default" style="color: red" onclick="onClickSendButton('query_delete_balade.php')">Supprimer</button>
 								<div class="pull-right">
 									<button type="button" class="btn btn-default" onclick="location.href = 'pageMain.php';">Annuler</button>
 									<button id="send_button" type="submit" class="btn" name="submit"></button>

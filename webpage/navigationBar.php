@@ -7,7 +7,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>                        
 			</button>
-			<a class="navbar-brand" href="pageInitial.php">WB</a>
+			<a class="navbar-brand" href="pageInitial.php"><img src="./images/blue_marker2.png" height=100% width="30"></a>
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
