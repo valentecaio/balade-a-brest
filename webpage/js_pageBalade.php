@@ -156,8 +156,13 @@ function setPointClicked(name="", theme="", id="", descript=""){
 	document.getElementById("form_theme").value = theme;
 	document.getElementById("form_comment").value = descript;
 	
-	// change markers on map
-	refresh_markers(map, markersVectorLayer, balade.point)
+	$.ajax({url: "query_read_balade.php?id="+id, success: function(result){
+        balade = JSON.parse(result);
+
+		// plot all points on map
+        refresh_markers(map, markersVectorLayer, balade.points);
+    }});
+
 }
 
 function main() {
@@ -189,9 +194,7 @@ function main() {
 		
 		// set point data
 		setPointClicked(baladeName, baladeTheme, baladeId, baladeDescription);
-		
-		// recenter map
-		center_map(map, point, zoom);
+
 	} else if(pageType == 'creation') {
 		// init global variable to avoid losing clicked points
 		setPointClicked(null, null);
