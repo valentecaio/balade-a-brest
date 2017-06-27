@@ -164,7 +164,7 @@ public class DAO {
                     int id = array.getJSONObject(i).getInt("id");
                     String name = array.getJSONObject(i).getString("name");
                     String theme = array.getJSONObject(i).getString("theme");
-                    String descript = array.getJSONObject(i).getString("description");
+                    String descript = array.getJSONObject(i).getString("txt");
                     balades.add(new Balade(id, name, theme, descript));
                 }
                 this.setBalades(balades);
