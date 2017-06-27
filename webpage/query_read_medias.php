@@ -5,7 +5,7 @@
         die('Erreur : '.$e->getMessage());
     }
 
-    $req = $bdd->query('SELECT id_media, chemin, id_point_ref FROM media WHERE status = \'accepte\'');
+    $req = $bdd->query('SELECT id_media, chemin, id_point_ref FROM media');
     
     $list = array();
     while ($data = $req->fetch()) {
