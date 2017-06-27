@@ -28,12 +28,14 @@ public class StrollActivity extends AppCompatActivity {
 
         verify_permissions();
 
-        // read all balades from internal database
         afm = new AppFileManager(getApplicationContext());
-        localBalades = afm.listDownloadedBalades();
 
         // uncomment following line to delete all data when loading application
-        //afm.deleteAll();
+        afm.deleteAll();
+
+        // read all balades from internal database
+        localBalades = afm.listDownloadedBalades();
+
 
         // disable buttons before requesting data to database
         this.enableButtons(false);
@@ -94,7 +96,7 @@ public class StrollActivity extends AppCompatActivity {
     }
 
     public void signalBaladeDownloadFinished(Balade b) {
-        changeCellColor(b, Color.GREEN);
+        changeCellColor(b, Color.CYAN);
     }
 
     public void changeCellColor(Balade balade, int color){
