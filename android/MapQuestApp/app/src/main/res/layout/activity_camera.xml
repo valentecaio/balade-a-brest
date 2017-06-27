@@ -19,7 +19,7 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:id="@id/icon"
-        android:src="@drawable/icon_tower"
+        android:src="@drawable/icon_bb"
         android:visibility="invisible"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

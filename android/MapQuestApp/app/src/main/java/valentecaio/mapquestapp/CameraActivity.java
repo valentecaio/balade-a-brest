@@ -27,7 +27,7 @@ import java.util.List;
 
 public class CameraActivity extends AppCompatActivity implements LocationListener, SurfaceHolder.Callback, SensorEventListener {
     private static double DISTANCE_SAFETY_MARGIN = 300;
-    private static double AZIMUTH_SAFETY_MARGIN = 90;
+    private static double AZIMUTH_SAFETY_MARGIN = 40;
 
     TextView descriptionTextView;
     ImageView pointerIcon;
