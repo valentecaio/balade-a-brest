@@ -49,7 +49,7 @@ public class BaladesAdapter extends ArrayAdapter<Balade> {
         butDownload.setFocusableInTouchMode(false);
 
         // set background
-        convertView.setBackgroundColor(baladeIsLocal(balade) ? Color.GREEN : Color.RED);
+        convertView.setBackgroundColor(baladeIsLocal(balade) ? Color.CYAN : Color.LTGRAY);
 
         // Return the completed view to render on screen
         return convertView;

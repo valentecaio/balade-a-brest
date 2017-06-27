@@ -21,6 +21,6 @@ public class DownloadButtonListener implements View.OnClickListener {
     public void onClick(View view) {
         Log.i("ONCLICK", "Downloading balade: " + balade.toString());
         delegate.database.downloadBalade(this.balade);
-        delegate.changeCellColor(this.balade, Color.BLUE);
+        delegate.changeCellColor(this.balade, Color.DKGRAY);
     }
 }

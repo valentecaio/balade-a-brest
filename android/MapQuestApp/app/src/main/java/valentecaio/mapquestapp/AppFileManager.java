@@ -151,9 +151,9 @@ public class AppFileManager {
                 + separator + p.getDescription()
                 + separator + p.getLongitude()
                 + separator + p.getLatitude();
-        ArrayList medias = p.getMedias();
-        for(Object m: medias){
-            s +=  separator + m.toString();
+        ArrayList<String> medias = p.getMedias();
+        for(String m: medias){
+            s +=  separator + m;
         }
 
         this.setName(point_prefix + p.getId() + fileType);
