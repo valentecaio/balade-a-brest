@@ -155,9 +155,6 @@ function setPointClicked(name="", theme="", id="", descript=""){
 	document.getElementById("form_name").value = name;
 	document.getElementById("form_theme").value = theme;
 	document.getElementById("form_comment").value = descript;
-	
-	// change markers on map
-	//refresh_markers(map, markersVectorLayer, balade.point)
 }
 
 function main() {
