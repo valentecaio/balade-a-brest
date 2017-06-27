@@ -154,7 +154,11 @@ function onclick_button_edit_point(id) {
 function onclick_button_edit_balade(id) {
 	var clicked_row = document.getElementById("row_" + id);
 	var balade_to_save = clicked_row.delegate;
-	//TODO: finish this method
+	
+	sessionStorage.setItem("baladeName", balade_to_save.name);
+	sessionStorage.setItem("baladeTheme", balade_to_save.theme);
+	sessionStorage.setItem("baladeId", balade_to_save.id);
+	sessionStorage.setItem("baladeDescription", balade_to_save.txt);
 
 	sessionStorage.setItem('pageType', "edition");
 	window.location = "pageBalade.php";

@@ -39,6 +39,11 @@
 			<div class="row">
 				<div class="col-sm-4">
 					<form class="form-horizontal" enctype="multipart/form-data" id="form_balade" action="" method="post">
+						<div class="form-group">
+    						<div class="col-sm-9">
+      							<input type="hidden" class="form-control" name="form_id" id="form_id">
+							</div>
+						</div>
   						<div class="form-group">
     						<label class="control-label col-sm-3" for="form_name" style="text-align: right;">Nom:</label>
     						<div class="col-sm-9">

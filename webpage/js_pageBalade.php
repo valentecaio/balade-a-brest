@@ -141,6 +141,25 @@ function add_buttons(){
 	}
 }
 
+function setPointClicked(name="", theme="", id="", descript=""){
+	// set point
+	balade = {
+		name: name,
+		theme: theme,
+		id: id,
+		txt: descript
+	};
+	
+	// add point data to form boxes
+	document.getElementById("form_id").value = id;
+	document.getElementById("form_name").value = name;
+	document.getElementById("form_theme").value = theme;
+	document.getElementById("form_comment").value = descript;
+	
+	// change markers on map
+	refresh_markers(map, markersVectorLayer, balade.point)
+}
+
 function main() {
 	// load map without points
 	map,
@@ -157,6 +176,26 @@ function main() {
 		// plot all points on map
         refresh_markers(map, markersVectorLayer, points);
     }});
+
+
+    	// load data according to page function
+	var pageType = sessionStorage.getItem('pageType');
+	if(pageType == 'edition' || pageType == 'approval') {
+		// load point data
+		var baladeName = sessionStorage.getItem('baladeName');
+		var baladeTheme = sessionStorage.getItem('baladeTheme');
+		var baladeId = sessionStorage.getItem('baladeId');
+		var baladeDescription = sessionStorage.getItem('baladeDescription');
+		
+		// set point data
+		setPointClicked(baladeName, baladeTheme, baladeId, baladeDescription);
+		
+		// recenter map
+		center_map(map, point, zoom);
+	} else if(pageType == 'creation') {
+		// init global variable to avoid losing clicked points
+		setPointClicked(null, null);
+	}
 
 	// add click listener to markers
 	setup_click_listener();

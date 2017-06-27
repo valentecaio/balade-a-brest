@@ -90,44 +90,6 @@ function add_buttons(){
 	}
 }
 
-function add_rows(table_id, data, onclick_but) {
-	for (i = 0; i < data.length; i++) {
-		// create row for this data
-		var new_row = document.createElement('div');
-		new_row.className = "btn-group";
-		new_row.style = "width:100%";
-		
-		// add data itself as delegate of this row, to use it in onclick functions
-		new_row.delegate = data[i];
-		new_row.id = "row_" + data[i].id;
-		
-		// append data name to row
-		var but_name = document.createElement('a');
-		but_name.style = "width: 90%; height: 40px; text-align: left; color: black;";
-		but_name.className = "btn btn-default";
-		but_name.innerHTML = data[i];
-		but_name.setAttribute('role', "button");
-		but_name.setAttribute('href', "'" + data[i]+ "'");
-
-		// append row on the table
-		new_row.appendChild(but_name);
-		table = document.getElementById(table_id);
-		table.appendChild(new_row);
-		
-		var but_edit = document.createElement('button');
-		but_edit.style = "width: 10%; height: 40px;";
-		but_edit.className = "btn btn-default";
-		but_edit.setAttribute('onclick', onclick_but + "('" + data[i].id + "')");
-		new_row.appendChild(but_edit);
-		
-		var icon = document.createElement('span');
-		icon.className = "glyphicon glyphicon-trash";
-		icon.style = "color: black";
-		but_edit.appendChild(icon);
-	}		
-}
-
-
 
 function main() {
 	// load map without any point
@@ -160,10 +122,6 @@ function main() {
 		// init global variable to avoid losing clicked points
 		setPointClicked(null, null);
 	}
-
-	var media = ["rak_entrée.jpg", "rak_entrée2.png"];
-
-    add_rows("points_list", media, "onclick_button_delete");
 
 	add_buttons();
 }

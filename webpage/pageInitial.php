@@ -30,7 +30,7 @@
 		<?php include 'navigationBar.php';	?>
 		<div class="container-fluid">
 			<div class="wb">
-				<h1>Walk in Brest</h1>
+				<h1>Balade à Brest</h1>
 				<p class="lead">L'objectif du projet est de fournir aux élèves du dispositif relais<br>un système qui leur permettra de s'impliquer dans un projet d'une<br> application de balade en réalité augmentée à Brest.</p>
 				<p><a href="pageMain.php" class="btn btn-default" role="button">Essayer</a></p>
 			</div>
