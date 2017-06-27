@@ -1,4 +1,7 @@
 <?php
+
+	session_start();
+	
     try{
         $bdd = new PDO('mysql:host=localhost;dbname=web18_main;charset=utf8', 'root', '');
     }catch(Exception $e){
