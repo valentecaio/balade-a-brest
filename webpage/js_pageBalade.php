@@ -157,7 +157,7 @@ function setPointClicked(name="", theme="", id="", descript=""){
 	document.getElementById("form_comment").value = descript;
 	
 	// change markers on map
-	refresh_markers(map, markersVectorLayer, balade.point)
+	//refresh_markers(map, markersVectorLayer, balade.point)
 }
 
 function main() {
@@ -189,9 +189,7 @@ function main() {
 		
 		// set point data
 		setPointClicked(baladeName, baladeTheme, baladeId, baladeDescription);
-		
-		// recenter map
-		center_map(map, point, zoom);
+
 	} else if(pageType == 'creation') {
 		// init global variable to avoid losing clicked points
 		setPointClicked(null, null);
