@@ -31,7 +31,7 @@ public class StrollActivity extends AppCompatActivity {
         afm = new AppFileManager(getApplicationContext());
 
         // uncomment following line to delete all data when loading application
-        afm.deleteAll();
+        //afm.deleteAll();
 
         // read all balades from internal database
         localBalades = afm.listDownloadedBalades();
