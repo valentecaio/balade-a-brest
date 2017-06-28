@@ -7,7 +7,7 @@
 <script type="text/javascript">
 
 // global variables
-var map, markersVectorLayer, points, destination_markers, zoom=16;
+var map, markersVectorLayer, destination_markers, zoom=16, balade, points;
 destination_markers = [];
 
 // remove repeated values from an array
@@ -141,28 +141,12 @@ function add_buttons(){
 	}
 }
 
-function setPointClicked(name="", theme="", id="", descript=""){
-	// set point
-	balade = {
-		name: name,
-		theme: theme,
-		id: id,
-		txt: descript
-	};
-	
-	// add point data to form boxes
-	document.getElementById("form_id").value = id;
-	document.getElementById("form_name").value = name;
-	document.getElementById("form_theme").value = theme;
-	document.getElementById("form_comment").value = descript;
-	
-	$.ajax({url: "query_read_balade.php?id="+id, success: function(result){
-        balade = JSON.parse(result);
-
-		// plot all points on map
-        refresh_markers(map, markersVectorLayer, balade.points);
-    }});
-
+function fillBaladeForm(balade){
+	// add balade data to form boxes
+	document.getElementById("form_id").value = balade.id;
+	document.getElementById("form_name").value = balade.name;
+	document.getElementById("form_theme").value = balade.theme;
+	document.getElementById("form_comment").value = balade.txt;
 }
 
 function main() {
@@ -174,30 +158,44 @@ function main() {
 				lat: 48.38423089
 			}, zoom = zoom);
 			
-	// load points from database
-	$.ajax({url: "query_read_points.php", success: function(result){
-        points = JSON.parse(result);
-
-		// plot all points on map
-        refresh_markers(map, markersVectorLayer, points);
-    }});
 
 
     	// load data according to page function
 	var pageType = sessionStorage.getItem('pageType');
 	if(pageType == 'edition' || pageType == 'approval') {
 		// load point data
-		var baladeName = sessionStorage.getItem('baladeName');
-		var baladeTheme = sessionStorage.getItem('baladeTheme');
 		var baladeId = sessionStorage.getItem('baladeId');
-		var baladeDescription = sessionStorage.getItem('baladeDescription');
 		
-		// set point data
-		setPointClicked(baladeName, baladeTheme, baladeId, baladeDescription);
-
+		$.ajax({url: "query_read_balade.php?id="+baladeId, success: function(result){
+			// get balade (ONLY POINTS)
+			balade = JSON.parse(result);
+			
+			// correct balade null parameters
+			balade.name = sessionStorage.getItem('baladeName');
+			balade.theme = sessionStorage.getItem('baladeTheme');
+			balade.txt = sessionStorage.getItem('baladeDescription');
+			
+			// fill form
+			fillBaladeForm(balade);
+			
+			// plot balade markers on map
+			refresh_markers(map, markersVectorLayer, balade.points);
+						
+			// recenter map
+			center_map(map, balade.points[0], zoom);
+		}});
+		
 	} else if(pageType == 'creation') {
-		// init global variable to avoid losing clicked points
-		setPointClicked(null, null);
+		// load points from database
+		$.ajax({url: "query_read_points.php", success: function(result){
+			points = JSON.parse(result);
+
+			// plot all points on map
+			refresh_markers(map, markersVectorLayer, points);
+						
+			// recenter map
+			center_map(map, points[0], zoom);
+		}});
 	}
 
 	// add click listener to markers
