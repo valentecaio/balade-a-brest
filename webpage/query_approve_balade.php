@@ -13,9 +13,10 @@ catch(Exception $e)
 }
 
 
-	$req = $bdd->prepare('DELETE FROM balade WHERE id_balade = :id_balade');
+	$req = $bdd->prepare('UPDATE balade SET status = \'accepte\' WHERE id_balade = :id_balade');
 	$req->execute(array(
 		'id_balade' => $_POST['form_id']));
+	
 	header('Location: pageMain.php');
 	exit();
 ?>

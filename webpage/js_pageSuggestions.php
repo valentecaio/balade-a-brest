@@ -20,7 +20,7 @@ function search_by_name(name, data) {
 
 // dinamically add rows to table
 // data must be an iterable object where each entry has an attribute name
-function add_rows(table_id, data, onclick_button_approve_point) {
+function add_rows(table_id, data, onclick_button) {
 	for (i = 0; i < data.length; i++) {
 		var new_row = document.createElement('div');
 		new_row.className = "btn-group";
@@ -29,7 +29,7 @@ function add_rows(table_id, data, onclick_button_approve_point) {
 		but1.style = "width:100%;height: 40px; text-align: left; color: black;";
 		but1.className = "btn btn-default";
 		but1.innerHTML = data[i].name;
-		but1.setAttribute('onclick', onclick_button_approve_point + "('" + data[i].name + "')");
+		but1.setAttribute('onclick', onclick_button + "('" + data[i].name + "')");
 
 		new_row.appendChild(but1);
 
@@ -53,12 +53,30 @@ function onclick_button_approve_point(name) {
 	window.location = "pagePoint.php";
 }
 
+function onclick_button_approve_balade(name) {
+	var balade_to_save = search_by_name(name, balades);
+	
+	sessionStorage.setItem("baladeName", balade_to_save.name);
+	sessionStorage.setItem("baladeTheme", balade_to_save.theme);
+	sessionStorage.setItem("baladeId", balade_to_save.id);
+	sessionStorage.setItem("baladeDescription", balade_to_save.txt);
+
+	sessionStorage.setItem('pageType', "approval");
+	window.location = "pageBalade.php";
+}
+
 function main() {
 
 	$.ajax({url: "query_read_points.php?status=1", success: function(result){
         points = JSON.parse(result);
         add_rows("list_points", points, "onclick_button_approve_point");
         //add_rows("balades_list", points, "show_point", "onclick_button_edit_point");
+    }});
+
+
+	$.ajax({url: "query_read_balades.php?status=1", success: function(result){
+        balades = JSON.parse(result);
+        add_rows("list_balades", balades, "onclick_button_approve_balade");
     }});
 }
 
