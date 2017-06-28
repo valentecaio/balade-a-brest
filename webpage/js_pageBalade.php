@@ -171,6 +171,7 @@ function main() {
 			balade = JSON.parse(result);
 			
 			// correct balade null parameters
+			balade.id = sessionStorage.getItem('baladeId');
 			balade.name = sessionStorage.getItem('baladeName');
 			balade.theme = sessionStorage.getItem('baladeTheme');
 			balade.txt = sessionStorage.getItem('baladeDescription');
