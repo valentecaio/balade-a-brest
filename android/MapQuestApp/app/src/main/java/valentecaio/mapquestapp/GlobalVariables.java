@@ -13,6 +13,7 @@ public class GlobalVariables {
     public static Point target;
     public static Location userLocation;
     public static String MEDIAS_FILEPATH = "sdcard/balade_a_brest/";
+    public static boolean DEBUG = false;
 
     protected GlobalVariables(){}
 

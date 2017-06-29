@@ -96,15 +96,17 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
 
     private void updateDescription() {
         Location myLocation = GlobalVariables.getInstance().userLocation;
-        String text = target.getName() + " location:"
-                + "\n latitude: " + target.getLatitude() + "  longitude: " + target.getLongitude()
-                + "\n Current location:"
-                + "\n Latitude: " + myLocation.getLatitude() + "  Longitude: " + myLocation.getLongitude()
-                + "\n "
-                + "\n Target currentAzimuth: " + (int)targetAzimuth
-                + "\n Current currentAzimuth: " + (int)currentAzimuth
-                + "\n Distance: " + (int)distance;
-
+        String text = target.getName();
+        if(GlobalVariables.getInstance().DEBUG) {
+            text += " location:"
+                    + "\n latitude: " + target.getLatitude() + "  longitude: " + target.getLongitude()
+                    + "\n Current location:"
+                    + "\n Latitude: " + myLocation.getLatitude() + "  Longitude: " + myLocation.getLongitude()
+                    + "\n "
+                    + "\n Target currentAzimuth: " + (int) targetAzimuth
+                    + "\n Current currentAzimuth: " + (int) currentAzimuth
+                    + "\n Distance: " + (int) distance;
+        }
         descriptionTextView.setText(text);
     }
 
