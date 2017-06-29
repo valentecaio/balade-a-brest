@@ -65,6 +65,8 @@ public class CameraActivity extends AppCompatActivity implements LocationListene
             public boolean onTouch(View v, MotionEvent event) {
                 Log.i("debug", "Touched on the icon");
 
+                GlobalVariables.getInstance().SHOW_MEDIAS = true;
+
                 Intent i = new Intent(CameraActivity.this, InfoActivity.class);
                 startActivity(i);
                 return true;

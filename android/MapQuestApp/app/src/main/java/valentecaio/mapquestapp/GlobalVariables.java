@@ -14,6 +14,7 @@ public class GlobalVariables {
     public static Location userLocation;
     public static String MEDIAS_FILEPATH = "sdcard/balade_a_brest/";
     public static boolean DEBUG = false;
+    public static boolean SHOW_MEDIAS = false;
 
     protected GlobalVariables(){}
 

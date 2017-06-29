@@ -1,10 +1,15 @@
 package valentecaio.mapquestapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
@@ -14,6 +19,8 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import static android.R.id.list;
 
 public class InfoActivity extends AppCompatActivity {
     ArrayList<String> medias = new ArrayList<>();
@@ -25,11 +32,12 @@ public class InfoActivity extends AppCompatActivity {
 
         Point target = GlobalVariables.getInstance().target;
         TextView descript_tv = (TextView) findViewById(R.id.description_textView);
-        descript_tv.setText(target.toString() + "\n" + target.getDescription());
-        descript_tv.setVisibility(View.INVISIBLE);
+        descript_tv.setText(target.getName() + "\n" + target.getDescription());
         Log.i("INFO_ACTIVITY", "target: " + target.toString());
 
-        configureListView();
+        if(GlobalVariables.getInstance().SHOW_MEDIAS) {
+            configureListView();
+        }
     }
 
     public void configureListView(){

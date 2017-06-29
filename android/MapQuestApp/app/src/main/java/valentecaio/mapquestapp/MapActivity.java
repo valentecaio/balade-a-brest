@@ -125,7 +125,7 @@ public class MapActivity extends AppCompatActivity implements LocationListener, 
 
         // get target and stock it in global variables
         GlobalVariables.getInstance().target = findPointByName(target_marker.getTitle());
-        Log.i("MAP_ACTIVITY", "new target: " + GlobalVariables.getInstance().target);
+        GlobalVariables.getInstance().SHOW_MEDIAS = false;
 
         startActivity(i);
     }
